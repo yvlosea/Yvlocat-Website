@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YVLOCAT Booking</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+        background: #f7f3ee;
+        color: #241819;
+      }
+
+      .card {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px;
+        background: #fffdf9;
+        border: 1px solid #e8ddd3;
+        border-radius: 18px;
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 16px;
+      }
+
+      .summary,
+      .success,
+      .error {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 12px;
+        background: #f8f1ea;
+      }
+
+      .success {
+        background: #edf8f1;
+        color: #155a31;
+      }
+
+      .error {
+        background: #fff0ee;
+        color: #8a2f1f;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      label {
+        display: block;
+        margin-top: 14px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      input,
+      textarea,
+      select,
+      button {
+        width: 100%;
+        margin-top: 6px;
+        padding: 12px;
+        border: 1px solid #d7c8bb;
+        border-radius: 10px;
+        font: inherit;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      button {
+        cursor: pointer;
+        background: #5f2d35;
+        color: #fff;
+        border: 0;
+        font-weight: 700;
+      }
+
+      button.secondary {
+        background: #e9ddd2;
+        color: #241819;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .muted {
+        color: #6d5b58;
+        font-size: 14px;
+      }
+
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>YVLOCAT</h1>
+      <p class="muted">PDF reading sent by email. Payment link will be sent manually from yvlostartarot@gmail.com.</p>
+
+      <div id="bookingSummary" class="summary"></div>
+
+      <button id="reserveButton" type="button">Reserve Reading</button>
+
+      <form id="bookingForm" class="hidden">
+        <h2 style="margin-top: 24px;">Booking Form</h2>
+
+        <div class="grid">
+          <label>
+            Name
+            <input id="name" name="name" type="text" required />
+          </label>
+
+          <label>
+            Email
+            <input id="email" name="email" type="email" required />
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            Country
+            <input id="country" name="country" type="text" placeholder="India" required />
+          </label>
+
+          <label>
+            Timezone
+            <input id="timezone" name="timezone" type="text" placeholder="Asia/Kolkata" />
+          </label>
+        </div>
+
+        <label>
+          Instagram Handle
+          <input id="instagram_handle" name="instagram_handle" type="text" placeholder="@optional" />
+        </label>
+
+        <label>
+          Question
+          <textarea id="question" name="question" readonly></textarea>
+        </label>
+
+        <div class="grid">
+          <label>
+            Spread
+            <input id="spread" name="spread" type="text" readonly />
+          </label>
+
+          <label>
+            Depth
+            <input id="depth" name="depth" type="text" readonly />
+          </label>
+        </div>
+
+        <div class="grid">
+          <label>
+            Add-ons
+            <input id="addons" name="addons" type="text" readonly />
+          </label>
+
+          <label>
+            Currency
+            <input id="currency" name="currency" type="text" readonly />
+          </label>
+        </div>
+
+        <label>
+          Total Price
+          <input id="total_price" name="total_price" type="text" readonly />
+        </label>
+
+        <div class="grid" style="margin-top: 18px;">
+          <button type="submit">Submit Booking</button>
+          <button id="cancelButton" class="secondary" type="button">Cancel</button>
+        </div>
+      </form>
+
+      <div id="successMessage" class="success hidden">Booking received. Payment link will be sent manually.</div>
+      <div id="errorMessage" class="error hidden"></div>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+      const SUPABASE_URL = "https://paaorahyaoivqqtvujxw.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_6BEvMXOqzK6A7QKmdvwMQw_Lvuzcsto";
+      const BRAND_NAME = "YVLOCAT";
+      const ADMIN_EMAIL = "yvlostartarot@gmail.com";
+
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const existingBooking = {
+        question: "What energy surrounds my love life right now?",
+        spread: "5 Cards",
+        depth: "Detailed",
+        addons: ["Advice Section", "Future Timeline"],
+        total_price: 21
+      };
+
+      const reserveButton = document.getElementById("reserveButton");
+      const cancelButton = document.getElementById("cancelButton");
+      const bookingForm = document.getElementById("bookingForm");
+      const bookingSummary = document.getElementById("bookingSummary");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
+
+      const fields = {
+        name: document.getElementById("name"),
+        email: document.getElementById("email"),
+        country: document.getElementById("country"),
+        instagram_handle: document.getElementById("instagram_handle"),
+        timezone: document.getElementById("timezone"),
+        question: document.getElementById("question"),
+        spread: document.getElementById("spread"),
+        depth: document.getElementById("depth"),
+        addons: document.getElementById("addons"),
+        total_price: document.getElementById("total_price"),
+        currency: document.getElementById("currency")
+      };
+
+      const INR_COUNTRIES = new Set(["india", "in", "bharat"]);
+
+      function detectCurrency(country) {
+        return INR_COUNTRIES.has(String(country).trim().toLowerCase()) ? "INR" : "USD";
+      }
+
+      function formatMoney(amount, currency) {
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency
+        }).format(Number(amount) || 0);
+      }
+
+      function getLocalizedTotal(baseAmount, currency) {
+        if (currency === "INR") {
+          return Math.round(baseAmount * 83);
+        }
+        return baseAmount;
+      }
+
+      function fillBookingFields(booking) {
+        const country = fields.country.value || "United States";
+        const currency = detectCurrency(country);
+        const localizedTotal = getLocalizedTotal(booking.total_price, currency);
+
+        fields.question.value = booking.question || "";
+        fields.spread.value = booking.spread || "";
+        fields.depth.value = booking.depth || "";
+        fields.addons.value = booking.addons.length ? booking.addons.join(", ") : "None";
+        fields.currency.value = currency;
+        fields.total_price.value = formatMoney(localizedTotal, currency);
+      }
+
+      function renderBookingSummary(booking) {
+        const currency = detectCurrency(fields.country.value || "United States");
+        const localizedTotal = getLocalizedTotal(booking.total_price, currency);
+
+        bookingSummary.innerHTML = `
+          <strong>${BRAND_NAME} reading summary</strong><br />
+          Question: ${booking.question}<br />
+          Spread: ${booking.spread}<br />
+          Depth: ${booking.depth}<br />
+          Add-ons: ${booking.addons.length ? booking.addons.join(", ") : "None"}<br />
+          Total: ${formatMoney(localizedTotal, currency)} ${currency}
+        `;
+      }
+
+      async function insertBooking(booking) {
+        const { error } = await supabase.from("bookings").insert(booking);
+        if (error) {
+          throw error;
+        }
+      }
+
+      function buildBookingPayload() {
+        const currency = detectCurrency(fields.country.value);
+        const totalPrice = getLocalizedTotal(existingBooking.total_price, currency);
+
+        return {
+          name: fields.name.value.trim(),
+          email: fields.email.value.trim(),
+          country: fields.country.value.trim(),
+          instagram_handle: fields.instagram_handle.value.trim() || null,
+          timezone: fields.timezone.value.trim() || Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+          question: existingBooking.question,
+          spread: existingBooking.spread,
+          depth: existingBooking.depth,
+          addons: existingBooking.addons,
+          total_price: totalPrice,
+          currency,
+          status: "pending",
+          delivery_method: "email_pdf",
+          admin_email: ADMIN_EMAIL
+        };
+      }
+
+      reserveButton.addEventListener("click", () => {
+        bookingForm.classList.remove("hidden");
+        reserveButton.classList.add("hidden");
+        successMessage.classList.add("hidden");
+        errorMessage.classList.add("hidden");
+        fields.timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+        fillBookingFields(existingBooking);
+      });
+
+      cancelButton.addEventListener("click", () => {
+        bookingForm.classList.add("hidden");
+        reserveButton.classList.remove("hidden");
+        errorMessage.classList.add("hidden");
+      });
+
+      fields.country.addEventListener("input", () => {
+        fillBookingFields(existingBooking);
+        renderBookingSummary(existingBooking);
+      });
+
+      bookingForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        successMessage.classList.add("hidden");
+        errorMessage.classList.add("hidden");
+
+        try {
+          const payload = buildBookingPayload();
+          await insertBooking(payload);
+          bookingForm.reset();
+          bookingForm.classList.add("hidden");
+          reserveButton.classList.remove("hidden");
+          successMessage.classList.remove("hidden");
+          fields.country.value = "";
+          renderBookingSummary(existingBooking);
+        } catch (error) {
+          errorMessage.textContent = error.message || "Booking failed.";
+          errorMessage.classList.remove("hidden");
+        }
+      });
+
+      fillBookingFields(existingBooking);
+      renderBookingSummary(existingBooking);
+    </script>
+  </body>
+</html>

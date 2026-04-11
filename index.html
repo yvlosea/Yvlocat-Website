@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YVLOCAT | Tarot Readings</title>
+    <meta
+      name="description"
+      content="YVLOCAT offers thoughtful tarot readings with clear pricing, personalized spread options, optional add-ons, and a polished booking experience."
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+      :root {
+        --bg: #f4efe7;
+        --bg-soft: #fbf7f1;
+        --surface: rgba(255, 251, 246, 0.84);
+        --surface-strong: rgba(252, 246, 238, 0.96);
+        --surface-dark: #1f1717;
+        --ink: #2b1b1d;
+        --ink-soft: #675154;
+        --accent: #a34c42;
+        --accent-deep: #6a2e35;
+        --gold: #d6ab6d;
+        --gold-soft: rgba(214, 171, 109, 0.22);
+        --rose: #ddb6a0;
+        --line: rgba(92, 54, 48, 0.14);
+        --line-strong: rgba(92, 54, 48, 0.24);
+        --success: #2f7452;
+        --warning: #8d4e1f;
+        --shadow: 0 24px 70px rgba(73, 43, 45, 0.12);
+        --shadow-soft: 0 14px 34px rgba(73, 43, 45, 0.08);
+        --radius-xl: 34px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --radius-sm: 14px;
+        --transition: 180ms ease;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
+          radial-gradient(circle at 80% 10%, rgba(163, 76, 66, 0.14), transparent 22%),
+          linear-gradient(180deg, #f6f2eb 0%, var(--bg) 38%, #f0e7dc 100%);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        border-radius: 999px;
+        filter: blur(18px);
+        opacity: 0.45;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::before {
+        width: 18rem;
+        height: 18rem;
+        top: -4rem;
+        right: -4rem;
+        background: rgba(214, 171, 109, 0.34);
+      }
+
+      body::after {
+        width: 20rem;
+        height: 20rem;
+        left: -8rem;
+        bottom: 2rem;
+        background: rgba(163, 76, 66, 0.14);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .page-shell {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 24px 0 44px;
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 999px;
+        background: rgba(251, 247, 241, 0.72);
+        backdrop-filter: blur(14px);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent-deep), var(--accent), var(--gold));
+        color: #fff9f4;
+        font-size: 1.1rem;
+        box-shadow: 0 12px 24px rgba(106, 46, 53, 0.24);
+      }
+
+      .brand-text strong,
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        letter-spacing: 0.01em;
+      }
+
+      .brand-text strong {
+        display: block;
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+
+      .brand-text span,
+      .eyebrow,
+      .mini-label,
+      .detail-note,
+      .section-copy,
+      .body-copy,
+      .list-copy,
+      .meta-copy {
+        color: var(--ink-soft);
+      }
+
+      .site-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .site-links a {
+        padding: 10px 14px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 700;
+        transition: transform var(--transition), background var(--transition);
+      }
+
+      .site-links a:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .hero {
+        overflow: hidden;
+        border-radius: 42px;
+        background:
+          radial-gradient(circle at top right, rgba(214, 171, 109, 0.2), transparent 28%),
+          linear-gradient(140deg, rgba(255, 251, 246, 0.95), rgba(248, 238, 227, 0.84) 55%, rgba(236, 219, 201, 0.92));
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: 26px;
+        padding: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(214, 171, 109, 0.18);
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin-top: 18px;
+        font-size: clamp(3rem, 8vw, 6.3rem);
+        line-height: 0.92;
+      }
+
+      .hero-copy {
+        max-width: 630px;
+        margin: 16px 0 0;
+        font-size: 1.03rem;
+        line-height: 1.8;
+        color: var(--ink-soft);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .primary-button,
+      .secondary-button,
+      .ghost-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        padding: 14px 22px;
+        border-radius: 999px;
+        text-decoration: none;
+        border: 1px solid transparent;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+      }
+
+      .primary-button {
+        background: linear-gradient(135deg, var(--accent-deep), var(--accent), #c06f59);
+        color: #fff8f2;
+        box-shadow: 0 18px 34px rgba(106, 46, 53, 0.24);
+      }
+
+      .primary-button:hover,
+      .secondary-button:hover,
+      .ghost-button:hover {
+        transform: translateY(-2px);
+      }
+
+      .secondary-button {
+        border-color: rgba(106, 46, 53, 0.14);
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--ink);
+      }
+
+      .ghost-button {
+        border-color: rgba(106, 46, 53, 0.18);
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--ink);
+      }
+
+      .hero-points,
+      .hero-card,
+      .section-card,
+      .summary-card,
+      .stat-card,
+      .info-card,
+      .process-card,
+      .example-card,
+      .booking-card,
+      .bill-card,
+      .confirmation-card {
+        border-radius: var(--radius-xl);
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: var(--shadow-soft);
+        backdrop-filter: blur(14px);
+      }
+
+      .hero-points {
+        display: grid;
+        gap: 14px;
+        padding: 18px;
+      }
+
+      .point-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .point-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(214, 171, 109, 0.18);
+        color: var(--accent-deep);
+        font-weight: 800;
+      }
+
+      .point-row strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+        padding: 22px;
+        background:
+          radial-gradient(circle at 75% 18%, rgba(214, 171, 109, 0.18), transparent 22%),
+          linear-gradient(160deg, rgba(37, 24, 25, 0.98), rgba(75, 35, 42, 0.94));
+        color: #fff7ef;
+      }
+
+      .hero-card::before {
+        content: "✦";
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+        font-size: 5.5rem;
+        line-height: 1;
+        color: rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-card p,
+      .hero-card .body-copy,
+      .hero-card .meta-copy {
+        color: rgba(255, 247, 239, 0.76);
+      }
+
+      .hero-card h2 {
+        font-size: 2rem;
+      }
+
+      .hero-stats {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .stat-card {
+        padding: 18px;
+        background: rgba(255, 251, 246, 0.74);
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 1.9rem;
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+
+      .content-grid {
+        display: grid;
+        gap: 22px;
+        margin-top: 22px;
+      }
+
+      .section-card {
+        padding: 22px;
+      }
+
+      .section-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px 18px;
+        margin-bottom: 18px;
+      }
+
+      .section-head h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.95;
+      }
+
+      .section-copy {
+        margin: 8px 0 0;
+        max-width: 700px;
+        line-height: 1.7;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 98px;
+        padding: 9px 12px;
+        border-radius: 999px;
+        background: rgba(214, 171, 109, 0.18);
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+        font-weight: 800;
+      }
+
+      .budget-panel {
+        display: grid;
+        gap: 18px;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      .input-wrap span {
+        position: absolute;
+        top: 50%;
+        left: 16px;
+        transform: translateY(-50%);
+        color: var(--ink-soft);
+        font-weight: 800;
+      }
+
+      .budget-input,
+      .coupon-input,
+      .question-input {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--ink);
+        outline: none;
+        transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+      }
+
+      .budget-input,
+      .coupon-input {
+        min-height: 56px;
+        padding: 14px 16px 14px 38px;
+      }
+
+      .coupon-input {
+        padding-left: 16px;
+        text-transform: uppercase;
+      }
+
+      .question-input {
+        min-height: 120px;
+        resize: vertical;
+        padding: 16px;
+      }
+
+      .budget-input:focus,
+      .coupon-input:focus,
+      .question-input:focus {
+        border-color: rgba(163, 76, 66, 0.45);
+        box-shadow: 0 0 0 4px rgba(163, 76, 66, 0.12);
+      }
+
+      .suggestions {
+        display: grid;
+        gap: 10px;
+      }
+
+      .suggestion-chip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(214, 171, 109, 0.28);
+        background: rgba(255, 255, 255, 0.72);
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      }
+
+      .suggestion-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(73, 43, 45, 0.08);
+        border-color: rgba(163, 76, 66, 0.32);
+      }
+
+      .suggestion-chip strong {
+        display: block;
+      }
+
+      .builder-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .options-grid,
+      .addons-grid,
+      .info-grid,
+      .process-grid,
+      .examples-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .options-grid.spreads {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .options-grid.depths {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .addons-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .option,
+      .addon {
+        position: relative;
+        width: 100%;
+        padding: 18px;
+        border-radius: 22px;
+        border: 1px solid rgba(92, 54, 48, 0.12);
+        background: rgba(255, 255, 255, 0.66);
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+      }
+
+      .option:hover,
+      .addon:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 28px rgba(73, 43, 45, 0.08);
+        border-color: rgba(163, 76, 66, 0.26);
+      }
+
+      .option.is-selected,
+      .addon.is-selected {
+        border-color: rgba(163, 76, 66, 0.56);
+        background: linear-gradient(180deg, rgba(255, 252, 248, 0.96), rgba(244, 232, 221, 0.92));
+        box-shadow: 0 0 0 1px rgba(214, 171, 109, 0.7), 0 16px 28px rgba(73, 43, 45, 0.1);
+      }
+
+      .option.is-under-budget,
+      .addon.is-under-budget {
+        outline: 1px solid rgba(214, 171, 109, 0.75);
+        outline-offset: 2px;
+      }
+
+      .option.is-over-budget,
+      .addon.is-over-budget {
+        opacity: 0.58;
+      }
+
+      .option.is-best-fit,
+      .addon.is-best-fit {
+        box-shadow: 0 0 0 2px rgba(214, 171, 109, 0.75), 0 18px 32px rgba(73, 43, 45, 0.11);
+      }
+
+      .option-top,
+      .addon-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .option h3,
+      .addon h3 {
+        font-size: 1.8rem;
+      }
+
+      .option-price,
+      .addon-price {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: var(--gold-soft);
+        font-size: 0.88rem;
+        font-weight: 800;
+      }
+
+      .mini-label {
+        margin-top: 10px;
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .body-copy {
+        margin: 10px 0 0;
+        line-height: 1.65;
+      }
+
+      .recommended {
+        display: inline-flex;
+        margin-top: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(163, 76, 66, 0.11);
+        color: var(--accent-deep);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .addon {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .addon input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .summary-card {
+        position: sticky;
+        top: 18px;
+        padding: 22px;
+        align-self: start;
+      }
+
+      .summary-price {
+        margin: 18px 0 8px;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: clamp(3rem, 8vw, 4.5rem);
+        line-height: 0.9;
+      }
+
+      .summary-subtotal {
+        margin: 0;
+        color: var(--ink-soft);
+      }
+
+      .summary-message {
+        margin: 18px 0;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(92, 54, 48, 0.08);
+        color: var(--ink-soft);
+        line-height: 1.65;
+      }
+
+      .selection-list,
+      .bill-lines {
+        display: grid;
+        gap: 10px;
+      }
+
+      .selection-line,
+      .bill-line {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed rgba(92, 54, 48, 0.16);
+      }
+
+      .selection-line span,
+      .bill-line span {
+        color: var(--ink-soft);
+      }
+
+      .selection-line strong,
+      .bill-line strong {
+        text-align: right;
+      }
+
+      .coupon-panel {
+        margin-top: 18px;
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid rgba(92, 54, 48, 0.08);
+      }
+
+      .coupon-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .coupon-feedback {
+        min-height: 22px;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+
+      .coupon-feedback.is-success {
+        color: var(--success);
+      }
+
+      .coupon-feedback.is-error {
+        color: var(--warning);
+      }
+
+      .booking-note {
+        margin: 14px 0 0;
+        color: var(--ink-soft);
+        line-height: 1.65;
+      }
+
+      .info-grid,
+      .process-grid,
+      .examples-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .info-card,
+      .process-card,
+      .example-card {
+        padding: 20px;
+      }
+
+      .info-card h3,
+      .process-card h3,
+      .example-card h3 {
+        font-size: 1.8rem;
+      }
+
+      .list-copy {
+        margin: 12px 0 0;
+        padding-left: 18px;
+        line-height: 1.75;
+      }
+
+      .list-copy li + li {
+        margin-top: 6px;
+      }
+
+      .footer-card {
+        margin-top: 22px;
+        padding: 22px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(140deg, rgba(34, 24, 25, 0.98), rgba(67, 34, 38, 0.95));
+        color: #fff8f2;
+        box-shadow: var(--shadow);
+      }
+
+      .footer-card p {
+        color: rgba(255, 248, 242, 0.78);
+      }
+
+      .modal-shell {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(35, 23, 24, 0.36);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease;
+        z-index: 40;
+      }
+
+      .modal-shell.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .region-actions {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .region-option {
+        width: 100%;
+        padding: 18px;
+        border: 1px solid rgba(92, 54, 48, 0.14);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      }
+
+      .region-option:hover {
+        transform: translateY(-2px);
+        border-color: rgba(163, 76, 66, 0.3);
+        box-shadow: 0 16px 28px rgba(73, 43, 45, 0.08);
+      }
+
+      .region-option strong {
+        display: block;
+        font-size: 1.05rem;
+      }
+
+      .region-switch {
+        margin-top: 14px;
+      }
+
+      .modal-panel {
+        width: min(960px, 100%);
+        max-height: min(92vh, 980px);
+        overflow: auto;
+        padding: 22px;
+        border-radius: 32px;
+        background: linear-gradient(180deg, rgba(252, 247, 241, 0.98), rgba(247, 238, 228, 0.95));
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 30px 80px rgba(35, 23, 24, 0.22);
+        transform: scale(0.97);
+        transition: transform 220ms ease;
+      }
+
+      .modal-shell.is-open .modal-panel {
+        transform: scale(1);
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .booking-layout {
+        display: grid;
+        gap: 18px;
+      }
+
+      .booking-card,
+      .bill-card,
+      .confirmation-card {
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.72);
+      }
+
+      .bill-card {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at top right, rgba(214, 171, 109, 0.18), transparent 24%),
+          linear-gradient(160deg, rgba(255, 251, 246, 0.95), rgba(241, 230, 219, 0.92));
+      }
+
+      .bill-card::before,
+      .confirmation-card::before {
+        content: "✦";
+        position: absolute;
+        right: 20px;
+        bottom: 12px;
+        font-size: 6rem;
+        line-height: 1;
+        color: rgba(106, 46, 53, 0.06);
+      }
+
+      .bill-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .bill-icons {
+        font-size: 1rem;
+        letter-spacing: 6px;
+        color: rgba(106, 46, 53, 0.65);
+      }
+
+      .bill-line.is-total strong,
+      .bill-line.is-highlight strong {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 1.3rem;
+      }
+
+      .bill-footer,
+      .detail-note,
+      .meta-copy {
+        line-height: 1.7;
+      }
+
+      .confirmation-card {
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .confirmation-id {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: clamp(2rem, 6vw, 3rem);
+        margin-top: 10px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (min-width: 900px) {
+        .hero-grid,
+        .content-grid,
+        .booking-layout {
+          grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
+          align-items: start;
+        }
+
+        .builder-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (max-width: 899px) {
+        .site-nav {
+          border-radius: 28px;
+        }
+
+        .site-links {
+          display: none;
+        }
+
+        .options-grid.spreads,
+        .options-grid.depths,
+        .addons-grid,
+        .info-grid,
+        .process-grid,
+        .examples-grid,
+        .coupon-row {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-card {
+          position: static;
+        }
+      }
+
+      @media (max-width: 759px) {
+        .page-shell {
+          width: min(100% - 18px, 1080px);
+          padding-top: 16px;
+        }
+
+        .hero-grid,
+        .section-card,
+        .summary-card,
+        .footer-card,
+        .modal-panel,
+        .booking-card,
+        .bill-card,
+        .confirmation-card {
+          padding: 18px;
+        }
+
+        .hero,
+        .section-card,
+        .summary-card,
+        .footer-card {
+          border-radius: 28px;
+        }
+
+        .selection-line,
+        .bill-line,
+        .bill-header,
+        .modal-head {
+          flex-direction: column;
+        }
+
+        .selection-line strong,
+        .bill-line strong {
+          text-align: left;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <nav class="site-nav" aria-label="Primary">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">✦</div>
+          <div class="brand-text">
+            <strong>YVLOCAT</strong>
+            <span>Tarot readings with clarity, warmth, and structure</span>
+          </div>
+        </div>
+        <div class="site-links">
+          <a href="#pricing">Pricing</a>
+          <a href="#experience">Experience</a>
+          <a href="#examples">Examples</a>
+          <a href="#book">Book</a>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">Professional tarot, priced to convert</div>
+            <h1>YVLOCAT</h1>
+            <p class="hero-copy">
+              A tarot reading site designed to feel trustworthy, intentional, and easy to book. Clients can choose their spread, select the depth they want, add focused extras, and instantly see the final price before reserving their reading.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-button" href="#pricing">Build Your Reading</a>
+              <a class="secondary-button" href="#experience">See How It Works</a>
+            </div>
+            <button class="ghost-button region-switch" id="changeRegionButton" type="button">Change Region Pricing</button>
+            <div class="hero-points" style="margin-top: 22px;">
+              <div class="point-row">
+                <span class="point-number">01</span>
+                <div>
+                  <strong>Affordable entry point</strong>
+                  <div class="meta-copy">Quick readings start at $6 so first-time clients can book without hesitation.</div>
+                </div>
+              </div>
+              <div class="point-row">
+                <span class="point-number">02</span>
+                <div>
+                  <strong>Premium structure</strong>
+                  <div class="meta-copy">Clear depth tiers and add-ons make the offer feel polished rather than improvised.</div>
+                </div>
+              </div>
+              <div class="point-row">
+                <span class="point-number">03</span>
+                <div>
+                  <strong>Scales with demand</strong>
+                  <div class="meta-copy">Higher-value readings, upsells, and coupon campaigns are built into the flow.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <p class="mini-label">Signature positioning</p>
+            <h2>Modern spiritual guidance, without messy pricing.</h2>
+            <p class="body-copy">
+              YVLOCAT is framed as a refined tarot studio, not just a calculator. The experience leads with emotional clarity, transparent pricing, and a simple booking path that still feels elevated.
+            </p>
+            <div class="hero-stats">
+              <div class="stat-card">
+                <strong id="heroStatOne">$6</strong>
+                <span class="meta-copy">Starter reading for fast conversions</span>
+              </div>
+              <div class="stat-card">
+                <strong id="heroStatTwo">$25</strong>
+                <span class="meta-copy">Top spread before premium depth and add-ons</span>
+              </div>
+              <div class="stat-card">
+                <strong id="heroStatThree">$1</strong>
+                <span class="meta-copy" id="heroStatThreeCopy">Low-friction international booking fee</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="content-grid" id="pricing">
+        <div class="builder-grid">
+          <article class="section-card">
+            <div class="section-head">
+              <div>
+                <h2>Reading Builder</h2>
+                <p class="section-copy">
+                  Clients can personalize their reading while keeping the process simple and professional. Budget suggestions stay visible for faster decision-making.
+                </p>
+              </div>
+              <div class="badge" id="pricingModeBadge">USD pricing</div>
+            </div>
+
+            <div class="budget-panel">
+              <div>
+                <p class="mini-label">Optional budget</p>
+                <div class="input-wrap">
+                  <span id="budgetCurrencySymbol">$</span>
+                  <input
+                    id="budgetInput"
+                    class="budget-input"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="1"
+                    placeholder="20"
+                    aria-label="Budget"
+                  />
+                </div>
+              </div>
+              <div id="suggestions" class="suggestions" aria-live="polite"></div>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <div>
+                <h2>Tell YVLOCAT what this reading is about</h2>
+                <p class="section-copy">
+                  This keeps the site feeling like a tarot service, not a pricing tool. The message will be carried into the booking summary.
+                </p>
+              </div>
+              <div class="badge">Personalized</div>
+            </div>
+
+            <textarea
+              id="questionInput"
+              class="question-input"
+              placeholder="Example: What energy surrounds my love life right now, and what should I understand before moving forward?"
+              aria-label="Reading question"
+            ></textarea>
+            <p class="detail-note">A direct question is optional, but it makes the reading feel more personal and complete.</p>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <div>
+                <h2>Choose your spread</h2>
+                <p class="section-copy">Spread size controls how expansive the reading feels and anchors the main price.</p>
+              </div>
+              <div class="badge">Core pricing</div>
+            </div>
+
+            <div class="options-grid spreads" id="cardsGroup">
+              <button class="option" type="button" data-group="cards" data-value="3 Cards" data-usd="6" data-inr="100">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Quick clarity</div>
+                    <h3>3 Cards</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-usd="6" data-inr="100">$6</span>
+                </div>
+                <p class="body-copy">Short interpretation with fast insight. A low-friction first reading for curious new clients.</p>
+              </button>
+
+              <button class="option" type="button" data-group="cards" data-value="5 Cards" data-usd="12" data-inr="200">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Balanced insight</div>
+                    <h3>5 Cards</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-usd="12" data-inr="200">$12</span>
+                </div>
+                <p class="body-copy">Clear emotional and situational understanding with room for nuance.</p>
+                <span class="recommended">Recommended</span>
+              </button>
+
+              <button class="option" type="button" data-group="cards" data-value="7 Cards" data-usd="18" data-inr="400">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Deep insight</div>
+                    <h3>7 Cards</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-usd="18" data-inr="400">$18</span>
+                </div>
+                <p class="body-copy">Detailed pattern explanation for clients who want more clarity and emotional context.</p>
+              </button>
+
+              <button class="option" type="button" data-group="cards" data-value="10 Cards" data-usd="25" data-inr="700">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Full reading</div>
+                    <h3>10 Cards</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-usd="25" data-inr="700">$25</span>
+                </div>
+                <p class="body-copy">Comprehensive interpretation for complex situations that need a fuller map.</p>
+              </button>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <div>
+                <h2>Choose your depth</h2>
+                <p class="section-copy">Depth acts like a quality tier, helping you raise order value without making the base offer feel expensive.</p>
+              </div>
+              <div class="badge">Upsell layer</div>
+            </div>
+
+            <div class="options-grid depths" id="depthGroup">
+              <button class="option" type="button" data-group="depth" data-value="Basic" data-usd="0" data-inr="0">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Simple interpretation</div>
+                    <h3>Basic</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-price-prefix="+" data-usd="0" data-inr="0">+$0</span>
+                </div>
+                <p class="body-copy">A concise written reading with a direct answer and clean interpretation.</p>
+              </button>
+
+              <button class="option" type="button" data-group="depth" data-value="Detailed" data-usd="5" data-inr="150">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Pattern analysis</div>
+                    <h3>Detailed</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-price-prefix="+" data-usd="5" data-inr="150">+$5</span>
+                </div>
+                <p class="body-copy">Stronger explanation with emotional and situational pattern analysis.</p>
+                <span class="recommended">Recommended</span>
+              </button>
+
+              <button class="option" type="button" data-group="depth" data-value="Very Deep" data-usd="12" data-inr="350">
+                <div class="option-top">
+                  <div>
+                    <div class="mini-label">Structured interpretation</div>
+                    <h3>Very Deep</h3>
+                  </div>
+                  <span class="option-price" data-price-label data-price-prefix="+" data-usd="12" data-inr="350">+$12</span>
+                </div>
+                <p class="body-copy">Full structured interpretation for clients who want maximum depth and layered insight.</p>
+              </button>
+            </div>
+          </article>
+
+          <article class="section-card">
+            <div class="section-head">
+              <div>
+                <h2>Add focused extras</h2>
+                <p class="section-copy">These upgrades feel useful, specific, and easy to say yes to at checkout.</p>
+              </div>
+              <div class="badge">Optional add-ons</div>
+            </div>
+
+            <div class="addons-grid" id="addonsGroup">
+              <label class="addon" data-addon="Clarification Card" data-usd="3" data-inr="50">
+                <input type="checkbox" value="Clarification Card" />
+                <div class="addon-top">
+                  <div>
+                    <div class="mini-label">Extra confirmation</div>
+                    <h3>Clarification Card</h3>
+                  </div>
+                  <span class="addon-price" data-price-label data-price-prefix="+" data-usd="3" data-inr="50">+$3</span>
+                </div>
+                <p class="body-copy">An extra card to confirm the strongest message or clear up uncertainty.</p>
+              </label>
+
+              <label class="addon" data-addon="Future Timeline" data-usd="5" data-inr="100">
+                <input type="checkbox" value="Future Timeline" />
+                <div class="addon-top">
+                  <div>
+                    <div class="mini-label">Direction of events</div>
+                    <h3>Future Timeline</h3>
+                  </div>
+                  <span class="addon-price" data-price-label data-price-prefix="+" data-usd="5" data-inr="100">+$5</span>
+                </div>
+                <p class="body-copy">Adds a possible progression of events so the client can see where things may be heading.</p>
+              </label>
+
+              <label class="addon" data-addon="Advice Section" data-usd="4" data-inr="80">
+                <input type="checkbox" value="Advice Section" />
+                <div class="addon-top">
+                  <div>
+                    <div class="mini-label">Practical guidance</div>
+                    <h3>Advice Section</h3>
+                  </div>
+                  <span class="addon-price" data-price-label data-price-prefix="+" data-usd="4" data-inr="80">+$4</span>
+                </div>
+                <p class="body-copy">Adds grounded, practical perspective so the reading feels more actionable.</p>
+              </label>
+
+              <label class="addon" data-addon="Priority Delivery" data-usd="6" data-inr="100">
+                <input type="checkbox" value="Priority Delivery" />
+                <div class="addon-top">
+                  <div>
+                    <div class="mini-label">Faster turnaround</div>
+                    <h3>Priority Delivery</h3>
+                  </div>
+                  <span class="addon-price" data-price-label data-price-prefix="+" data-usd="6" data-inr="100">+$6</span>
+                </div>
+                <p class="body-copy">Moves the reading up in the queue for clients who want a quicker response window.</p>
+              </label>
+            </div>
+          </article>
+        </div>
+
+        <aside class="summary-card" id="book">
+          <div class="section-head">
+            <div>
+              <h2>Your Reading</h2>
+              <p class="section-copy">A polished quote summary that makes checkout feel intentional.</p>
+            </div>
+            <div class="badge" id="budgetState">No budget set</div>
+          </div>
+
+          <div class="summary-price" id="totalPrice">$17</div>
+          <p class="summary-subtotal" id="summarySubtotal">Base + depth + add-ons before booking fee.</p>
+
+          <div class="summary-message" id="personalMessage">
+            A balanced YVLOCAT reading with deeper interpretation and a clear emotional overview.
+          </div>
+
+          <div class="selection-list">
+            <div class="selection-line"><span>Question</span><strong id="selectionQuestion">No question added</strong></div>
+            <div class="selection-line"><span>Spread</span><strong id="selectionCards">5 Cards</strong></div>
+            <div class="selection-line"><span>Depth</span><strong id="selectionDepth">Detailed</strong></div>
+            <div class="selection-line"><span>Add-ons</span><strong id="selectionAddons">None</strong></div>
+            <div class="selection-line"><span>Coupon</span><strong id="selectionCoupon">None</strong></div>
+            <div class="selection-line"><span>Booking fee</span><strong id="selectionBookingFee">$1 today</strong></div>
+          </div>
+
+          <div class="coupon-panel">
+            <strong>Coupon code</strong>
+            <p class="detail-note">Use a promo when you want to reward returning clients, run launches, or test conversions.</p>
+            <div class="coupon-row">
+              <input id="couponInput" class="coupon-input" type="text" placeholder="WELCOME10" aria-label="Coupon code" />
+              <button class="secondary-button" type="button" id="applyCouponButton">Apply</button>
+            </div>
+            <div class="coupon-feedback" id="couponFeedback" aria-live="polite">Available demo codes: WELCOME10, SOUL5, FULLMOON15.</div>
+          </div>
+
+          <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">Reserve This Reading</button>
+          <p class="booking-note">
+            The booking preview shows the full reading price, the coupon discount if used, and the regional booking fee collected upfront.
+          </p>
+        </aside>
+      </section>
+
+      <section class="content-grid" id="experience">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Why this pricing works</h2>
+              <p class="section-copy">It keeps entry-level readings approachable while still making deeper readings feel worth paying for.</p>
+            </div>
+            <div class="badge">Strategic</div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>Quick trust</h3>
+              <p class="body-copy">An approachable entry spread feels easy to try, especially for first-time clients who are still discovering your work.</p>
+            </div>
+            <div class="info-card">
+              <h3>Professional perception</h3>
+              <p class="body-copy">Clear tiers, defined add-ons, and structured summaries make the service look considered rather than cheap.</p>
+            </div>
+            <div class="info-card">
+              <h3>Built to scale</h3>
+              <p class="body-copy">As demand rises, you can push clients toward deeper packages and premium delivery without rebuilding the site.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>What clients can expect</h2>
+              <p class="section-copy">The site should reassure visitors that the reading experience is thoughtful, personal, and organized.</p>
+            </div>
+            <div class="badge">Client-facing</div>
+          </div>
+
+          <div class="process-grid">
+            <div class="process-card">
+              <h3>1. Share the focus</h3>
+              <p class="body-copy">Clients can submit a direct question or keep it open-ended if they want general spiritual guidance.</p>
+            </div>
+            <div class="process-card">
+              <h3>2. Choose the depth</h3>
+              <p class="body-copy">They decide whether they want a clean answer, stronger analysis, or a fully layered reading.</p>
+            </div>
+            <div class="process-card">
+              <h3>3. Reserve smoothly</h3>
+              <p class="body-copy">A region-appropriate booking fee keeps the first step accessible while still filtering for serious clients.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="content-grid" id="examples">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Price examples</h2>
+              <p class="section-copy">These examples reinforce that the pricing grows naturally from simple to premium.</p>
+            </div>
+            <div class="badge">Examples</div>
+          </div>
+
+          <div class="examples-grid">
+            <div class="example-card">
+              <h3 id="exampleOneTotal">$21</h3>
+              <ul class="list-copy" id="exampleOneLines">
+                <li>5 Cards = $12</li>
+                <li>Detailed depth = +$5</li>
+                <li>Advice section = +$4</li>
+              </ul>
+            </div>
+            <div class="example-card">
+              <h3 id="exampleTwoTotal">$35</h3>
+              <ul class="list-copy" id="exampleTwoLines">
+                <li>7 Cards = $18</li>
+                <li>Very Deep = +$12</li>
+                <li>Future Timeline = +$5</li>
+              </ul>
+            </div>
+            <div class="example-card">
+              <h3 id="exampleThreeTotal">$6</h3>
+              <ul class="list-copy" id="exampleThreeLines">
+                <li>3 Cards = $6</li>
+                <li>Basic depth = +$0</li>
+                <li>No add-ons</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="footer-card">
+        <p class="mini-label" style="color: rgba(255, 248, 242, 0.68);">YVLOCAT positioning</p>
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 6px;">Tarot readings that feel approachable first, premium second, and scalable long-term.</h2>
+        <p class="body-copy">
+          This version turns the site into a real tarot service page with transparent pricing, a stronger brand name, a built-in quote builder, and coupon support for promotions or repeat-client offers.
+        </p>
+      </section>
+    </main>
+
+    <div class="modal-shell" id="bookingModal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 id="bookingModalTitle">Reserve Your YVLOCAT Reading</h2>
+            <p class="detail-note">Review the bill, see the coupon discount if one is active, and continue with the booking request.</p>
+          </div>
+          <button class="ghost-button" type="button" id="closeBookingModal">Close</button>
+        </div>
+
+        <div class="booking-layout">
+          <section class="bill-card" id="billCard">
+            <div class="bill-header">
+              <div>
+                <h2 style="font-size: 2.4rem;">YVLOCAT</h2>
+                <div class="meta-copy">Tarot Reading Invoice Preview</div>
+                <div class="meta-copy">Booking ID: <strong id="billBookingId">YV0000</strong></div>
+              </div>
+              <div class="bill-icons">✦ ✧ ✦</div>
+            </div>
+
+            <div class="bill-lines">
+              <div class="bill-line"><span>Question</span><strong id="billQuestion">No question added</strong></div>
+              <div class="bill-line"><span>Spread</span><strong id="billCards">5 Cards</strong></div>
+              <div class="bill-line"><span>Depth</span><strong id="billDepth">Detailed</strong></div>
+              <div class="bill-line"><span>Add-ons</span><strong id="billAddons">None</strong></div>
+              <div class="bill-line"><span>Coupon</span><strong id="billCoupon">None</strong></div>
+              <div class="bill-line"><span>Reading subtotal</span><strong id="billSubtotal">$17</strong></div>
+              <div class="bill-line"><span>Discount</span><strong id="billDiscount">-$0</strong></div>
+              <div class="bill-line is-total"><span>Reading total</span><strong id="billTotal">$17</strong></div>
+              <div class="bill-line"><span>Booking fee due now</span><strong id="billBookingFee">$1</strong></div>
+              <div class="bill-line is-highlight"><span>Remaining balance</span><strong id="billRemaining">$16</strong></div>
+            </div>
+
+            <p class="bill-footer">
+              The booking fee secures the request and filters for serious clients while keeping the first step easy.<br />
+              Final delivery timing and payment details can be confirmed after the booking request is received.
+            </p>
+          </section>
+
+          <aside style="display: grid; gap: 14px;">
+            <div class="booking-card">
+              <h3>Booking actions</h3>
+              <p class="detail-note">Download the invoice if you want an offline copy or send the quote directly as an email draft.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <button class="secondary-button" type="button" id="downloadImageButton">Download Image</button>
+                <button class="secondary-button" type="button" id="downloadPdfButton">Download PDF</button>
+              </div>
+            </div>
+
+            <div class="booking-card">
+              <h3>Continue</h3>
+              <p class="detail-note">This button opens a prefilled email so the reading request already includes the selected package details.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <a class="primary-button" id="sendRequestButton" href="#" style="flex: 1;">Send Booking Request</a>
+                <button class="ghost-button" type="button" id="paymentDoneButton">Mark as Reserved</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-shell" id="confirmationModal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="confirmationModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 id="confirmationModalTitle">Reservation Ready</h2>
+            <p class="detail-note">The quote is prepared and the booking details are saved in this session.</p>
+          </div>
+          <button class="ghost-button" type="button" id="closeConfirmationModal">Close</button>
+        </div>
+
+        <section class="confirmation-card">
+          <div class="bill-icons">✦ ✧ ✦</div>
+          <div class="confirmation-id" id="confirmationBookingId">YV0000</div>
+          <p class="detail-note">
+            Your client-facing booking summary is ready. You can download the invoice again or return to the builder to adjust the package.
+          </p>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px;">
+            <button class="secondary-button" type="button" id="downloadBillAgainButton">Download Bill Again</button>
+            <button class="ghost-button" type="button" id="backToCalculatorButton">Back to Builder</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="modal-shell" id="regionModal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="regionModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 id="regionModalTitle">Choose Your Region</h2>
+            <p class="detail-note">Are you an Indian subcontinent resident or an international resident? Pricing will update across the entire site.</p>
+          </div>
+        </div>
+
+        <div class="region-actions">
+          <button class="region-option" type="button" id="subcontinentRegionButton">
+            <strong>Indian subcontinent resident</strong>
+            <span class="detail-note">Use original INR pricing and the original booking fee structure.</span>
+          </button>
+
+          <button class="region-option" type="button" id="internationalRegionButton">
+            <strong>Not an Indian subcontinent resident</strong>
+            <span class="detail-note">Use the international USD pricing designed for global clients.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const REGION_STORAGE_KEY = "yvlocat-region";
+      const STORAGE_KEY = "yvlocat-booking";
+      const DEFAULT_QUESTION = "No question added";
+      const PRICING = {
+        international: {
+          currency: "USD",
+          symbol: "$",
+          label: "USD pricing",
+          budgetPlaceholder: "20",
+          bookingFee: 1,
+          hero: { starter: 6, top: 25, bookingFee: 1, bookingCopy: "Low-friction international booking fee" },
+          cards: { "3 Cards": 6, "5 Cards": 12, "7 Cards": 18, "10 Cards": 25 },
+          depths: { Basic: 0, Detailed: 5, "Very Deep": 12 },
+          addons: { "Clarification Card": 3, "Future Timeline": 5, "Advice Section": 4, "Priority Delivery": 6 },
+          examples: [
+            { total: 21, lines: ["5 Cards = $12", "Detailed depth = +$5", "Advice section = +$4"] },
+            { total: 35, lines: ["7 Cards = $18", "Very Deep = +$12", "Future Timeline = +$5"] },
+            { total: 6, lines: ["3 Cards = $6", "Basic depth = +$0", "No add-ons"] }
+          ]
+        },
+        subcontinent: {
+          currency: "INR",
+          symbol: "₹",
+          label: "INR pricing",
+          budgetPlaceholder: "500",
+          bookingFee: 15,
+          hero: { starter: 100, top: 700, bookingFee: 15, bookingCopy: "Original booking fee for Indian subcontinent clients" },
+          cards: { "3 Cards": 100, "5 Cards": 200, "7 Cards": 400, "10 Cards": 700 },
+          depths: { Basic: 0, Detailed: 150, "Very Deep": 350 },
+          addons: { "Clarification Card": 50, "Future Timeline": 100, "Advice Section": 80, "Priority Delivery": 100 },
+          examples: [
+            { total: 430, lines: ["5 Cards = ₹200", "Detailed depth = +₹150", "Advice section = +₹80"] },
+            { total: 850, lines: ["7 Cards = ₹400", "Very Deep = +₹350", "Future Timeline = +₹100"] },
+            { total: 100, lines: ["3 Cards = ₹100", "Basic depth = +₹0", "No add-ons"] }
+          ]
+        }
+      };
+      const COUPONS = {
+        WELCOME10: {
+          label: "WELCOME10",
+          type: "percent",
+          values: {
+            international: 10,
+            subcontinent: 10
+          },
+          descriptions: {
+            international: "10% off your reading total.",
+            subcontinent: "10% off your reading total."
+          }
+        },
+        SOUL5: {
+          label: "SOUL5",
+          type: "fixed",
+          values: {
+            international: 5,
+            subcontinent: 100
+          },
+          descriptions: {
+            international: "$5 off your reading total.",
+            subcontinent: "₹100 off your reading total."
+          }
+        },
+        FULLMOON15: {
+          label: "FULLMOON15",
+          type: "percent",
+          values: {
+            international: 15,
+            subcontinent: 15
+          },
+          minimums: {
+            international: 25,
+            subcontinent: 500
+          },
+          descriptions: {
+            international: "15% off readings of $25 or more.",
+            subcontinent: "15% off readings of ₹500 or more."
+          }
+        }
+      };
+
+      const state = {
+        question: "",
+        region: "international",
+        cards: { label: "5 Cards", price: 12 },
+        depth: { label: "Detailed", price: 5 },
+        addons: [],
+        appliedCoupon: null
+      };
+
+      const cardsButtons = document.querySelectorAll('[data-group="cards"]');
+      const depthButtons = document.querySelectorAll('[data-group="depth"]');
+      const addonCards = document.querySelectorAll(".addon");
+      const budgetInput = document.getElementById("budgetInput");
+      const suggestions = document.getElementById("suggestions");
+      const questionInput = document.getElementById("questionInput");
+      const totalPrice = document.getElementById("totalPrice");
+      const summarySubtotal = document.getElementById("summarySubtotal");
+      const budgetState = document.getElementById("budgetState");
+      const pricingModeBadge = document.getElementById("pricingModeBadge");
+      const budgetCurrencySymbol = document.getElementById("budgetCurrencySymbol");
+      const selectionBookingFee = document.getElementById("selectionBookingFee");
+      const selectionQuestion = document.getElementById("selectionQuestion");
+      const selectionCards = document.getElementById("selectionCards");
+      const selectionDepth = document.getElementById("selectionDepth");
+      const selectionAddons = document.getElementById("selectionAddons");
+      const selectionCoupon = document.getElementById("selectionCoupon");
+      const personalMessage = document.getElementById("personalMessage");
+      const couponInput = document.getElementById("couponInput");
+      const applyCouponButton = document.getElementById("applyCouponButton");
+      const couponFeedback = document.getElementById("couponFeedback");
+      const bookButton = document.getElementById("bookButton");
+      const bookingModal = document.getElementById("bookingModal");
+      const confirmationModal = document.getElementById("confirmationModal");
+      const closeBookingModal = document.getElementById("closeBookingModal");
+      const closeConfirmationModal = document.getElementById("closeConfirmationModal");
+      const sendRequestButton = document.getElementById("sendRequestButton");
+      const paymentDoneButton = document.getElementById("paymentDoneButton");
+      const downloadImageButton = document.getElementById("downloadImageButton");
+      const downloadPdfButton = document.getElementById("downloadPdfButton");
+      const downloadBillAgainButton = document.getElementById("downloadBillAgainButton");
+      const backToCalculatorButton = document.getElementById("backToCalculatorButton");
+      const billCard = document.getElementById("billCard");
+      const billBookingId = document.getElementById("billBookingId");
+      const billQuestion = document.getElementById("billQuestion");
+      const billCards = document.getElementById("billCards");
+      const billDepth = document.getElementById("billDepth");
+      const billAddons = document.getElementById("billAddons");
+      const billCoupon = document.getElementById("billCoupon");
+      const billSubtotal = document.getElementById("billSubtotal");
+      const billDiscount = document.getElementById("billDiscount");
+      const billTotal = document.getElementById("billTotal");
+      const billBookingFee = document.getElementById("billBookingFee");
+      const billRemaining = document.getElementById("billRemaining");
+      const confirmationBookingId = document.getElementById("confirmationBookingId");
+      const regionModal = document.getElementById("regionModal");
+      const subcontinentRegionButton = document.getElementById("subcontinentRegionButton");
+      const internationalRegionButton = document.getElementById("internationalRegionButton");
+      const changeRegionButton = document.getElementById("changeRegionButton");
+      const heroStatOne = document.getElementById("heroStatOne");
+      const heroStatTwo = document.getElementById("heroStatTwo");
+      const heroStatThree = document.getElementById("heroStatThree");
+      const heroStatThreeCopy = document.getElementById("heroStatThreeCopy");
+      const exampleOneTotal = document.getElementById("exampleOneTotal");
+      const exampleTwoTotal = document.getElementById("exampleTwoTotal");
+      const exampleThreeTotal = document.getElementById("exampleThreeTotal");
+      const exampleOneLines = document.getElementById("exampleOneLines");
+      const exampleTwoLines = document.getElementById("exampleTwoLines");
+      const exampleThreeLines = document.getElementById("exampleThreeLines");
+      const priceLabels = document.querySelectorAll("[data-price-label]");
+
+      let latestBooking = null;
+
+      function getConfig() {
+        return PRICING[state.region];
+      }
+
+      function formatPrice(value) {
+        return `${getConfig().symbol}${Number(value).toFixed(0)}`;
+      }
+
+      function formatDetailedPrice(value) {
+        return `${getConfig().symbol}${Number(value).toFixed(2).replace(/\.00$/, "")}`;
+      }
+
+      function getQuestionDisplay() {
+        return state.question.trim() || DEFAULT_QUESTION;
+      }
+
+      function getAddonsTotal() {
+        return state.addons.reduce((sum, addon) => sum + addon.price, 0);
+      }
+
+      function getSubtotal() {
+        return state.cards.price + state.depth.price + getAddonsTotal();
+      }
+
+      function calculateDiscount(subtotal) {
+        const coupon = state.appliedCoupon;
+        const region = state.region;
+
+        if (!coupon) {
+          return 0;
+        }
+
+        if (coupon.minimums && subtotal < coupon.minimums[region]) {
+          return 0;
+        }
+
+        if (coupon.type === "percent") {
+          return Math.min(subtotal, Number((subtotal * coupon.values[region]) / 100));
+        }
+
+        if (coupon.type === "fixed") {
+          return Math.min(subtotal, coupon.values[region]);
+        }
+
+        return 0;
+      }
+
+      function getDiscountAmount() {
+        return calculateDiscount(getSubtotal());
+      }
+
+      function getTotal() {
+        return Math.max(0, getSubtotal() - getDiscountAmount());
+      }
+
+      function getRemainingAmount() {
+        return Math.max(0, getTotal() - getConfig().bookingFee);
+      }
+
+      function getBudget() {
+        const value = Number(budgetInput.value);
+        return Number.isFinite(value) && value > 0 ? value : null;
+      }
+
+      function generateBookingId() {
+        return `YV${Math.floor(1000 + Math.random() * 9000)}`;
+      }
+
+      function setModalState(modal, isOpen) {
+        modal.classList.toggle("is-open", isOpen);
+        modal.setAttribute("aria-hidden", String(!isOpen));
+      }
+
+      function setSelected(buttons, activeValue) {
+        buttons.forEach((button) => {
+          button.classList.toggle("is-selected", button.dataset.value === activeValue);
+        });
+      }
+
+      function saveBooking(booking) {
+        latestBooking = booking;
+        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(booking));
+      }
+
+      function loadStoredBooking() {
+        const raw = window.sessionStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          return null;
+        }
+
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return null;
+        }
+      }
+
+      function buildCombinations() {
+        const cards = [
+          { label: "3 Cards", price: getConfig().cards["3 Cards"] },
+          { label: "5 Cards", price: getConfig().cards["5 Cards"] },
+          { label: "7 Cards", price: getConfig().cards["7 Cards"] },
+          { label: "10 Cards", price: getConfig().cards["10 Cards"] }
+        ];
+        const depths = [
+          { label: "Basic", price: getConfig().depths.Basic },
+          { label: "Detailed", price: getConfig().depths.Detailed },
+          { label: "Very Deep", price: getConfig().depths["Very Deep"] }
+        ];
+
+        return cards.flatMap((card) =>
+          depths.map((depth) => ({
+            label: `${card.label} + ${depth.label}`,
+            price: card.price + depth.price,
+            cards: card.label,
+            depth: depth.label
+          }))
+        );
+      }
+
+      function renderSuggestions(budget) {
+        const config = getConfig();
+        const popularPrice = config.cards["5 Cards"] + config.depths.Detailed;
+
+        if (!budget) {
+          suggestions.innerHTML = `
+            <button class="suggestion-chip" type="button" data-cards="5 Cards" data-depth="Detailed">
+              <div>
+                <strong>Best first offer</strong>
+                <span>5 Cards + Detailed keeps the service accessible but polished.</span>
+              </div>
+              <strong>${formatPrice(popularPrice)}</strong>
+            </button>
+          `;
+          return;
+        }
+
+        const matches = buildCombinations()
+          .filter((item) => item.price <= budget)
+          .sort((a, b) => b.price - a.price)
+          .slice(0, 3);
+
+        if (!matches.length) {
+          suggestions.innerHTML = `
+            <button class="suggestion-chip" type="button" data-cards="3 Cards" data-depth="Basic">
+              <div>
+                <strong>Start simple</strong>
+                <span>3 Cards + Basic is the most affordable package.</span>
+              </div>
+              <strong>${formatPrice(config.cards["3 Cards"])}</strong>
+            </button>
+          `;
+          return;
+        }
+
+        suggestions.innerHTML = matches
+          .map(
+            (item) => `
+              <button class="suggestion-chip" type="button" data-cards="${item.cards}" data-depth="${item.depth}">
+                <div>
+                  <strong>${item.label}</strong>
+                  <span>Auto-select this combination</span>
+                </div>
+                <strong>${formatPrice(item.price)}</strong>
+              </button>
+            `
+          )
+          .join("");
+      }
+
+      function renderBudgetHighlighting(budget) {
+        let bestCardButton = null;
+        let bestCardTotal = -1;
+
+        cardsButtons.forEach((button) => {
+          const cardPrice = Number(button.dataset[state.region]);
+          const possibleSubtotal = cardPrice + state.depth.price + getAddonsTotal();
+          const possibleTotal = possibleSubtotal - calculateDiscount(possibleSubtotal);
+          button.classList.toggle("is-under-budget", !!budget && possibleTotal <= budget);
+          button.classList.toggle("is-over-budget", !!budget && possibleTotal > budget);
+          button.classList.remove("is-best-fit");
+
+          if (budget && possibleTotal <= budget && possibleTotal > bestCardTotal) {
+            bestCardTotal = possibleTotal;
+            bestCardButton = button;
+          }
+        });
+
+        if (bestCardButton) {
+          bestCardButton.classList.add("is-best-fit");
+        }
+
+        let bestDepthButton = null;
+        let bestDepthTotal = -1;
+
+        depthButtons.forEach((button) => {
+          const depthPrice = Number(button.dataset[state.region]);
+          const possibleSubtotal = state.cards.price + depthPrice + getAddonsTotal();
+          const possibleTotal = possibleSubtotal - calculateDiscount(possibleSubtotal);
+          button.classList.toggle("is-under-budget", !!budget && possibleTotal <= budget);
+          button.classList.toggle("is-over-budget", !!budget && possibleTotal > budget);
+          button.classList.remove("is-best-fit");
+
+          if (budget && possibleTotal <= budget && possibleTotal > bestDepthTotal) {
+            bestDepthTotal = possibleTotal;
+            bestDepthButton = button;
+          }
+        });
+
+        if (bestDepthButton) {
+          bestDepthButton.classList.add("is-best-fit");
+        }
+
+        let bestAddonCard = null;
+        let bestAddonTotal = -1;
+
+        addonCards.forEach((card) => {
+          const addonPrice = Number(card.dataset[state.region]);
+          const input = card.querySelector("input");
+          const totalWithoutThisAddon = input.checked ? getSubtotal() - addonPrice : getSubtotal();
+          const possibleSubtotal = totalWithoutThisAddon + addonPrice;
+          const possibleTotal = possibleSubtotal - calculateDiscount(possibleSubtotal);
+          card.classList.toggle("is-under-budget", !!budget && possibleTotal <= budget);
+          card.classList.toggle("is-over-budget", !!budget && possibleTotal > budget && !input.checked);
+          card.classList.remove("is-best-fit");
+
+          if (budget && !input.checked && possibleTotal <= budget && possibleTotal > bestAddonTotal) {
+            bestAddonTotal = possibleTotal;
+            bestAddonCard = card;
+          }
+        });
+
+        if (bestAddonCard) {
+          bestAddonCard.classList.add("is-best-fit");
+        }
+      }
+
+      function getCouponLabel() {
+        return state.appliedCoupon ? state.appliedCoupon.label : "None";
+      }
+
+      function buildPersonalMessage() {
+        const addonsText = state.addons.length
+          ? ` with ${state.addons.map((addon) => addon.label).join(", ")}`
+          : "";
+        const questionText = getQuestionDisplay() === DEFAULT_QUESTION ? "a general focus" : getQuestionDisplay();
+
+        return `${state.cards.label} with ${state.depth.label.toLowerCase()} interpretation${addonsText}. Focused on ${questionText}.`;
+      }
+
+      function getCurrentSelectionSnapshot(status = "Draft") {
+        const subtotal = getSubtotal();
+        const discount = getDiscountAmount();
+        const total = getTotal();
+
+        return {
+          bookingId: latestBooking?.bookingId || generateBookingId(),
+          question: getQuestionDisplay(),
+          cards: state.cards.label,
+          depth: state.depth.label,
+          addons: state.addons.length ? state.addons.map((addon) => addon.label) : [],
+          coupon: getCouponLabel(),
+          subtotal,
+          discount,
+          total,
+          bookingFee: getConfig().bookingFee,
+          remainingAmount: Math.max(0, total - getConfig().bookingFee),
+          currency: getConfig().currency,
+          region: state.region,
+          status
+        };
+      }
+
+      function renderBill(booking) {
+        billBookingId.textContent = booking.bookingId;
+        billQuestion.textContent = booking.question;
+        billCards.textContent = booking.cards;
+        billDepth.textContent = booking.depth;
+        billAddons.textContent = booking.addons.length ? booking.addons.join(", ") : "None";
+        billCoupon.textContent = booking.coupon;
+        billSubtotal.textContent = formatDetailedPrice(booking.subtotal);
+        billDiscount.textContent = `-${formatDetailedPrice(booking.discount)}`;
+        billTotal.textContent = formatDetailedPrice(booking.total);
+        billBookingFee.textContent = formatDetailedPrice(booking.bookingFee);
+        billRemaining.textContent = formatDetailedPrice(booking.remainingAmount);
+        confirmationBookingId.textContent = booking.bookingId;
+      }
+
+      function updateRequestLink(booking) {
+        const subject = encodeURIComponent(`YVLOCAT Booking Request ${booking.bookingId}`);
+        const body = encodeURIComponent(
+          [
+            `Booking ID: ${booking.bookingId}`,
+            `Currency: ${booking.currency}`,
+            `Question: ${booking.question}`,
+            `Spread: ${booking.cards}`,
+            `Depth: ${booking.depth}`,
+            `Add-ons: ${booking.addons.length ? booking.addons.join(", ") : "None"}`,
+            `Coupon: ${booking.coupon}`,
+            `Reading subtotal: ${formatDetailedPrice(booking.subtotal)}`,
+            `Discount: -${formatDetailedPrice(booking.discount)}`,
+            `Reading total: ${formatDetailedPrice(booking.total)}`,
+            `Booking fee due now: ${formatDetailedPrice(booking.bookingFee)}`,
+            `Remaining balance: ${formatDetailedPrice(booking.remainingAmount)}`
+          ].join("\n")
+        );
+
+        sendRequestButton.href = `mailto:?subject=${subject}&body=${body}`;
+      }
+
+      function buildPrintableBillMarkup() {
+        const styleText = document.querySelector("style").textContent;
+
+        return `
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>YVLOCAT Invoice</title>
+              <style>
+                ${styleText}
+                body {
+                  margin: 0;
+                  padding: 24px;
+                  min-height: auto;
+                  background: #f8f2ea;
+                }
+                body::before,
+                body::after {
+                  display: none;
+                }
+                .bill-card {
+                  width: min(780px, 100%);
+                  margin: 0 auto;
+                }
+              </style>
+            </head>
+            <body>
+              ${billCard.outerHTML}
+            </body>
+          </html>
+        `;
+      }
+
+      function escapeXml(value) {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
+      }
+
+      async function renderBillToCanvas() {
+        const width = Math.ceil(billCard.offsetWidth);
+        const height = Math.ceil(billCard.offsetHeight);
+        const styleText = document.querySelector("style").textContent;
+        const markup = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+            <foreignObject width="100%" height="100%">
+              <div xmlns="http://www.w3.org/1999/xhtml">
+                <style>${escapeXml(styleText)}</style>
+                <div style="width:${width}px;background:#f8f2ea;padding:0;">${billCard.outerHTML}</div>
+              </div>
+            </foreignObject>
+          </svg>
+        `;
+
+        const blob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+
+        try {
+          const image = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = url;
+          });
+
+          const canvas = document.createElement("canvas");
+          const scale = 2;
+          canvas.width = width * scale;
+          canvas.height = height * scale;
+          const context = canvas.getContext("2d");
+          context.scale(scale, scale);
+          context.drawImage(image, 0, 0, width, height);
+          return canvas;
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      }
+
+      async function downloadBillAsImage() {
+        if (!latestBooking) {
+          return;
+        }
+
+        const canvas = await renderBillToCanvas();
+        const link = document.createElement("a");
+        link.download = `yvlocat-invoice-${latestBooking.bookingId}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
+
+      async function downloadBillAsPdf() {
+        if (!latestBooking) {
+          return;
+        }
+
+        const printWindow = window.open("", "_blank", "width=920,height=1200");
+        if (!printWindow) {
+          return;
+        }
+
+        printWindow.document.open();
+        printWindow.document.write(buildPrintableBillMarkup());
+        printWindow.document.close();
+        printWindow.focus();
+
+        const triggerPrint = () => {
+          printWindow.print();
+        };
+
+        if (printWindow.document.readyState === "complete") {
+          triggerPrint();
+        } else {
+          printWindow.addEventListener("load", triggerPrint, { once: true });
+        }
+      }
+
+      function closeModals() {
+        setModalState(bookingModal, false);
+        setModalState(confirmationModal, false);
+      }
+
+      function openBookingFlow() {
+        const booking = getCurrentSelectionSnapshot("Quote prepared");
+        saveBooking(booking);
+        renderBill(booking);
+        updateRequestLink(booking);
+        setModalState(bookingModal, true);
+        setModalState(confirmationModal, false);
+      }
+
+      function openConfirmationFlow() {
+        const baseBooking = latestBooking || loadStoredBooking();
+        if (!baseBooking) {
+          return;
+        }
+
+        const confirmedBooking = { ...baseBooking, status: "Reserved" };
+        saveBooking(confirmedBooking);
+        renderBill(confirmedBooking);
+        setModalState(bookingModal, false);
+        setModalState(confirmationModal, true);
+      }
+
+      function applySuggestedCombination(cardsLabel, depthLabel) {
+        const selectedCards = getConfig().cards;
+        const selectedDepths = getConfig().depths;
+
+        if (!(cardsLabel in selectedCards) || !(depthLabel in selectedDepths)) {
+          return;
+        }
+
+        state.cards = { label: cardsLabel, price: selectedCards[cardsLabel] };
+        state.depth = { label: depthLabel, price: selectedDepths[depthLabel] };
+        setSelected(cardsButtons, state.cards.label);
+        setSelected(depthButtons, state.depth.label);
+        renderSummary();
+      }
+
+      function clearCouponFeedback() {
+        couponFeedback.classList.remove("is-success", "is-error");
+      }
+
+      function applyCoupon() {
+        const code = couponInput.value.trim().toUpperCase();
+
+        if (!code) {
+          state.appliedCoupon = null;
+          clearCouponFeedback();
+          couponFeedback.textContent = "Available demo codes: WELCOME10, SOUL5, FULLMOON15.";
+          renderSummary();
+          return;
+        }
+
+        const coupon = COUPONS[code];
+
+        if (!coupon) {
+          state.appliedCoupon = null;
+          clearCouponFeedback();
+          couponFeedback.classList.add("is-error");
+          couponFeedback.textContent = "That code is not available.";
+          renderSummary();
+          return;
+        }
+
+        if (coupon.minimums && getSubtotal() < coupon.minimums[state.region]) {
+          state.appliedCoupon = null;
+          clearCouponFeedback();
+          couponFeedback.classList.add("is-error");
+          couponFeedback.textContent = `${coupon.label} requires a subtotal of ${formatPrice(coupon.minimums[state.region])} or more.`;
+          renderSummary();
+          return;
+        }
+
+        state.appliedCoupon = coupon;
+        couponInput.value = coupon.label;
+        clearCouponFeedback();
+        couponFeedback.classList.add("is-success");
+        couponFeedback.textContent = `${coupon.label} applied. ${coupon.descriptions[state.region]}`;
+        renderSummary();
+      }
+
+      function renderRegionPricing() {
+        const config = getConfig();
+
+        pricingModeBadge.textContent = config.label;
+        budgetCurrencySymbol.textContent = config.symbol;
+        budgetInput.placeholder = config.budgetPlaceholder;
+        selectionBookingFee.textContent = `${formatDetailedPrice(config.bookingFee)} today`;
+        heroStatOne.textContent = formatPrice(config.hero.starter);
+        heroStatTwo.textContent = formatPrice(config.hero.top);
+        heroStatThree.textContent = formatPrice(config.hero.bookingFee);
+        heroStatThreeCopy.textContent = config.hero.bookingCopy;
+
+        priceLabels.forEach((label) => {
+          const prefix = label.dataset.pricePrefix || "";
+          const amount = Number(label.dataset[state.region]);
+          label.textContent = `${prefix}${formatPrice(amount)}`;
+        });
+
+        exampleOneTotal.textContent = formatPrice(config.examples[0].total);
+        exampleTwoTotal.textContent = formatPrice(config.examples[1].total);
+        exampleThreeTotal.textContent = formatPrice(config.examples[2].total);
+        exampleOneLines.innerHTML = config.examples[0].lines.map((line) => `<li>${line}</li>`).join("");
+        exampleTwoLines.innerHTML = config.examples[1].lines.map((line) => `<li>${line}</li>`).join("");
+        exampleThreeLines.innerHTML = config.examples[2].lines.map((line) => `<li>${line}</li>`).join("");
+      }
+
+      function setRegion(region) {
+        state.region = region;
+        localStorage.setItem(REGION_STORAGE_KEY, region);
+        state.cards.price = getConfig().cards[state.cards.label];
+        state.depth.price = getConfig().depths[state.depth.label];
+        state.addons = state.addons.map((addon) => ({
+          label: addon.label,
+          price: getConfig().addons[addon.label]
+        }));
+
+        if (state.appliedCoupon && state.appliedCoupon.minimums && getSubtotal() < state.appliedCoupon.minimums[state.region]) {
+          state.appliedCoupon = null;
+          clearCouponFeedback();
+          couponFeedback.classList.add("is-error");
+          couponFeedback.textContent = "The active coupon no longer applies to this region.";
+        }
+
+        renderRegionPricing();
+        renderSummary();
+        setModalState(regionModal, false);
+      }
+
+      function renderSummary() {
+        const budget = getBudget();
+        const subtotal = getSubtotal();
+        const discount = getDiscountAmount();
+        const total = getTotal();
+        const questionDisplay = getQuestionDisplay();
+        const addonsLabel = state.addons.length ? state.addons.map((addon) => addon.label).join(", ") : "None";
+
+        totalPrice.textContent = formatDetailedPrice(total);
+        summarySubtotal.textContent = discount
+          ? `${formatDetailedPrice(subtotal)} subtotal with ${formatDetailedPrice(discount)} discounted.`
+          : `${formatDetailedPrice(subtotal)} subtotal before the ${formatDetailedPrice(getConfig().bookingFee)} booking fee.`;
+        selectionQuestion.textContent = questionDisplay;
+        selectionCards.textContent = state.cards.label;
+        selectionDepth.textContent = state.depth.label;
+        selectionAddons.textContent = addonsLabel;
+        selectionCoupon.textContent = getCouponLabel();
+        personalMessage.textContent = buildPersonalMessage();
+
+        if (!budget) {
+          budgetState.textContent = "No budget set";
+        } else if (total <= budget) {
+          budgetState.textContent = `${formatDetailedPrice(total)} within budget`;
+        } else {
+          budgetState.textContent = `${formatDetailedPrice(total - budget)} over budget`;
+        }
+
+        renderSuggestions(budget);
+        renderBudgetHighlighting(budget);
+      }
+
+        cardsButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.cards = {
+            label: button.dataset.value,
+            price: Number(button.dataset[state.region])
+          };
+          setSelected(cardsButtons, state.cards.label);
+          renderSummary();
+        });
+      });
+
+        depthButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.depth = {
+            label: button.dataset.value,
+            price: Number(button.dataset[state.region])
+          };
+          setSelected(depthButtons, state.depth.label);
+          renderSummary();
+        });
+      });
+
+      addonCards.forEach((card) => {
+        const input = card.querySelector("input");
+        input.addEventListener("change", () => {
+          state.addons = Array.from(addonCards)
+            .filter((item) => item.querySelector("input").checked)
+            .map((item) => ({
+              label: item.dataset.addon,
+              price: Number(item.dataset[state.region])
+            }));
+
+          addonCards.forEach((item) => {
+            item.classList.toggle("is-selected", item.querySelector("input").checked);
+          });
+
+          if (state.appliedCoupon && state.appliedCoupon.minimums && getSubtotal() < state.appliedCoupon.minimums[state.region]) {
+            state.appliedCoupon = null;
+            clearCouponFeedback();
+            couponFeedback.classList.add("is-error");
+            couponFeedback.textContent = "The active coupon no longer applies to this selection.";
+          }
+
+          renderSummary();
+        });
+      });
+
+      questionInput.addEventListener("input", () => {
+        state.question = questionInput.value;
+        renderSummary();
+      });
+
+      budgetInput.addEventListener("input", renderSummary);
+      applyCouponButton.addEventListener("click", applyCoupon);
+      couponInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          applyCoupon();
+        }
+      });
+
+      suggestions.addEventListener("click", (event) => {
+        const trigger = event.target.closest(".suggestion-chip");
+        if (!trigger) {
+          return;
+        }
+
+        applySuggestedCombination(trigger.dataset.cards, trigger.dataset.depth);
+      });
+
+      subcontinentRegionButton.addEventListener("click", () => setRegion("subcontinent"));
+      internationalRegionButton.addEventListener("click", () => setRegion("international"));
+      changeRegionButton.addEventListener("click", () => setModalState(regionModal, true));
+      bookButton.addEventListener("click", openBookingFlow);
+      closeBookingModal.addEventListener("click", closeModals);
+      closeConfirmationModal.addEventListener("click", closeModals);
+      paymentDoneButton.addEventListener("click", openConfirmationFlow);
+      downloadImageButton.addEventListener("click", downloadBillAsImage);
+      downloadPdfButton.addEventListener("click", downloadBillAsPdf);
+      downloadBillAgainButton.addEventListener("click", downloadBillAsPdf);
+      backToCalculatorButton.addEventListener("click", closeModals);
+
+      bookingModal.addEventListener("click", (event) => {
+        if (event.target === bookingModal) {
+          closeModals();
+        }
+      });
+
+      confirmationModal.addEventListener("click", (event) => {
+        if (event.target === confirmationModal) {
+          closeModals();
+        }
+      });
+
+      regionModal.addEventListener("click", (event) => {
+        if (event.target === regionModal) {
+          return;
+        }
+      });
+
+      setSelected(cardsButtons, state.cards.label);
+      setSelected(depthButtons, state.depth.label);
+      renderRegionPricing();
+
+      const savedRegion = localStorage.getItem(REGION_STORAGE_KEY);
+      if (savedRegion === "subcontinent" || savedRegion === "international") {
+        setRegion(savedRegion);
+      } else {
+        setModalState(regionModal, true);
+        renderSummary();
+      }
+
+      const storedBooking = loadStoredBooking();
+
+      if (storedBooking) {
+        latestBooking = storedBooking;
+      }
+    </script>
+  </body>
+</html>
