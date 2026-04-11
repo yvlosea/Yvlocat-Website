@@ -30,11 +30,10 @@
         font-family: "Manrope", sans-serif;
         color: var(--ink);
         background:
-          url('kittylogo.png') center/120px repeat,
+          url('kittylogo.png') center/180px repeat,
           radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
           radial-gradient(circle at 80% 10%, rgba(163, 76, 66, 0.14), transparent 22%),
           linear-gradient(180deg, #f6f2eb 0%, var(--bg) 38%, #f0e7dc 100%);
-        background-blend-mode: overlay, normal, normal, normal;
       }
       
       body::before {
@@ -243,22 +242,7 @@
       </form>
 
       <div class="review-list" id="reviewList">
-        <!-- Mock reviews for demonstration -->
-        <div class="review-item">
-          <h3>Emma R.</h3>
-          <div class="review-stars">🐱🐱🐱🐱🐱</div>
-          <div class="review-text">"The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!"</div>
-        </div>
-        <div class="review-item">
-          <h3>Rahul K.</h3>
-          <div class="review-stars">🐱🐱🐱🐱🐱</div>
-          <div class="review-text">"Yvlocat accurately picked up on everything happening in my career. The timeline addon was particularly helpful for my reassurance."</div>
-        </div>
-        <div class="review-item">
-          <h3>Sofia T.</h3>
-          <div class="review-stars">🐱🐱🐱🐱</div>
-          <div class="review-text">"Such a cozy experience! The presentation was beautiful and the insights felt like advice from a very wise friend."</div>
-        </div>
+        <div class="muted" id="loadingReviews">Loading magical reviews...</div>
       </div>
     </div>
 
@@ -274,8 +258,42 @@
       const errorMessage = document.getElementById("errorMessage");
       const reviewList = document.getElementById("reviewList");
 
-      // Optional: Fetch live reviews from Supabase here
-      // For now, we mock the submission functionality to be visually complete.
+      async function loadReviews() {
+        try {
+          const { data, error } = await supabase
+            .from("reviews")
+            .select("name, rating, review")
+            .eq("status", "published")
+            .order("created_at", { ascending: false })
+            .limit(20);
+            
+          const loader = document.getElementById("loadingReviews");
+          if (loader) loader.remove();
+          
+          if (error || !data || data.length === 0) {
+            reviewList.innerHTML = `<div class="muted">Be the first to share your magical experience!</div>`;
+            return;
+          }
+          
+          let html = "";
+          data.forEach((r) => {
+            html += `
+              <div class="review-item">
+                <h3>${r.name}</h3>
+                <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
+                <div class="review-text">"${r.review}"</div>
+              </div>
+            `;
+          });
+          reviewList.innerHTML = html;
+        } catch (e) {
+          const loader = document.getElementById("loadingReviews");
+          if (loader) loader.remove();
+          reviewList.innerHTML = `<div class="muted">Be the first to share your magical experience!</div>`;
+        }
+      }
+      
+      loadReviews();
       reviewForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         successMessage.classList.add("hidden");

@@ -932,11 +932,9 @@
         .site-nav {
           border-radius: 28px;
         }
-
         .site-links {
           display: none;
         }
-
         .options-grid.spreads,
         .options-grid.depths,
         .addons-grid,
@@ -946,9 +944,21 @@
         .coupon-row {
           grid-template-columns: 1fr;
         }
-
         .summary-card {
           position: static;
+        }
+        .mobile-sticky-cta {
+          display: block;
+        }
+        .page-shell {
+          padding-bottom: 90px;
+        }
+        .brand-lockup {
+          width: 100%;
+          justify-content: center;
+        }
+        .brand-text span {
+          display: none;
         }
       }
 
@@ -976,16 +986,19 @@
           border-radius: 28px;
         }
 
-        .selection-line,
-        .bill-line,
         .bill-header,
         .modal-head {
           flex-direction: column;
         }
 
+        .selection-line,
+        .bill-line {
+          font-size: 0.88rem;
+        }
+
         .selection-line strong,
         .bill-line strong {
-          text-align: left;
+          /* No stacking override needed here anymore */
         }
       }
 
@@ -995,8 +1008,8 @@
       }
       .watermark-bg {
         position: fixed; inset: 0;
-        background: url('kittylogo.png') center/150px repeat;
-        opacity: 0.04; pointer-events: none; z-index: -1;
+        background: url('kittylogo.png') center/180px repeat;
+        opacity: 0.07; pointer-events: none; z-index: -1;
       }
       .mobile-sticky-cta {
         position: fixed; bottom: 0; left: 0; right: 0;
@@ -1012,18 +1025,11 @@
         width: 120px; height: 120px; border-radius: 24px;
         animation: splashPulse 1s infinite alternate;
       }
-      input, textarea { font-size: 16px !important; }
-
-      @media (max-width: 899px) {
-        .mobile-sticky-cta { display: block; }
-        .page-shell { padding-bottom: 90px; }
-        .brand-lockup { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-bottom: 12px; }
-        .brand-mark { width: 68px; height: 68px; border-radius: 20px; box-shadow: 0 0 24px rgba(214,171,109,0.5); margin-bottom: 8px;}
-      }
+      input, textarea { font-size: 16px; }
 
       @media (max-width: 759px) {
         .modal-shell { align-items: flex-end; padding: 0; }
-        .modal-panel { border-radius: 32px 32px 0 0; max-height: 88vh; width: 100%; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-panel { will-change: transform; border-radius: 32px 32px 0 0; max-height: 88vh; width: 100%; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .modal-shell.is-open .modal-panel { transform: translateY(0); }
       }
 
@@ -1044,13 +1050,13 @@
     </div>
     <div class="watermark-bg"></div>
     <div class="mobile-sticky-cta">
-      <a class="primary-button" href="#book" style="width:100%;" onclick="document.querySelector('#bookButton').scrollIntoView({behavior: 'smooth'});">Get My Reading &rarr;</a>
+      <a class="primary-button" href="#book" style="width:100%;" onclick="document.querySelector('#bookButton').click(); return false;">Get My Reading &rarr;</a>
     </div>
     <main class="page-shell">
       <nav class="site-nav" aria-label="Primary">
         <div class="brand-lockup">
           <div class="brand-mark" aria-hidden="true">
-            <img src="kittylogo.png" alt="Cat Logo">
+            <img src="roundedkittylogo.png" alt="Cat Logo">
           </div>
           <div class="brand-text">
             <strong>YVLO<span style="color:var(--accent);">CAT</span></strong>
@@ -1105,26 +1111,13 @@
             </div>
           </div>
 
-          <aside class="hero-card">
+          <aside class="hero-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="kittylogo.png" alt="Yvlocat logo" style="width: 220px; height: 220px; border-radius: 40px; box-shadow: 0 0 40px rgba(214,171,109,0.25); margin-bottom: 24px;">
             <p class="mini-label">Your Reading Space</p>
             <h2>Cozy spiritual guidance with clear pricing.</h2>
             <p class="body-copy">
               Step into my virtual parlor. I believe in emotional clarity and transparent pricing, so you always know what to expect and can focus on the cards.
             </p>
-            <div class="hero-stats">
-              <div class="stat-card">
-                <strong id="heroStatOne">$6</strong>
-                <span class="meta-copy">Starter reading for fast clarity</span>
-              </div>
-              <div class="stat-card">
-                <strong id="heroStatTwo">$25</strong>
-                <span class="meta-copy">Comprehensive spread for deep insight</span>
-              </div>
-              <div class="stat-card">
-                <strong id="heroStatThree">$1</strong>
-                <span class="meta-copy" id="heroStatThreeCopy">Low-friction international booking fee</span>
-              </div>
-            </div>
           </aside>
         </div>
       </section>
@@ -1379,37 +1372,23 @@
             <strong>Discount code</strong>
             <p class="detail-note">Have a magical promo code? Enter it here to claim your special discount.</p>
             <div class="coupon-row">
-              <input id="couponInput" class="coupon-input" type="text" placeholder="WELCOME10" aria-label="Coupon code" />
+              <input id="couponInput" class="coupon-input" type="text" placeholder="Have a code? Enter it here." aria-label="Coupon code" />
               <button class="secondary-button" type="button" id="applyCouponButton">Apply</button>
             </div>
             <div class="coupon-feedback" id="couponFeedback" aria-live="polite"></div>
           </div>
 
           <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">Reserve This Reading</button>
+          <div style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft); font-weight: 600;">
+            Currently accepting readings · Avg. 48hr delivery
+          </div>
           <p class="booking-note">
             The booking preview shows the full reading price, the coupon discount if used, and the regional booking fee collected upfront.
           </p>
         </aside>
       </section>
 
-      <section class="content-grid" id="social-proof">
-        <article class="section-card">
-          <div class="section-head">
-            <div>
-              <h2>Happy Clients</h2>
-              <p class="section-copy">Join over <strong>1,200</strong> seekers who found clarity through YVLOCAT readings.</p>
-            </div>
-            <div class="badge">Testimonials</div>
-          </div>
-          <div class="carousel-container" style="position: relative; border-radius: var(--radius-xl); background: rgba(255,255,255,0.6); border: 1px solid rgba(92,54,48,0.1); box-shadow: var(--shadow-soft); padding: 28px; text-align: center;">
-            <div id="reviewDisplay" style="transition: opacity 0.4s ease; opacity: 1; min-height: 160px; display: flex; flex-direction: column; justify-content: center;">
-              <p class="body-copy" id="reviewText" style="font-size: 1.15rem; font-style: italic; line-height: 1.6; color: var(--ink);">"The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!"</p>
-              <div class="mini-label" id="reviewAuthor" style="margin-top: 16px; font-weight: 800; color: var(--accent-deep); font-size: 1rem;">— Emma R., New York</div>
-              <div class="meta-copy" id="reviewDate" style="margin-top: 4px; font-size: 0.85rem; color: var(--ink-soft);">Reading completed: April 10, 2026 at 2:30 PM</div>
-            </div>
-          </div>
-        </article>
-      </section>
+
 
       <section class="content-grid" id="experience">
         <article class="section-card">
@@ -1799,10 +1778,7 @@
       const subcontinentRegionButton = document.getElementById("subcontinentRegionButton");
       const internationalRegionButton = document.getElementById("internationalRegionButton");
       const changeRegionButton = document.getElementById("changeRegionButton");
-      const heroStatOne = document.getElementById("heroStatOne");
-      const heroStatTwo = document.getElementById("heroStatTwo");
-      const heroStatThree = document.getElementById("heroStatThree");
-      const heroStatThreeCopy = document.getElementById("heroStatThreeCopy");
+
       const exampleOneTotal = document.getElementById("exampleOneTotal");
       const exampleTwoTotal = document.getElementById("exampleTwoTotal");
       const exampleThreeTotal = document.getElementById("exampleThreeTotal");
@@ -2296,7 +2272,7 @@
         if (!code) {
           state.appliedCoupon = null;
           clearCouponFeedback();
-          couponFeedback.textContent = "Available demo codes: WELCOME10, SOUL5, FULLMOON15.";
+          couponFeedback.textContent = "";
           renderSummary();
           return;
         }
@@ -2336,10 +2312,7 @@
         budgetCurrencySymbol.textContent = config.symbol;
         budgetInput.placeholder = config.budgetPlaceholder;
         selectionBookingFee.textContent = `${formatDetailedPrice(config.bookingFee)} today`;
-        heroStatOne.textContent = formatPrice(config.hero.starter);
-        heroStatTwo.textContent = formatPrice(config.hero.top);
-        heroStatThree.textContent = formatPrice(config.hero.bookingFee);
-        heroStatThreeCopy.textContent = config.hero.bookingCopy;
+
 
         priceLabels.forEach((label) => {
           const prefix = label.dataset.pricePrefix || "";
@@ -2534,50 +2507,7 @@
             setTimeout(() => splash.remove(), 600);
           }
         }, 1000);
-        
-        const reviewsData = [
-          {
-            text: "The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!",
-            author: "Emma R., New York",
-            date: "Reading completed: April 10, 2026 at 2:30 PM"
-          },
-          {
-            text: "Yvlocat accurately picked up on everything happening in my career. The timeline addon was particularly helpful for my reassurance.",
-            author: "Rahul K., London",
-            date: "Reading completed: April 9, 2026 at 11:15 AM"
-          },
-          {
-            text: "Such a cozy experience! The presentation was beautiful and the insights felt like advice from a very wise friend.",
-            author: "Sofia T., Toronto",
-            date: "Reading completed: April 7, 2026 at 4:45 PM"
-          },
-          {
-            text: "I loved the clarity! Everything was laid out so neatly, and the feline guidance was exactly the touch I needed right now.",
-            author: "Wei C., Singapore",
-            date: "Reading completed: April 5, 2026 at 8:20 PM"
-          }
-        ];
 
-        let currentReviewIndex = 0;
-        const reviewDisplay = document.getElementById("reviewDisplay");
-        const reviewTextDisplay = document.getElementById("reviewText");
-        const reviewAuthorDisplay = document.getElementById("reviewAuthor");
-        const reviewDateDisplay = document.getElementById("reviewDate");
-
-        function rotateReviews() {
-          if (!reviewDisplay) return;
-          reviewDisplay.style.opacity = 0;
-          setTimeout(() => {
-            currentReviewIndex = (currentReviewIndex + 1) % reviewsData.length;
-            const review = reviewsData[currentReviewIndex];
-            reviewTextDisplay.textContent = `"${review.text}"`;
-            reviewAuthorDisplay.textContent = `— ${review.author}`;
-            reviewDateDisplay.textContent = review.date;
-            reviewDisplay.style.opacity = 1;
-          }, 400);
-        }
-
-        setInterval(rotateReviews, 6000);
       });
     </script>
   </body>
