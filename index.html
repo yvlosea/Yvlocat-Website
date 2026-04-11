@@ -1149,6 +1149,65 @@
           scroll-behavior: auto !important;
         }
       }
+
+      /* Reviews Section Styles */
+      .review-list {
+        display: grid;
+        gap: 16px;
+        margin-top: 8px;
+      }
+
+      .review-item {
+        padding: 20px;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--line);
+      }
+
+      .review-item h4 {
+        margin: 0 0 4px 0;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 1.1rem;
+        color: var(--ink);
+      }
+
+      .review-stars {
+        color: var(--gold);
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .review-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--ink-soft);
+        margin: 0;
+      }
+
+      .review-date {
+        font-size: 0.75rem;
+        color: var(--ink-soft);
+        font-weight: 400;
+        margin-left: 8px;
+      }
+
+      .admin-comment {
+        margin-top: 12px;
+        padding: 12px 16px;
+        background: rgba(214, 171, 109, 0.15);
+        border-left: 3px solid var(--gold);
+        border-radius: 0 12px 12px 0;
+        font-size: 0.9rem;
+      }
+
+      .admin-comment strong {
+        color: var(--accent-deep);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 4px;
+      }
     </style>
   </head>
   <body>
@@ -1628,6 +1687,27 @@
                 <li>No add-ons</li>
               </ul>
             </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Reviews Section -->
+      <section class="content-grid" id="reviews">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>What Clients Say</h2>
+              <p class="section-copy">Real experiences from those who have had readings with YVLOCAT.</p>
+            </div>
+            <div class="badge">Reviews</div>
+          </div>
+
+          <div class="review-list" id="homeReviewList">
+            <div class="muted">Loading reviews...</div>
+          </div>
+
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="reviews.html" class="secondary-button" style="display: inline-block; text-decoration: none;">Write a Review</a>
           </div>
         </article>
       </section>
@@ -2620,6 +2700,57 @@
         latestBooking = storedBooking;
       }
 
+      // Load reviews for homepage
+      async function loadHomeReviews() {
+        try {
+          const SUPABASE_URL = "https://paaorahyaoivqqtvujxw.supabase.co";
+          const SUPABASE_ANON_KEY = "sb_publishable_6BEvMXOqzK6A7QKmdvwMQw_Lvuzcsto";
+          const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+          const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+          const { data, error } = await supabase
+            .from("reviews")
+            .select("name, rating, review, admin_comment, created_at")
+            .eq("status", "published")
+            .order("created_at", { ascending: false })
+            .limit(5);
+
+          const reviewList = document.getElementById("homeReviewList");
+          if (!reviewList) return;
+
+          if (error || !data || data.length === 0) {
+            reviewList.innerHTML = `<div class="muted">No reviews yet. Be the first to share your experience!</div>`;
+            return;
+          }
+
+          let html = "";
+          data.forEach((r) => {
+            const dateStr = new Date(r.created_at).toLocaleDateString();
+            const adminComment = r.admin_comment ? `
+              <div class="admin-comment">
+                <strong>YVLOCAT Response</strong>
+                <p style="margin: 4px 0 0 0;">${r.admin_comment}</p>
+              </div>
+            ` : "";
+
+            html += `
+              <div class="review-item">
+                <h4>${r.name}<span class="review-date">${dateStr}</span></h4>
+                <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
+                <p class="review-text">"${r.review}"</p>
+                ${adminComment}
+              </div>
+            `;
+          });
+          reviewList.innerHTML = html;
+        } catch (e) {
+          const reviewList = document.getElementById("homeReviewList");
+          if (reviewList) {
+            reviewList.innerHTML = `<div class="muted">Reviews loading...</div>`;
+          }
+        }
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           const splash = document.getElementById('splashScreen');
@@ -2629,6 +2760,7 @@
           }
         }, 1000);
 
+        loadHomeReviews();
       });
     </script>
   </body>

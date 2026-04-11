@@ -181,6 +181,79 @@
         color: var(--ink-soft);
       }
 
+      .admin-comment {
+        margin-top: 12px;
+        padding: 12px 16px;
+        background: rgba(214, 171, 109, 0.15);
+        border-left: 3px solid var(--gold);
+        border-radius: 0 12px 12px 0;
+        font-size: 0.9rem;
+      }
+
+      .admin-comment strong {
+        color: var(--accent-deep);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .admin-controls {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .admin-controls button {
+        min-height: 36px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        border-radius: 20px;
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #8d4e1f, #a34c42) !important;
+      }
+
+      .btn-secondary {
+        background: rgba(103, 81, 84, 0.15) !important;
+        color: var(--ink) !important;
+        border: 1px solid var(--line) !important;
+      }
+
+      .comment-form {
+        margin-top: 12px;
+        display: none;
+      }
+
+      .comment-form.visible {
+        display: block;
+      }
+
+      .comment-form textarea {
+        min-height: 80px;
+        margin-bottom: 8px;
+      }
+
+      .admin-login {
+        margin-bottom: 24px;
+        padding: 16px;
+        background: rgba(214, 171, 109, 0.1);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+      }
+
+      .admin-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--accent);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 12px;
+        margin-left: 8px;
+      }
+
       .nav-back {
         display: inline-flex;
         align-items: center;
@@ -208,6 +281,16 @@
       
       <h1>Client Reviews</h1>
       <p class="muted">Share your reading experience with others. Rate your session out of 5 cats!</p>
+
+      <!-- Admin Login -->
+      <div id="adminLogin" class="admin-login">
+        <label style="margin-top: 0;">
+          Admin Password
+          <input type="password" id="adminPassword" placeholder="Enter admin password" />
+        </label>
+        <button type="button" id="loginBtn" style="margin-top: 12px; width: auto; min-height: 44px;">Login as Admin</button>
+        <div id="adminStatus" class="muted" style="margin-top: 8px;"></div>
+      </div>
 
       <div id="successMessage" class="success hidden">Thank you! Your review has been received.</div>
       <div id="errorMessage" class="error hidden"></div>
@@ -254,22 +337,103 @@
       const SUPABASE_ANON_KEY = "sb_publishable_6BEvMXOqzK6A7QKmdvwMQw_Lvuzcsto";
       const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+      // Admin password - in production this should be handled server-side
+      const ADMIN_PASSWORD = "yvlocat-admin-2024";
+
       const reviewForm = document.getElementById("reviewForm");
       const successMessage = document.getElementById("successMessage");
       const errorMessage = document.getElementById("errorMessage");
       const reviewList = document.getElementById("reviewList");
+      const adminLogin = document.getElementById("adminLogin");
+      const adminPassword = document.getElementById("adminPassword");
+      const loginBtn = document.getElementById("loginBtn");
+      const adminStatus = document.getElementById("adminStatus");
+
+      let isAdmin = false;
+      let reviewsData = [];
+
+      // Admin login
+      loginBtn.addEventListener("click", () => {
+        if (adminPassword.value === ADMIN_PASSWORD) {
+          isAdmin = true;
+          adminStatus.textContent = "✓ Logged in as Admin";
+          adminStatus.style.color = "var(--success)";
+          adminLogin.style.background = "rgba(47, 116, 82, 0.1)";
+          adminPassword.value = "";
+          loadReviews(); // Reload to show admin controls
+        } else {
+          adminStatus.textContent = "✗ Incorrect password";
+          adminStatus.style.color = "var(--warning)";
+        }
+      });
+
+      // Allow Enter key to login
+      adminPassword.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") loginBtn.click();
+      });
+
+      async function deleteReview(id) {
+        if (!isAdmin) return;
+        if (!confirm("Delete this review?")) return;
+        
+        try {
+          const { error } = await supabase
+            .from("reviews")
+            .update({ status: "deleted" })
+            .eq("id", id);
+          
+          if (error) throw error;
+          loadReviews();
+        } catch (e) {
+          alert("Failed to delete review");
+        }
+      }
+
+      async function addComment(id, comment) {
+        if (!isAdmin) return;
+        if (!comment.trim()) return;
+        
+        try {
+          const { error } = await supabase
+            .from("reviews")
+            .update({ 
+              admin_comment: comment.trim(),
+              admin_comment_at: new Date().toISOString()
+            })
+            .eq("id", id);
+          
+          if (error) throw error;
+          loadReviews();
+        } catch (e) {
+          alert("Failed to add comment");
+        }
+      }
+
+      function toggleCommentForm(id) {
+        const form = document.getElementById(`comment-form-${id}`);
+        form.classList.toggle("visible");
+      }
 
       async function loadReviews() {
         try {
-          const { data, error } = await supabase
+          // For admin, fetch all non-deleted reviews
+          const query = supabase
             .from("reviews")
-            .select("name, rating, review")
-            .eq("status", "published")
+            .select("id, name, rating, review, status, admin_comment, admin_comment_at, created_at")
+            .neq("status", "deleted")
             .order("created_at", { ascending: false })
-            .limit(20);
+            .limit(50);
+          
+          if (!isAdmin) {
+            query.eq("status", "published");
+          }
+          
+          const { data, error } = await query;
             
           const loader = document.getElementById("loadingReviews");
           if (loader) loader.remove();
+          
+          reviewsData = data || [];
           
           if (error || !data || data.length === 0) {
             reviewList.innerHTML = `<div class="muted">Be the first to share your experience.</div>`;
@@ -278,15 +442,45 @@
           
           let html = "";
           data.forEach((r) => {
+            const dateStr = new Date(r.created_at).toLocaleDateString();
+            const adminBadge = (isAdmin && r.status !== "published") ? `<span class="admin-badge">${r.status}</span>` : "";
+            const adminComment = r.admin_comment ? `
+              <div class="admin-comment">
+                <strong>YVLOCAT Response</strong>
+                <p style="margin: 4px 0 0 0;">${r.admin_comment}</p>
+              </div>
+            ` : "";
+            
+            const adminControls = isAdmin ? `
+              <div class="admin-controls">
+                <button type="button" class="btn-secondary" onclick="toggleCommentForm('${r.id}')">💬 Reply</button>
+                <button type="button" class="btn-danger" onclick="deleteReview('${r.id}')">🗑️ Delete</button>
+              </div>
+              <div id="comment-form-${r.id}" class="comment-form">
+                <textarea id="comment-text-${r.id}" placeholder="Write your response..."></textarea>
+                <button type="button" onclick="submitComment('${r.id}')">Post Reply</button>
+              </div>
+            ` : "";
+            
             html += `
-              <div class="review-item">
-                <h3>${r.name}</h3>
+              <div class="review-item" data-id="${r.id}">
+                <h3>${r.name}${adminBadge} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">${dateStr}</span></h3>
                 <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
                 <div class="review-text">"${r.review}"</div>
+                ${adminComment}
+                ${adminControls}
               </div>
             `;
           });
           reviewList.innerHTML = html;
+          
+          // Make functions available globally for onclick handlers
+          window.deleteReview = deleteReview;
+          window.toggleCommentForm = toggleCommentForm;
+          window.submitComment = (id) => {
+            const text = document.getElementById(`comment-text-${id}`).value;
+            addComment(id, text);
+          };
         } catch (e) {
           const loader = document.getElementById("loadingReviews");
           if (loader) loader.remove();
@@ -295,6 +489,7 @@
       }
       
       loadReviews();
+      
       reviewForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         successMessage.classList.add("hidden");
@@ -306,21 +501,19 @@
         const rating = ratingNode ? parseInt(ratingNode.value) : 5;
 
         try {
-          // Attempt to insert into a 'reviews' table.
-          // If the table doesn't exist, it will throw an error, which we catch.
-          const { error } = await supabase.from("reviews").insert({
+          const { data, error } = await supabase.from("reviews").insert({
             name,
             rating,
             review: reviewText,
             status: "published"
-          });
+          }).select();
 
-          // Even if it fails (e.g. table not created yet), we show success locally for UX
-          // We prepend the review to the list immediately.
+          if (error) throw error;
+
           const reviewItem = document.createElement("div");
           reviewItem.className = "review-item";
           reviewItem.innerHTML = `
-            <h3>${name}</h3>
+            <h3>${name} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">Just now</span></h3>
             <div class="review-stars">${"🐱".repeat(rating)}</div>
             <div class="review-text">"${reviewText}"</div>
           `;
@@ -328,19 +521,12 @@
 
           successMessage.classList.remove("hidden");
           reviewForm.reset();
-        } catch (error) {
-          // Fallback UI update on error to keep the demo working
-          const reviewItem = document.createElement("div");
-          reviewItem.className = "review-item";
-          reviewItem.innerHTML = `
-            <h3>${name}</h3>
-            <div class="review-stars">${"🐱".repeat(rating)}</div>
-            <div class="review-text">"${reviewText}"</div>
-          `;
-          reviewList.prepend(reviewItem);
           
-          successMessage.classList.remove("hidden");
-          reviewForm.reset();
+          // Reload after a delay to get proper ID
+          setTimeout(loadReviews, 1000);
+        } catch (error) {
+          errorMessage.textContent = "Failed to submit review. Please try again.";
+          errorMessage.classList.remove("hidden");
         }
       });
     </script>

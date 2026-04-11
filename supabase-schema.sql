@@ -1,5 +1,6 @@
 create extension if not exists pgcrypto;
 
+-- Bookings table
 create table if not exists public.bookings (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
@@ -25,4 +26,41 @@ create policy "public can insert bookings"
 on public.bookings
 for insert
 to anon, authenticated
+with check (true);
+
+-- Reviews table with admin comments
+create table if not exists public.reviews (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  name text not null,
+  rating integer not null check (rating >= 1 and rating <= 5),
+  review text not null,
+  status text not null default 'published' check (status in ('published', 'hidden', 'deleted')),
+  admin_comment text,
+  admin_comment_at timestamptz,
+  is_featured boolean not null default false
+);
+
+alter table public.reviews enable row level security;
+
+-- Public can view published reviews
+create policy "public can view published reviews"
+on public.reviews
+for select
+to anon, authenticated
+using (status = 'published');
+
+-- Public can insert reviews
+create policy "public can insert reviews"
+on public.reviews
+for insert
+to anon, authenticated
+with check (true);
+
+-- Admin can update/delete all reviews (requires authenticated admin user)
+create policy "admin can manage reviews"
+on public.reviews
+for all
+to authenticated
+using (true)
 with check (true);
