@@ -149,15 +149,15 @@
   </head>
   <body>
     <div class="card">
-      <h1>🐱 YVLOCAT 🐱</h1>
-      <p class="muted">Your mystical kitty reading arrives by email! Payment link sent manually from yvlostartarot@gmail.com ✨🐾</p>
+      <h1>YVLOCAT</h1>
+      <p class="muted">PDF reading sent by email. Payment link will be sent manually from yvlostartarot@gmail.com.</p>
 
       <div id="bookingSummary" class="summary"></div>
 
-      <button id="reserveButton" type="button">🐾 Claim Your Cosmic Spot!</button>
+      <button id="reserveButton" type="button">Reserve Reading</button>
 
       <form id="bookingForm" class="hidden">
-        <h2 style="margin-top: 24px;">🌙 Cosmic Kitty Booking Form</h2>
+        <h2 style="margin-top: 24px;">Booking Form</h2>
 
         <div class="grid">
           <label>
@@ -228,7 +228,7 @@
         </div>
       </form>
 
-      <div id="successMessage" class="success hidden">✨ Meow-gical! Booking received! Payment link coming soon to your inbox! 🐱</div>
+      <div id="successMessage" class="success hidden">Booking received. Payment link will be sent manually.</div>
       <div id="errorMessage" class="error hidden"></div>
     </div>
 
@@ -299,7 +299,7 @@
         fields.question.value = booking.question || "";
         fields.spread.value = booking.spread || "";
         fields.depth.value = booking.depth || "";
-        fields.addons.value = booking.addons.length ? booking.addons.join(", ") : "No extra treats";
+        fields.addons.value = booking.addons.length ? booking.addons.join(", ") : "None";
         fields.currency.value = currency;
         fields.total_price.value = formatMoney(localizedTotal, currency);
       }
@@ -309,12 +309,12 @@
         const localizedTotal = getLocalizedTotal(booking.total_price, currency);
 
         bookingSummary.innerHTML = `
-          <strong>🐱 ${BRAND_NAME} Cosmic Reading Summary 🐱</strong><br />
-          ✨ Question: ${booking.question}<br />
-          🎴 Spread: ${booking.spread}<br />
-          🌙 Depth: ${booking.depth}<br />
-          🎁 Treats: ${booking.addons.length ? booking.addons.join(", ") : "Just the basics, no extra treats"}<br />
-          💰 Total Treats: ${formatMoney(localizedTotal, currency)} ${currency}
+          <strong>${BRAND_NAME} Reading Summary</strong><br />
+          Question: ${booking.question}<br />
+          Spread: ${booking.spread}<br />
+          Depth: ${booking.depth}<br />
+          Add-ons: ${booking.addons.length ? booking.addons.join(", ") : "None"}<br />
+          Total: ${formatMoney(localizedTotal, currency)} ${currency}
         `;
       }
 
@@ -382,7 +382,7 @@
           fields.country.value = "";
           renderBookingSummary(existingBooking);
         } catch (error) {
-          errorMessage.textContent = error.message || "😿 Oh no! Something went wrong with your cosmic booking. Try again, kitty!";
+          errorMessage.textContent = error.message || "Booking failed.";
           errorMessage.classList.remove("hidden");
         }
       });
