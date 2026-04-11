@@ -6,7 +6,7 @@
     <title>YVLOCAT | Tarot Readings</title>
     <meta
       name="description"
-      content="YVLOCAT offers thoughtful tarot readings with clear pricing, personalized spread options, optional add-ons, and a polished booking experience."
+      content="YVLOCAT offers thoughtful, feline-guided tarot readings. Experience a cozy, magical approach to spiritual clarity."
     />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
@@ -131,6 +131,13 @@
         color: #fff9f4;
         font-size: 1.1rem;
         box-shadow: 0 12px 24px rgba(106, 46, 53, 0.24);
+        overflow: hidden;
+      }
+
+      .brand-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .brand-text strong,
@@ -857,7 +864,7 @@
 
       .bill-card::before,
       .confirmation-card::before {
-        content: "✦";
+        content: "🐾";
         position: absolute;
         right: 20px;
         bottom: 12px;
@@ -982,6 +989,44 @@
         }
       }
 
+      @keyframes splashPulse {
+        0% { box-shadow: 0 0 15px rgba(214,171,109,0.3); transform: scale(0.96); }
+        100% { box-shadow: 0 0 40px rgba(214,171,109,0.8); transform: scale(1.04); }
+      }
+      .watermark-bg {
+        position: fixed; inset: 0;
+        background: url('kittylogo.png') center/150px repeat;
+        opacity: 0.04; pointer-events: none; z-index: -1;
+      }
+      .mobile-sticky-cta {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        padding: 16px; background: linear-gradient(180deg, transparent, rgba(244, 239, 231, 0.98) 40%);
+        z-index: 30; display: none;
+      }
+      .splash-screen {
+        position: fixed; inset: 0; background: var(--bg);
+        z-index: 9999; display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.6s ease;
+      }
+      .splash-logo {
+        width: 120px; height: 120px; border-radius: 24px;
+        animation: splashPulse 1s infinite alternate;
+      }
+      input, textarea { font-size: 16px !important; }
+
+      @media (max-width: 899px) {
+        .mobile-sticky-cta { display: block; }
+        .page-shell { padding-bottom: 90px; }
+        .brand-lockup { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-bottom: 12px; }
+        .brand-mark { width: 68px; height: 68px; border-radius: 20px; box-shadow: 0 0 24px rgba(214,171,109,0.5); margin-bottom: 8px;}
+      }
+
+      @media (max-width: 759px) {
+        .modal-shell { align-items: flex-end; padding: 0; }
+        .modal-panel { border-radius: 32px 32px 0 0; max-height: 88vh; width: 100%; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-shell.is-open .modal-panel { transform: translateY(0); }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -994,12 +1039,21 @@
     </style>
   </head>
   <body>
+    <div class="splash-screen" id="splashScreen">
+      <img src="kittylogo.png" class="splash-logo" alt="Yvlocat logo" />
+    </div>
+    <div class="watermark-bg"></div>
+    <div class="mobile-sticky-cta">
+      <a class="primary-button" href="#book" style="width:100%;" onclick="document.querySelector('#bookButton').scrollIntoView({behavior: 'smooth'});">Get My Reading &rarr;</a>
+    </div>
     <main class="page-shell">
       <nav class="site-nav" aria-label="Primary">
         <div class="brand-lockup">
-          <div class="brand-mark" aria-hidden="true">✦</div>
+          <div class="brand-mark" aria-hidden="true">
+            <img src="kittylogo.png" alt="Cat Logo">
+          </div>
           <div class="brand-text">
-            <strong>YVLOCAT</strong>
+            <strong>YVLO<span style="color:var(--accent);">CAT</span></strong>
             <span>Tarot readings with clarity, warmth, and structure</span>
           </div>
         </div>
@@ -1014,10 +1068,10 @@
       <section class="hero">
         <div class="hero-grid">
           <div>
-            <div class="eyebrow">Professional tarot, priced to convert</div>
-            <h1>YVLOCAT</h1>
+            <div class="eyebrow">Tarot & Intuitive Feline Guidance</div>
+            <h1>YVLO<span style="color:var(--accent);">CAT</span></h1>
             <p class="hero-copy">
-              A tarot reading site designed to feel trustworthy, intentional, and easy to book. Clients can choose their spread, select the depth they want, add focused extras, and instantly see the final price before reserving their reading.
+              Welcome to my cozy sanctuary. Find clarity, warmth, and structure through feline-guided tarot readings. Choose your spread and depth to see exactly how much your reading will be before we begin.
             </p>
             <div class="hero-actions">
               <a class="primary-button" href="#pricing">Build Your Reading</a>
@@ -1028,41 +1082,41 @@
               <div class="point-row">
                 <span class="point-number">01</span>
                 <div>
-                  <strong>Affordable entry point</strong>
-                  <div class="meta-copy">Quick readings start at $6 so first-time clients can book without hesitation.</div>
+                  <strong>Gentle Beginnings</strong>
+                  <div class="meta-copy">Quick readings start at $6 for simple, fast clarity and a gentle introduction.</div>
                 </div>
               </div>
               <div class="point-row">
                 <span class="point-number">02</span>
                 <div>
-                  <strong>Premium structure</strong>
-                  <div class="meta-copy">Clear depth tiers and add-ons make the offer feel polished rather than improvised.</div>
+                  <strong>Tailored Insight</strong>
+                  <div class="meta-copy">Add exactly as much detail or clarification as you need for your situation.</div>
                 </div>
               </div>
               <div class="point-row">
                 <span class="point-number">03</span>
                 <div>
-                  <strong>Scales with demand</strong>
-                  <div class="meta-copy">Higher-value readings, upsells, and coupon campaigns are built into the flow.</div>
+                  <strong>Caring Delivery</strong>
+                  <div class="meta-copy">Thoughtful readings delivered with warmth, empathy, and intuitive purr-spective.</div>
                 </div>
               </div>
             </div>
           </div>
 
           <aside class="hero-card">
-            <p class="mini-label">Signature positioning</p>
-            <h2>Modern spiritual guidance, without messy pricing.</h2>
+            <p class="mini-label">Your Reading Space</p>
+            <h2>Cozy spiritual guidance with clear pricing.</h2>
             <p class="body-copy">
-              YVLOCAT is framed as a refined tarot studio, not just a calculator. The experience leads with emotional clarity, transparent pricing, and a simple booking path that still feels elevated.
+              Step into my virtual parlor. I believe in emotional clarity and transparent pricing, so you always know what to expect and can focus on the cards.
             </p>
             <div class="hero-stats">
               <div class="stat-card">
                 <strong id="heroStatOne">$6</strong>
-                <span class="meta-copy">Starter reading for fast conversions</span>
+                <span class="meta-copy">Starter reading for fast clarity</span>
               </div>
               <div class="stat-card">
                 <strong id="heroStatTwo">$25</strong>
-                <span class="meta-copy">Top spread before premium depth and add-ons</span>
+                <span class="meta-copy">Comprehensive spread for deep insight</span>
               </div>
               <div class="stat-card">
                 <strong id="heroStatThree">$1</strong>
@@ -1078,9 +1132,9 @@
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Reading Builder</h2>
+                <h2>Craft Your Reading</h2>
                 <p class="section-copy">
-                  Clients can personalize their reading while keeping the process simple and professional. Budget suggestions stay visible for faster decision-making.
+                  Personalize your reading experience. Keep an eye on the budget tool if you have a specific price in mind.
                 </p>
               </div>
               <div class="badge" id="pricingModeBadge">USD pricing</div>
@@ -1110,9 +1164,9 @@
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Tell YVLOCAT what this reading is about</h2>
+                <h2>What brings you here today?</h2>
                 <p class="section-copy">
-                  This keeps the site feeling like a tarot service, not a pricing tool. The message will be carried into the booking summary.
+                  Share your question or area of focus. The more specific you are, the clearer the cards can be.
                 </p>
               </div>
               <div class="badge">Personalized</div>
@@ -1131,7 +1185,7 @@
             <div class="section-head">
               <div>
                 <h2>Choose your spread</h2>
-                <p class="section-copy">Spread size controls how expansive the reading feels and anchors the main price.</p>
+                <p class="section-copy">The number of cards determines how wide we look at your situation.</p>
               </div>
               <div class="badge">Core pricing</div>
             </div>
@@ -1188,7 +1242,7 @@
             <div class="section-head">
               <div>
                 <h2>Choose your depth</h2>
-                <p class="section-copy">Depth acts like a quality tier, helping you raise order value without making the base offer feel expensive.</p>
+                <p class="section-copy">Decide how detailed you'd like the interpretation to be.</p>
               </div>
               <div class="badge">Upsell layer</div>
             </div>
@@ -1234,7 +1288,7 @@
             <div class="section-head">
               <div>
                 <h2>Add focused extras</h2>
-                <p class="section-copy">These upgrades feel useful, specific, and easy to say yes to at checkout.</p>
+                <p class="section-copy">Enhance your reading with specific insights like timelines or practical advice.</p>
               </div>
               <div class="badge">Optional add-ons</div>
             </div>
@@ -1294,17 +1348,20 @@
         <aside class="summary-card" id="book">
           <div class="section-head">
             <div>
-              <h2>Your Reading</h2>
-              <p class="section-copy">A polished quote summary that makes checkout feel intentional.</p>
+              <h2>Your Quote</h2>
+              <p class="section-copy">Review your selected options and total quote before booking.</p>
             </div>
-            <div class="badge" id="budgetState">No budget set</div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+              <div class="badge" id="budgetState">No budget set</div>
+              <div class="badge" style="background: rgba(163, 76, 66, 0.11); color: var(--accent-deep);">⏳ Only 3 spots left this week</div>
+            </div>
           </div>
 
           <div class="summary-price" id="totalPrice">$17</div>
           <p class="summary-subtotal" id="summarySubtotal">Base + depth + add-ons before booking fee.</p>
 
           <div class="summary-message" id="personalMessage">
-            A balanced YVLOCAT reading with deeper interpretation and a clear emotional overview.
+            A cozy, balanced YVLOCAT reading full of intuitive guidance.
           </div>
 
           <div class="selection-list">
@@ -1317,13 +1374,13 @@
           </div>
 
           <div class="coupon-panel">
-            <strong>Coupon code</strong>
-            <p class="detail-note">Use a promo when you want to reward returning clients, run launches, or test conversions.</p>
+            <strong>Discount code</strong>
+            <p class="detail-note">Have a magical promo code? Enter it here to claim your special discount.</p>
             <div class="coupon-row">
               <input id="couponInput" class="coupon-input" type="text" placeholder="WELCOME10" aria-label="Coupon code" />
               <button class="secondary-button" type="button" id="applyCouponButton">Apply</button>
             </div>
-            <div class="coupon-feedback" id="couponFeedback" aria-live="polite">Available demo codes: WELCOME10, SOUL5, FULLMOON15.</div>
+            <div class="coupon-feedback" id="couponFeedback" aria-live="polite"></div>
           </div>
 
           <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">Reserve This Reading</button>
@@ -1333,28 +1390,54 @@
         </aside>
       </section>
 
+      <section class="content-grid" id="social-proof">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Happy Clients</h2>
+              <p class="section-copy">Join over <strong>1,200</strong> seekers who found clarity through YVLOCAT readings.</p>
+            </div>
+            <div class="badge">Testimonials</div>
+          </div>
+          <div class="process-grid">
+            <div class="process-card">
+               <p class="body-copy">"The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!"</p>
+               <div class="mini-label">— Emma R., New York</div>
+            </div>
+            <div class="process-card">
+               <p class="body-copy">"Yvlocat accurately picked up on everything happening in my career. The timeline addon was particularly helpful for my reassurance."</p>
+               <div class="mini-label">— Rahul K., London</div>
+            </div>
+            <div class="process-card">
+               <p class="body-copy">"Such a cozy experience! The presentation was beautiful and the insights felt like advice from a very wise friend."</p>
+               <div class="mini-label">— Sofia T., Toronto</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
       <section class="content-grid" id="experience">
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>Why this pricing works</h2>
-              <p class="section-copy">It keeps entry-level readings approachable while still making deeper readings feel worth paying for.</p>
+              <h2>What to expect</h2>
+              <p class="section-copy">My goal is to make tarot accessible, clear, and perfectly suited to your needs.</p>
             </div>
-            <div class="badge">Strategic</div>
+            <div class="badge">Approach</div>
           </div>
 
           <div class="info-grid">
             <div class="info-card">
-              <h3>Quick trust</h3>
-              <p class="body-copy">An approachable entry spread feels easy to try, especially for first-time clients who are still discovering your work.</p>
+              <h3>Clear pricing</h3>
+              <p class="body-copy">Transparent options mean you know exactly what you are getting and how much it will cost.</p>
             </div>
             <div class="info-card">
-              <h3>Professional perception</h3>
-              <p class="body-copy">Clear tiers, defined add-ons, and structured summaries make the service look considered rather than cheap.</p>
+              <h3>Thoughtful delivery</h3>
+              <p class="body-copy">Every reading is crafted with care, emotional intelligence, and genuine intent to help.</p>
             </div>
             <div class="info-card">
-              <h3>Built to scale</h3>
-              <p class="body-copy">As demand rises, you can push clients toward deeper packages and premium delivery without rebuilding the site.</p>
+              <h3>Cozy atmosphere</h3>
+              <p class="body-copy">I want you to feel as relaxed as a cat sleeping in a sunbeam while we explore your questions.</p>
             </div>
           </div>
         </article>
@@ -1362,24 +1445,24 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>What clients can expect</h2>
-              <p class="section-copy">The site should reassure visitors that the reading experience is thoughtful, personal, and organized.</p>
+              <h2>How it works</h2>
+              <p class="section-copy">Booking a reading is simple, transparent, and completely tailored to you.</p>
             </div>
-            <div class="badge">Client-facing</div>
+            <div class="badge">Journey</div>
           </div>
 
           <div class="process-grid">
             <div class="process-card">
-              <h3>1. Share the focus</h3>
-              <p class="body-copy">Clients can submit a direct question or keep it open-ended if they want general spiritual guidance.</p>
+              <h3>1. Share your intention</h3>
+              <p class="body-copy">Submit a direct question or keep it open-ended if you want general spiritual guidance.</p>
             </div>
             <div class="process-card">
-              <h3>2. Choose the depth</h3>
-              <p class="body-copy">They decide whether they want a clean answer, stronger analysis, or a fully layered reading.</p>
+              <h3>2. Customize your reading</h3>
+              <p class="body-copy">Decide whether you want a clean answer, stronger analysis, or a fully layered reading.</p>
             </div>
             <div class="process-card">
-              <h3>3. Reserve smoothly</h3>
-              <p class="body-copy">A region-appropriate booking fee keeps the first step accessible while still filtering for serious clients.</p>
+              <h3>3. Secure your spot</h3>
+              <p class="body-copy">A small booking fee secures your place in my queue so I can dedicate focused time for you.</p>
             </div>
           </div>
         </article>
@@ -1389,8 +1472,8 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>Price examples</h2>
-              <p class="section-copy">These examples reinforce that the pricing grows naturally from simple to premium.</p>
+              <h2>Popular combinations</h2>
+              <p class="section-copy">Here are a few ways clients love to structure their readings for the best insight.</p>
             </div>
             <div class="badge">Examples</div>
           </div>
@@ -1425,10 +1508,10 @@
       </section>
 
       <section class="footer-card">
-        <p class="mini-label" style="color: rgba(255, 248, 242, 0.68);">YVLOCAT positioning</p>
-        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 6px;">Tarot readings that feel approachable first, premium second, and scalable long-term.</h2>
+        <p class="mini-label" style="color: rgba(255, 248, 242, 0.68);">Ready to begin?</p>
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 6px;">Tarot readings that bring clarity, warmth, and a touch of feline magic to your path.</h2>
         <p class="body-copy">
-          This version turns the site into a real tarot service page with transparent pricing, a stronger brand name, a built-in quote builder, and coupon support for promotions or repeat-client offers.
+          Book your personalized reading today and let the cards illuminate your next steps with purr-fect clarity.
         </p>
       </section>
     </main>
@@ -1451,7 +1534,7 @@
                 <div class="meta-copy">Tarot Reading Invoice Preview</div>
                 <div class="meta-copy">Booking ID: <strong id="billBookingId">YV0000</strong></div>
               </div>
-              <div class="bill-icons">✦ ✧ ✦</div>
+              <div class="bill-icons">🐾 ✧ 🐾</div>
             </div>
 
             <div class="bill-lines">
@@ -1507,7 +1590,7 @@
         </div>
 
         <section class="confirmation-card">
-          <div class="bill-icons">✦ ✧ ✦</div>
+          <div class="bill-icons">🐾 ✧ 🐾</div>
           <div class="confirmation-id" id="confirmationBookingId">YV0000</div>
           <p class="detail-note">
             Your client-facing booking summary is ready. You can download the invoice again or return to the builder to adjust the package.
@@ -2408,6 +2491,16 @@
       if (storedBooking) {
         latestBooking = storedBooking;
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const splash = document.getElementById('splashScreen');
+          if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 600);
+          }
+        }, 1000);
+      });
     </script>
   </body>
 </html>
