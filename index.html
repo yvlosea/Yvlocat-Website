@@ -1401,18 +1401,11 @@
             </div>
             <div class="badge">Testimonials</div>
           </div>
-          <div class="process-grid">
-            <div class="process-card">
-               <p class="body-copy">"The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!"</p>
-               <div class="mini-label">— Emma R., New York</div>
-            </div>
-            <div class="process-card">
-               <p class="body-copy">"Yvlocat accurately picked up on everything happening in my career. The timeline addon was particularly helpful for my reassurance."</p>
-               <div class="mini-label">— Rahul K., London</div>
-            </div>
-            <div class="process-card">
-               <p class="body-copy">"Such a cozy experience! The presentation was beautiful and the insights felt like advice from a very wise friend."</p>
-               <div class="mini-label">— Sofia T., Toronto</div>
+          <div class="carousel-container" style="position: relative; border-radius: var(--radius-xl); background: rgba(255,255,255,0.6); border: 1px solid rgba(92,54,48,0.1); box-shadow: var(--shadow-soft); padding: 28px; text-align: center;">
+            <div id="reviewDisplay" style="transition: opacity 0.4s ease; opacity: 1; min-height: 160px; display: flex; flex-direction: column; justify-content: center;">
+              <p class="body-copy" id="reviewText" style="font-size: 1.15rem; font-style: italic; line-height: 1.6; color: var(--ink);">"The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!"</p>
+              <div class="mini-label" id="reviewAuthor" style="margin-top: 16px; font-weight: 800; color: var(--accent-deep); font-size: 1rem;">— Emma R., New York</div>
+              <div class="meta-copy" id="reviewDate" style="margin-top: 4px; font-size: 0.85rem; color: var(--ink-soft);">Reading completed: April 10, 2026 at 2:30 PM</div>
             </div>
           </div>
         </article>
@@ -2541,6 +2534,50 @@
             setTimeout(() => splash.remove(), 600);
           }
         }, 1000);
+        
+        const reviewsData = [
+          {
+            text: "The reading was remarkably insightful and delivered with such warmth. The detailed depth clarified my situation completely. It felt magical!",
+            author: "Emma R., New York",
+            date: "Reading completed: April 10, 2026 at 2:30 PM"
+          },
+          {
+            text: "Yvlocat accurately picked up on everything happening in my career. The timeline addon was particularly helpful for my reassurance.",
+            author: "Rahul K., London",
+            date: "Reading completed: April 9, 2026 at 11:15 AM"
+          },
+          {
+            text: "Such a cozy experience! The presentation was beautiful and the insights felt like advice from a very wise friend.",
+            author: "Sofia T., Toronto",
+            date: "Reading completed: April 7, 2026 at 4:45 PM"
+          },
+          {
+            text: "I loved the clarity! Everything was laid out so neatly, and the feline guidance was exactly the touch I needed right now.",
+            author: "Wei C., Singapore",
+            date: "Reading completed: April 5, 2026 at 8:20 PM"
+          }
+        ];
+
+        let currentReviewIndex = 0;
+        const reviewDisplay = document.getElementById("reviewDisplay");
+        const reviewTextDisplay = document.getElementById("reviewText");
+        const reviewAuthorDisplay = document.getElementById("reviewAuthor");
+        const reviewDateDisplay = document.getElementById("reviewDate");
+
+        function rotateReviews() {
+          if (!reviewDisplay) return;
+          reviewDisplay.style.opacity = 0;
+          setTimeout(() => {
+            currentReviewIndex = (currentReviewIndex + 1) % reviewsData.length;
+            const review = reviewsData[currentReviewIndex];
+            reviewTextDisplay.textContent = `"${review.text}"`;
+            reviewAuthorDisplay.textContent = `— ${review.author}`;
+            reviewDateDisplay.textContent = review.date;
+            reviewDisplay.style.opacity = 1;
+          }, 400);
+        }
+
+        setInterval(rotateReviews, 6000);
       });
     </script>
   </body>
