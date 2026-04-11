@@ -29,6 +29,7 @@
         min-height: 100vh;
         font-family: "Manrope", sans-serif;
         color: var(--ink);
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23a34c42' d='M16 20c-2 0-4-1.5-4-4 0-1 .5-2 1-2.5.5-.5 1.5-1 3-1s2.5.5 3 1c.5.5 1 1.5 1 2.5 0 2.5-2 4-4 4zm-7-6c-1.5 0-2.5-.5-3-1-.5-.5-1-1-1-2 0-1.5 1-3 2.5-3 1 0 2 .5 2.5 1 .5.5 1 1.5 1 2.5 0 1-.5 2-1 2.5-.5 0-1.5 0-2 0zm14 0c-.5 0-1.5 0-2 0-.5-.5-1-1.5-1-2.5 0-1 .5-2 1-2.5.5-.5 1.5-1 2.5-1 1.5 0 2.5 1.5 2.5 3 0 1-.5 1.5-1 2-.5.5-1.5 1-3 1zm-10 8c-1.5.5-2.5 1-3 2-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2zm6 0c-1.5.5-2.5 1.5-3 2.5-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2z'/%3E%3C/svg%3E") 16 16, auto;
         background:
           url('kittylogo.png') center/120px repeat,
           radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
@@ -148,15 +149,15 @@
   </head>
   <body>
     <div class="card">
-      <h1>YVLOCAT</h1>
-      <p class="muted">PDF reading sent by email. Payment link will be sent manually from yvlostartarot@gmail.com.</p>
+      <h1>🐱 YVLOCAT 🐱</h1>
+      <p class="muted">Your mystical kitty reading arrives by email! Payment link sent manually from yvlostartarot@gmail.com ✨🐾</p>
 
       <div id="bookingSummary" class="summary"></div>
 
-      <button id="reserveButton" type="button">Reserve Reading</button>
+      <button id="reserveButton" type="button">🐾 Claim Your Cosmic Spot!</button>
 
       <form id="bookingForm" class="hidden">
-        <h2 style="margin-top: 24px;">Booking Form</h2>
+        <h2 style="margin-top: 24px;">🌙 Cosmic Kitty Booking Form</h2>
 
         <div class="grid">
           <label>
@@ -227,7 +228,7 @@
         </div>
       </form>
 
-      <div id="successMessage" class="success hidden">Booking received. Payment link will be sent manually.</div>
+      <div id="successMessage" class="success hidden">✨ Meow-gical! Booking received! Payment link coming soon to your inbox! 🐱</div>
       <div id="errorMessage" class="error hidden"></div>
     </div>
 
@@ -298,7 +299,7 @@
         fields.question.value = booking.question || "";
         fields.spread.value = booking.spread || "";
         fields.depth.value = booking.depth || "";
-        fields.addons.value = booking.addons.length ? booking.addons.join(", ") : "None";
+        fields.addons.value = booking.addons.length ? booking.addons.join(", ") : "No extra treats";
         fields.currency.value = currency;
         fields.total_price.value = formatMoney(localizedTotal, currency);
       }
@@ -308,12 +309,12 @@
         const localizedTotal = getLocalizedTotal(booking.total_price, currency);
 
         bookingSummary.innerHTML = `
-          <strong>${BRAND_NAME} reading summary</strong><br />
-          Question: ${booking.question}<br />
-          Spread: ${booking.spread}<br />
-          Depth: ${booking.depth}<br />
-          Add-ons: ${booking.addons.length ? booking.addons.join(", ") : "None"}<br />
-          Total: ${formatMoney(localizedTotal, currency)} ${currency}
+          <strong>🐱 ${BRAND_NAME} Cosmic Reading Summary 🐱</strong><br />
+          ✨ Question: ${booking.question}<br />
+          🎴 Spread: ${booking.spread}<br />
+          🌙 Depth: ${booking.depth}<br />
+          🎁 Treats: ${booking.addons.length ? booking.addons.join(", ") : "Just the basics, no extra treats"}<br />
+          💰 Total Treats: ${formatMoney(localizedTotal, currency)} ${currency}
         `;
       }
 
@@ -381,7 +382,7 @@
           fields.country.value = "";
           renderBookingSummary(existingBooking);
         } catch (error) {
-          errorMessage.textContent = error.message || "Booking failed.";
+          errorMessage.textContent = error.message || "😿 Oh no! Something went wrong with your cosmic booking. Try again, kitty!";
           errorMessage.classList.remove("hidden");
         }
       });

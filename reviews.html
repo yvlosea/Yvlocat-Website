@@ -29,11 +29,12 @@
         min-height: 100vh;
         font-family: "Manrope", sans-serif;
         color: var(--ink);
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23a34c42' d='M16 20c-2 0-4-1.5-4-4 0-1 .5-2 1-2.5.5-.5 1.5-1 3-1s2.5.5 3 1c.5.5 1 1.5 1 2.5 0 2.5-2 4-4 4zm-7-6c-1.5 0-2.5-.5-3-1-.5-.5-1-1-1-2 0-1.5 1-3 2.5-3 1 0 2 .5 2.5 1 .5.5 1 1.5 1 2.5 0 1-.5 2-1 2.5-.5 0-1.5 0-2 0zm14 0c-.5 0-1.5 0-2 0-.5-.5-1-1.5-1-2.5 0-1 .5-2 1-2.5.5-.5 1.5-1 2.5-1 1.5 0 2.5 1.5 2.5 3 0 1-.5 1.5-1 2-.5.5-1.5 1-3 1zm-10 8c-1.5.5-2.5 1-3 2-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2zm6 0c-1.5.5-2.5 1.5-3 2.5-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2z'/%3E%3C/svg%3E") 16 16, auto;
         background:
           url('kittylogo.png') center/180px repeat,
           radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
           radial-gradient(circle at 80% 10%, rgba(163, 76, 66, 0.14), transparent 22%),
-          linear-gradient(180deg, #f6f2eb 0%, var(--bg) 38%, #f0e7dc 100%);
+          linear-gradient(180deg, #f6f2eb 0%, var(--bg)  38%, #f0e7dc 100%);
       }
       
       body::before {
@@ -205,10 +206,10 @@
     <div class="card">
       <a href="index.html" class="nav-back">&larr; Back to YVLOCAT</a>
       
-      <h1>Client Reviews</h1>
-      <p class="muted">Share your reading experience with others. Rate your session out of 5 cats!</p>
+      <h1>🐱 Kitty Reviews 🐱</h1>
+      <p class="muted">Share your mystical reading experience! Rate with whiskers (cats) from 1-5! ✨🐾</p>
 
-      <div id="successMessage" class="success hidden">Thank you! Your magical review has been received.</div>
+      <div id="successMessage" class="success hidden">✨ Purr-fect! Your magical review has been received! Meow! 🐱</div>
       <div id="errorMessage" class="error hidden"></div>
 
       <form id="reviewForm" style="margin-top: 24px;">
@@ -234,15 +235,15 @@
         </label>
 
         <label>
-          Your Experience
-          <textarea id="reviewText" name="review" placeholder="How was your tarot reading with Yvlocat?" required></textarea>
+          Your Cosmic Experience
+          <textarea id="reviewText" name="review" placeholder="How was your whisker wisdom reading with Yvlocat? Did the cosmic kitty guide you well? 🐱✨" required></textarea>
         </label>
 
-        <button type="submit" style="margin-top: 24px;">Submit Review</button>
+        <button type="submit" style="margin-top: 24px;">🐾 Submit Your Purr-view!</button>
       </form>
 
       <div class="review-list" id="reviewList">
-        <div class="muted" id="loadingReviews">Loading magical reviews...</div>
+        <div class="muted" id="loadingReviews">🐱 Gathering cosmic kitty reviews...</div>
       </div>
     </div>
 
@@ -271,7 +272,7 @@
           if (loader) loader.remove();
           
           if (error || !data || data.length === 0) {
-            reviewList.innerHTML = `<div class="muted">Be the first to share your magical experience!</div>`;
+            reviewList.innerHTML = `<div class="muted">🐾 Be the first kitty to share your magical experience!</div>`;
             return;
           }
           
@@ -289,7 +290,7 @@
         } catch (e) {
           const loader = document.getElementById("loadingReviews");
           if (loader) loader.remove();
-          reviewList.innerHTML = `<div class="muted">Be the first to share your magical experience!</div>`;
+          reviewList.innerHTML = `<div class="muted">🐾 Be the first kitty to share your magical experience!</div>`;
         }
       }
       

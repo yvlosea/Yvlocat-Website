@@ -35,6 +35,10 @@
         --radius-md: 18px;
         --radius-sm: 14px;
         --transition: 180ms ease;
+        --mystic-purple: #7b68ee;
+        --mystic-pink: #ffb6c1;
+        --moon-silver: #c0c0c0;
+        --star-gold: #ffd700;
       }
 
       * {
@@ -50,6 +54,7 @@
         min-height: 100vh;
         font-family: "Manrope", sans-serif;
         color: var(--ink);
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23a34c42' d='M16 20c-2 0-4-1.5-4-4 0-1 .5-2 1-2.5.5-.5 1.5-1 3-1s2.5.5 3 1c.5.5 1 1.5 1 2.5 0 2.5-2 4-4 4zm-7-6c-1.5 0-2.5-.5-3-1-.5-.5-1-1-1-2 0-1.5 1-3 2.5-3 1 0 2 .5 2.5 1 .5.5 1 1.5 1 2.5 0 1-.5 2-1 2.5-.5 0-1.5 0-2 0zm14 0c-.5 0-1.5 0-2 0-.5-.5-1-1.5-1-2.5 0-1 .5-2 1-2.5.5-.5 1.5-1 2.5-1 1.5 0 2.5 1.5 2.5 3 0 1-.5 1.5-1 2-.5.5-1.5 1-3 1zm-10 8c-1.5.5-2.5 1-3 2-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2zm6 0c-1.5.5-2.5 1.5-3 2.5-.5 1-.5 2 0 3 .5 1 1.5 1.5 3 1.5 1.5 0 2.5-.5 3-1.5.5-1 .5-2 0-3-.5-1-1.5-1.5-3-2z'/%3E%3C/svg%3E") 16 16, auto;
         background:
           radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
           radial-gradient(circle at 80% 10%, rgba(163, 76, 66, 0.14), transparent 22%),
@@ -1033,6 +1038,108 @@
         .modal-shell.is-open .modal-panel { transform: translateY(0); }
       }
 
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-8px) rotate(2deg); }
+      }
+
+      @keyframes sparkle {
+        0%, 100% { opacity: 0; transform: scale(0); }
+        50% { opacity: 1; transform: scale(1); }
+      }
+
+      @keyframes paw-wiggle {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+      }
+
+      @keyframes mystic-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(214, 171, 109, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(214, 171, 109, 0.6), 0 0 60px rgba(123, 104, 238, 0.2); }
+      }
+
+      @keyframes tail-swish {
+        0%, 100% { transform: rotate(-5deg); }
+        25% { transform: rotate(5deg); }
+        50% { transform: rotate(-3deg); }
+        75% { transform: rotate(3deg); }
+      }
+
+      .floating-paw {
+        position: fixed;
+        font-size: 1.5rem;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 0;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--star-gold);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--star-gold);
+        animation: sparkle 2s ease-in-out infinite;
+      }
+
+      .primary-button:hover {
+        animation: mystic-glow 2s ease-in-out infinite;
+        transform: translateY(-2px) scale(1.02);
+      }
+
+      .hero-card img {
+        animation: paw-wiggle 3s ease-in-out infinite;
+      }
+
+      .brand-mark:hover img {
+        animation: tail-swish 0.5s ease-in-out 3;
+      }
+
+      .option:hover, .addon:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 20px 40px rgba(163, 76, 66, 0.15);
+      }
+
+      .splash-logo {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .section-card {
+        position: relative;
+        overflow: visible;
+      }
+
+      .section-card::before {
+        content: "✨";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 1.2rem;
+        opacity: 0.6;
+        animation: sparkle 3s ease-in-out infinite;
+      }
+
+      .cat-emoji-bounce {
+        display: inline-block;
+        animation: paw-wiggle 2s ease-in-out infinite;
+      }
+
+      .mystical-border {
+        position: relative;
+      }
+
+      .mystical-border::after {
+        content: "🐾";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1rem;
+        opacity: 0.5;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1045,6 +1152,11 @@
     </style>
   </head>
   <body>
+    <div class="floating-paw" style="top: 10%; left: 5%;">🐾</div>
+    <div class="floating-paw" style="top: 25%; right: 8%; animation-delay: 1s;">🐾</div>
+    <div class="floating-paw" style="top: 50%; left: 3%; animation-delay: 2s;">🐾</div>
+    <div class="floating-paw" style="top: 70%; right: 5%; animation-delay: 0.5s;">🐾</div>
+    <div class="floating-paw" style="top: 85%; left: 10%; animation-delay: 1.5s;">🐾</div>
     <div class="splash-screen" id="splashScreen">
       <img src="kittylogo.png" class="splash-logo" alt="Yvlocat logo" />
     </div>
@@ -1056,11 +1168,11 @@
       <nav class="site-nav" aria-label="Primary">
         <div class="brand-lockup">
           <div class="brand-mark" aria-hidden="true">
-            <img src="roundedkittylogo.png" alt="Cat Logo">
+            <img src="Roundedkittylogo.jpeg" alt="Cat Logo">
           </div>
           <div class="brand-text">
             <strong>YVLO<span style="color:var(--accent);">CAT</span></strong>
-            <span>Tarot readings with clarity, warmth, and structure</span>
+            <span>🐱 Purr-fectly magical tarot readings with whisker wisdom</span>
           </div>
         </div>
         <div class="site-links">
@@ -1076,36 +1188,36 @@
       <section class="hero">
         <div class="hero-grid">
           <div>
-            <div class="eyebrow">Tarot & Intuitive Feline Guidance</div>
+            <div class="eyebrow">🌙 Tarot & Whisker Wisdom ✨</div>
             <h1>YVLO<span style="color:var(--accent);">CAT</span></h1>
             <p class="hero-copy">
-              Welcome to my cozy sanctuary. Find clarity, warmth, and structure through feline-guided tarot readings. Choose your spread and depth to see exactly how much your reading will be before we begin.
+              Welcome to my cozy cat cafe of cosmic wisdom! 🐾 Let this mystical feline guide you through the cards with purrs, paws, and a sprinkle of stardust. Pick your perfect spread and see your reading price before you even say "meow!"
             </p>
             <div class="hero-actions">
-              <a class="primary-button" href="#pricing">Build Your Reading</a>
-              <a class="secondary-button" href="#experience">See How It Works</a>
+              <a class="primary-button" href="#pricing">🐾 Craft Your Purr-fect Reading</a>
+              <a class="secondary-button" href="#experience">🌟 See The Magic</a>
             </div>
             <button class="ghost-button region-switch" id="changeRegionButton" type="button">Change Region Pricing</button>
             <div class="hero-points" style="margin-top: 22px;">
               <div class="point-row">
                 <span class="point-number">01</span>
                 <div>
-                  <strong>Gentle Beginnings</strong>
-                  <div class="meta-copy">Quick readings start at $6 for simple, fast clarity and a gentle introduction.</div>
+                  <strong>🐾 Gentle Paw-swipes</strong>
+                  <div class="meta-copy">Quick whisker-twitch readings start at $6 for instant kitty clarity!</div>
                 </div>
               </div>
               <div class="point-row">
                 <span class="point-number">02</span>
                 <div>
-                  <strong>Tailored Insight</strong>
-                  <div class="meta-copy">Add exactly as much detail or clarification as you need for your situation.</div>
+                  <strong>🎭 Tail-ored Insight</strong>
+                  <div class="meta-copy">Add extra treats (I mean, details!) to make your reading as fluffy as you need!</div>
                 </div>
               </div>
               <div class="point-row">
                 <span class="point-number">03</span>
                 <div>
-                  <strong>Caring Delivery</strong>
-                  <div class="meta-copy">Thoughtful readings delivered with warmth, empathy, and intuitive purr-spective.</div>
+                  <strong>💖 Purr-sonal Care</strong>
+                  <div class="meta-copy">Thoughtful readings delivered with head-butts of love, warm purrs, and cozy kitty empathy!</div>
                 </div>
               </div>
             </div>
@@ -1113,10 +1225,10 @@
 
           <aside class="hero-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
             <img src="kittylogo.png" alt="Yvlocat logo" style="width: 220px; height: 220px; border-radius: 40px; box-shadow: 0 0 40px rgba(214,171,109,0.25); margin-bottom: 24px;">
-            <p class="mini-label">Your Reading Space</p>
-            <h2>Cozy spiritual guidance with clear pricing.</h2>
+            <p class="mini-label">🐱 Your Cozy Cat Corner</p>
+            <h2>Whisker Wisdom & Cosmic Purrs</h2>
             <p class="body-copy">
-              Step into my virtual parlor. I believe in emotional clarity and transparent pricing, so you always know what to expect and can focus on the cards.
+              Step into my magical cat cafe! I believe in clear vibes, honest treats (I mean, pricing!), and cozy guidance. No hidden catnip fees—just pure mystical goodness! ✨🐾
             </p>
           </aside>
         </div>
@@ -1127,9 +1239,9 @@
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Craft Your Reading</h2>
+                <h2>🎴 Craft Your Purr-fect Reading</h2>
                 <p class="section-copy">
-                  Personalize your reading experience. Keep an eye on the budget tool if you have a specific price in mind.
+                  Customize your mystical experience like choosing the perfect sunny spot! Keep an eye on the budget treat jar if you have a specific price in mind. 🐱✨
                 </p>
               </div>
               <div class="badge" id="pricingModeBadge">USD pricing</div>
@@ -1173,14 +1285,14 @@
               placeholder="Example: What energy surrounds my love life right now, and what should I understand before moving forward?"
               aria-label="Reading question"
             ></textarea>
-            <p class="detail-note">A direct question is optional, but it makes the reading feel more personal and complete.</p>
+            <p class="detail-note">🐾 A direct question is optional, but it helps this mystical kitty tune into your vibes! (Treats accepted but not required!)</p>
           </article>
 
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Choose your spread</h2>
-                <p class="section-copy">The number of cards determines how wide we look at your situation.</p>
+                <h2>🐱 Choose Your Spread</h2>
+                <p class="section-copy">More cards = more kitty paw-sibilities to explore your cosmic situation!</p>
               </div>
               <div class="badge">Core pricing</div>
             </div>
@@ -1189,46 +1301,46 @@
               <button class="option" type="button" data-group="cards" data-value="3 Cards" data-usd="6" data-inr="100">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Quick clarity</div>
+                    <div class="mini-label">🐾 Quick Purr</div>
                     <h3>3 Cards</h3>
                   </div>
                   <span class="option-price" data-price-label data-usd="6" data-inr="100">$6</span>
                 </div>
-                <p class="body-copy">Short interpretation with fast insight. A low-friction first reading for curious new clients.</p>
+                <p class="body-copy">A speedy whisker-twitch reading for the curious cat! Perfect for first-timers wanting a quick cosmic peek.</p>
               </button>
 
               <button class="option" type="button" data-group="cards" data-value="5 Cards" data-usd="12" data-inr="200">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Balanced insight</div>
+                    <div class="mini-label">🌟 Purr-fect Balance</div>
                     <h3>5 Cards</h3>
                   </div>
                   <span class="option-price" data-price-label data-usd="12" data-inr="200">$12</span>
                 </div>
-                <p class="body-copy">Clear emotional and situational understanding with room for nuance.</p>
-                <span class="recommended">Recommended</span>
+                <p class="body-copy">The cat's meow of readings! Balanced vibes for those who want depth without the catnip hangover.</p>
+                <span class="recommended">⭐ Most Paw-pular</span>
               </button>
 
               <button class="option" type="button" data-group="cards" data-value="7 Cards" data-usd="18" data-inr="400">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Deep insight</div>
+                    <div class="mini-label">🔮 Deep Cat Nap Visions</div>
                     <h3>7 Cards</h3>
                   </div>
                   <span class="option-price" data-price-label data-usd="18" data-inr="400">$18</span>
                 </div>
-                <p class="body-copy">Detailed pattern explanation for clients who want more clarity and emotional context.</p>
+                <p class="body-copy">Like dreams during a long sunbeam nap—rich with mystical patterns and cosmic whispers!</p>
               </button>
 
               <button class="option" type="button" data-group="cards" data-value="10 Cards" data-usd="25" data-inr="700">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Full reading</div>
+                    <div class="mini-label">✨ Full Moon Mystical</div>
                     <h3>10 Cards</h3>
                   </div>
                   <span class="option-price" data-price-label data-usd="25" data-inr="700">$25</span>
                 </div>
-                <p class="body-copy">Comprehensive interpretation for complex situations that need a fuller map.</p>
+                <p class="body-copy">The ultimate full-moon cosmic journey! Every whisker twitch of your situation revealed in mystical detail! 🌙✨</p>
               </button>
             </div>
           </article>
@@ -1236,45 +1348,45 @@
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Choose your depth</h2>
-                <p class="section-copy">Decide how detailed you'd like the interpretation to be.</p>
+                <h2>🌙 Choose Your Depth</h2>
+                <p class="section-copy">How deep into the cosmic catnip do you want to go?</p>
               </div>
-              <div class="badge">Upsell layer</div>
+              <div class="badge">Treat Tiers</div>
             </div>
 
             <div class="options-grid depths" id="depthGroup">
               <button class="option" type="button" data-group="depth" data-value="Basic" data-usd="0" data-inr="0">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Simple interpretation</div>
+                    <div class="mini-label">😺 Simple Purr</div>
                     <h3>Basic</h3>
                   </div>
                   <span class="option-price" data-price-label data-price-prefix="+" data-usd="0" data-inr="0">+$0</span>
                 </div>
-                <p class="body-copy">A concise written reading with a direct answer and clean interpretation.</p>
+                <p class="body-copy">A clean, direct answer like a quick meow—straight to the point with kitty clarity!</p>
               </button>
 
               <button class="option" type="button" data-group="depth" data-value="Detailed" data-usd="5" data-inr="150">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Pattern analysis</div>
+                    <div class="mini-label">🐈 Detailed Purr-spective</div>
                     <h3>Detailed</h3>
                   </div>
                   <span class="option-price" data-price-label data-price-prefix="+" data-usd="5" data-inr="150">+$5</span>
                 </div>
-                <p class="body-copy">Stronger explanation with emotional and situational pattern analysis.</p>
-                <span class="recommended">Recommended</span>
+                <p class="body-copy">Like watching a cat analyze a new toy—deep patterns, emotions, and cosmic situations revealed!</p>
+                <span class="recommended">⭐ Kitty Recommends</span>
               </button>
 
               <button class="option" type="button" data-group="depth" data-value="Very Deep" data-usd="12" data-inr="350">
                 <div class="option-top">
                   <div>
-                    <div class="mini-label">Structured interpretation</div>
+                    <div class="mini-label">🐱‍👤 Ultimate Cat Wisdom</div>
                     <h3>Very Deep</h3>
                   </div>
                   <span class="option-price" data-price-label data-price-prefix="+" data-usd="12" data-inr="350">+$12</span>
                 </div>
-                <p class="body-copy">Full structured interpretation for clients who want maximum depth and layered insight.</p>
+                <p class="body-copy">Maximum mystical depth! Like nine lives of layered insight packed into one magical reading! 🔮✨</p>
               </button>
             </div>
           </article>
@@ -1282,10 +1394,10 @@
           <article class="section-card">
             <div class="section-head">
               <div>
-                <h2>Add focused extras</h2>
-                <p class="section-copy">Enhance your reading with specific insights like timelines or practical advice.</p>
+                <h2>🎁 Add Extra Treats</h2>
+                <p class="section-copy">Sprinkle some extra catnip on your reading! Special insights for the curious kitty.</p>
               </div>
-              <div class="badge">Optional add-ons</div>
+              <div class="badge">Bonus Treats</div>
             </div>
 
             <div class="addons-grid" id="addonsGroup">
@@ -1293,48 +1405,48 @@
                 <input type="checkbox" value="Clarification Card" />
                 <div class="addon-top">
                   <div>
-                    <div class="mini-label">Extra confirmation</div>
+                    <div class="mini-label">🔍 Extra Sniff</div>
                     <h3>Clarification Card</h3>
                   </div>
                   <span class="addon-price" data-price-label data-price-prefix="+" data-usd="3" data-inr="50">+$3</span>
                 </div>
-                <p class="body-copy">An extra card to confirm the strongest message or clear up uncertainty.</p>
+                <p class="body-copy">One more card to swat at the confusion! Like a curious kitty investigating that mysterious sound.</p>
               </label>
 
               <label class="addon" data-addon="Future Timeline" data-usd="5" data-inr="100">
                 <input type="checkbox" value="Future Timeline" />
                 <div class="addon-top">
                   <div>
-                    <div class="mini-label">Direction of events</div>
+                    <div class="mini-label">🌙 Future Path</div>
                     <h3>Future Timeline</h3>
                   </div>
                   <span class="addon-price" data-price-label data-price-prefix="+" data-usd="5" data-inr="100">+$5</span>
                 </div>
-                <p class="body-copy">Adds a possible progression of events so the client can see where things may be heading.</p>
+                <p class="body-copy">See where your yarn ball of fate is rolling! A cosmic timeline of upcoming adventures.</p>
               </label>
 
               <label class="addon" data-addon="Advice Section" data-usd="4" data-inr="80">
                 <input type="checkbox" value="Advice Section" />
                 <div class="addon-top">
                   <div>
-                    <div class="mini-label">Practical guidance</div>
+                    <div class="mini-label">💫 Wise Whisker Tips</div>
                     <h3>Advice Section</h3>
                   </div>
                   <span class="addon-price" data-price-label data-price-prefix="+" data-usd="4" data-inr="80">+$4</span>
                 </div>
-                <p class="body-copy">Adds grounded, practical perspective so the reading feels more actionable.</p>
+                <p class="body-copy">Practical kitty wisdom you can actually use! Like a smart cat finding the best sunny spot.</p>
               </label>
 
               <label class="addon" data-addon="Priority Delivery" data-usd="6" data-inr="100">
                 <input type="checkbox" value="Priority Delivery" />
                 <div class="addon-top">
                   <div>
-                    <div class="mini-label">Faster turnaround</div>
+                    <div class="mini-label">⚡ Zoomies Mode</div>
                     <h3>Priority Delivery</h3>
                   </div>
                   <span class="addon-price" data-price-label data-price-prefix="+" data-usd="6" data-inr="100">+$6</span>
                 </div>
-                <p class="body-copy">Moves the reading up in the queue for clients who want a quicker response window.</p>
+                <p class="body-copy">Like a cat with the zoomies! Your reading gets fast-tracked to the front of the kitty queue!</p>
               </label>
             </div>
           </article>
@@ -1343,20 +1455,20 @@
         <aside class="summary-card" id="book">
           <div class="section-head">
             <div>
-              <h2>Your Quote</h2>
-              <p class="section-copy">Review your selected options and total quote before booking.</p>
+              <h2>🐾 Your Purr-sonal Quote</h2>
+              <p class="section-copy">Review your cosmic kitty package before claiming your spot!</p>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
-              <div class="badge" id="budgetState">No budget set</div>
-              <div class="badge" style="background: rgba(163, 76, 66, 0.11); color: var(--accent-deep);">⏳ Only 3 spots left this week</div>
+              <div class="badge" id="budgetState">No treats budgeted</div>
+              <div class="badge" style="background: rgba(163, 76, 66, 0.11); color: var(--accent-deep);">⏳ Only 3 sunny spots left this week!</div>
             </div>
           </div>
 
           <div class="summary-price" id="totalPrice">$17</div>
-          <p class="summary-subtotal" id="summarySubtotal">Base + depth + add-ons before booking fee.</p>
+          <p class="summary-subtotal" id="summarySubtotal">Base + depth + treats before booking fee 🐱</p>
 
           <div class="summary-message" id="personalMessage">
-            A cozy, balanced YVLOCAT reading full of intuitive guidance.
+            A magical, cozy YVLOCAT reading full of whisker wisdom and purrs! ✨
           </div>
 
           <div class="selection-list">
@@ -1369,8 +1481,8 @@
           </div>
 
           <div class="coupon-panel">
-            <strong>Discount code</strong>
-            <p class="detail-note">Have a magical promo code? Enter it here to claim your special discount.</p>
+            <strong>🎟️ Secret Treat Code</strong>
+            <p class="detail-note">Got a magical kitty promo code? Enter it here for special treats and discounts! 🐱</p>
             <div class="coupon-row">
               <input id="couponInput" class="coupon-input" type="text" placeholder="Have a code? Enter it here." aria-label="Coupon code" />
               <button class="secondary-button" type="button" id="applyCouponButton">Apply</button>
@@ -1378,12 +1490,12 @@
             <div class="coupon-feedback" id="couponFeedback" aria-live="polite"></div>
           </div>
 
-          <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">Reserve This Reading</button>
+          <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">🐾 Claim Your Cosmic Spot!</button>
           <div style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft); font-weight: 600;">
-            Currently accepting readings · Avg. 48hr delivery
+            Currently accepting readings · Avg. 48hr delivery (or sooner with Zoomies Mode!)
           </div>
           <p class="booking-note">
-            The booking preview shows the full reading price, the coupon discount if used, and the regional booking fee collected upfront.
+            The preview shows your full reading price, any treat-code discounts, and the small booking fee (like a deposit on a cozy cat bed!).
           </p>
         </aside>
       </section>
@@ -1394,24 +1506,24 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>What to expect</h2>
-              <p class="section-copy">My goal is to make tarot accessible, clear, and perfectly suited to your needs.</p>
+              <h2>🌟 What to Expect</h2>
+              <p class="section-copy">Making tarot as cozy as a warm lap and as magical as a cat's midnight zoomies!</p>
             </div>
-            <div class="badge">Approach</div>
+            <div class="badge">Kitty Promise</div>
           </div>
 
           <div class="info-grid">
             <div class="info-card">
-              <h3>Clear pricing</h3>
-              <p class="body-copy">Transparent options mean you know exactly what you are getting and how much it will cost.</p>
+              <h3>🐾 Clear Treat Prices</h3>
+              <p class="body-copy">No hidden catnip costs! You know exactly what cosmic goodies you're getting and how many treats it costs.</p>
             </div>
             <div class="info-card">
-              <h3>Thoughtful delivery</h3>
-              <p class="body-copy">Every reading is crafted with care, emotional intelligence, and genuine intent to help.</p>
+              <h3>💖 Purr-fect Delivery</h3>
+              <p class="body-copy">Every reading is crafted with whisker-care, emotional purr-telligence, and genuine kitty intent to help!</p>
             </div>
             <div class="info-card">
-              <h3>Cozy atmosphere</h3>
-              <p class="body-copy">I want you to feel as relaxed as a cat sleeping in a sunbeam while we explore your questions.</p>
+              <h3>☀️ Cozy Vibes</h3>
+              <p class="body-copy">Feel as relaxed as a cat in a sunbeam while we paw through your cosmic questions together!</p>
             </div>
           </div>
         </article>
@@ -1419,24 +1531,24 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>How it works</h2>
-              <p class="section-copy">Booking a reading is simple, transparent, and completely tailored to you.</p>
+              <h2>🐱 How The Magic Works</h2>
+              <p class="section-copy">Three easy steps to your cosmic kitty reading! Simple, transparent, and totally tail-ored to you.</p>
             </div>
-            <div class="badge">Journey</div>
+            <div class="badge">Paw Steps</div>
           </div>
 
           <div class="process-grid">
             <div class="process-card">
-              <h3>1. Share your intention</h3>
-              <p class="body-copy">Submit a direct question or keep it open-ended if you want general spiritual guidance.</p>
+              <h3>1. 🎯 Share Your Intention</h3>
+              <p class="body-copy">Tell this mystical kitty your question, or keep it open like a curious cat exploring new territory!</p>
             </div>
             <div class="process-card">
-              <h3>2. Customize your reading</h3>
-              <p class="body-copy">Decide whether you want a clean answer, stronger analysis, or a fully layered reading.</p>
+              <h3>2. 🎨 Customize Your Experience</h3>
+              <p class="body-copy">Pick your purr-fect depth! From quick meows to full mystical cat-naps of cosmic wisdom!</p>
             </div>
             <div class="process-card">
-              <h3>3. Secure your spot</h3>
-              <p class="body-copy">A small booking fee secures your place in my queue so I can dedicate focused time for you.</p>
+              <h3>3. 🐾 Claim Your Spot</h3>
+              <p class="body-copy">A small booking fee (like reserving the best sunny window seat!) secures your place in my mystical kitty queue!</p>
             </div>
           </div>
         </article>
@@ -1446,15 +1558,15 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>Questions you can ask</h2>
-              <p class="section-copy">Not sure what to ask? Here are some gentle, focused questions that work beautifully with tarot.</p>
+              <h2>🔮 Questions for the Cosmic Kitty</h2>
+              <p class="section-copy">Not sure what to ask? Here are some purr-fectly good questions this mystical feline can help with!</p>
             </div>
-            <div class="badge">Inspiration</div>
+            <div class="badge">Cat Inspiration</div>
           </div>
 
           <div class="info-grid">
             <div class="info-card">
-              <h3>Love & Relationships</h3>
+              <h3>💕 Love & Cat-nips</h3>
               <ul class="list-copy">
                 <li>What energy surrounds my love life right now?</li>
                 <li>How can I better communicate with my partner?</li>
@@ -1462,7 +1574,7 @@
               </ul>
             </div>
             <div class="info-card">
-              <h3>Career & Path</h3>
+              <h3>🌟 Career & Life Path</h3>
               <ul class="list-copy">
                 <li>What strengths should I lean into right now?</li>
                 <li>Is this the right time to make a career shift?</li>
@@ -1470,7 +1582,7 @@
               </ul>
             </div>
             <div class="info-card">
-              <h3>Personal Growth</h3>
+              <h3>🌱 Purr-sonal Growth</h3>
               <ul class="list-copy">
                 <li>What lesson is the universe trying to teach me?</li>
                 <li>How can I overcome this feeling of being stuck?</li>
@@ -1485,10 +1597,10 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h2>Popular combinations</h2>
-              <p class="section-copy">Here are a few ways clients love to structure their readings for the best insight.</p>
+              <h2>🎴 Popular Kitty Combos</h2>
+              <p class="section-copy">Some favorite treat combinations that fellow cosmic cats have loved!</p>
             </div>
-            <div class="badge">Examples</div>
+            <div class="badge">Favorites</div>
           </div>
 
           <div class="examples-grid">
@@ -1521,10 +1633,10 @@
       </section>
 
       <section class="footer-card">
-        <p class="mini-label" style="color: rgba(255, 248, 242, 0.68);">Ready to begin?</p>
-        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 6px;">Tarot readings that bring clarity, warmth, and a touch of feline magic to your path.</h2>
+        <p class="mini-label" style="color: rgba(255, 248, 242, 0.68);">🐱 Ready to begin your cosmic journey?</p>
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-top: 6px;">Tarot readings with whisker wisdom, warm purrs, and magical feline energy! ✨🐾</h2>
         <p class="body-copy">
-          Book your personalized reading today and let the cards illuminate your next steps with purr-fect clarity.
+          Book your purr-sonalized reading today and let the cards reveal your path with cosmic kitty clarity! Meow! 🌙
         </p>
       </section>
     </main>
@@ -1533,8 +1645,8 @@
       <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
         <div class="modal-head">
           <div>
-            <h2 id="bookingModalTitle">Reserve Your YVLOCAT Reading</h2>
-            <p class="detail-note">Review the bill, see the coupon discount if one is active, and continue with the booking request.</p>
+            <h2 id="bookingModalTitle">🐾 Reserve Your Cosmic Kitty Reading</h2>
+            <p class="detail-note">Review your treat bill, check for secret discounts, and claim your spot in the mystical queue!</p>
           </div>
           <button class="ghost-button" type="button" id="closeBookingModal">Close</button>
         </div>
@@ -1564,15 +1676,15 @@
             </div>
 
             <p class="bill-footer">
-              The booking fee secures the request and filters for serious clients while keeping the first step easy.<br />
-              Final delivery timing and payment details can be confirmed after the booking request is received.
+              The booking fee (like reserving a premium cat bed!) secures your spot in the mystical queue. 🐱<br />
+              Delivery timing and remaining treat payment confirmed after your request is received by this cosmic kitty!
             </p>
           </section>
 
           <aside style="display: grid; gap: 14px;">
             <div class="booking-card">
-              <h3>Booking actions</h3>
-              <p class="detail-note">Download the invoice if you want an offline copy or send the quote directly as an email draft.</p>
+              <h3>📋 Kitty Paperwork</h3>
+              <p class="detail-note">Download your cosmic receipt or send it flying like a paper ball to your email!</p>
               <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                 <button class="secondary-button" type="button" id="downloadImageButton">Download Image</button>
                 <button class="secondary-button" type="button" id="downloadPdfButton">Download PDF</button>
@@ -1580,10 +1692,10 @@
             </div>
 
             <div class="booking-card">
-              <h3>Continue</h3>
-              <p class="detail-note">This button opens a prefilled email so the reading request already includes the selected package details.</p>
+              <h3>🐾 Claim Your Spot!</h3>
+              <p class="detail-note">This magical button sends a prefilled email with all your chosen cosmic treats and package details!</p>
               <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <a class="primary-button" id="sendRequestButton" href="#" style="flex: 1;">Send Booking Request</a>
+                <a class="primary-button" id="sendRequestButton" href="#" style="flex: 1;">Send Booking Request 🐱</a>
                 <button class="ghost-button" type="button" id="paymentDoneButton">Mark as Reserved</button>
               </div>
             </div>
@@ -1596,8 +1708,8 @@
       <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="confirmationModalTitle">
         <div class="modal-head">
           <div>
-            <h2 id="confirmationModalTitle">Reservation Ready</h2>
-            <p class="detail-note">The quote is prepared and the booking details are saved in this session.</p>
+            <h2 id="confirmationModalTitle">🎉 Cosmic Spot Claimed!</h2>
+            <p class="detail-note">Your mystical kitty reading is queued! The cosmic forces are aligning for you!</p>
           </div>
           <button class="ghost-button" type="button" id="closeConfirmationModal">Close</button>
         </div>
@@ -1606,7 +1718,7 @@
           <div class="bill-icons">🐾 ✧ 🐾</div>
           <div class="confirmation-id" id="confirmationBookingId">YV0000</div>
           <p class="detail-note">
-            Your client-facing booking summary is ready. You can download the invoice again or return to the builder to adjust the package.
+            Your purr-sonal booking summary is ready! Download it again or return to craft a different cosmic treat package! 🐾
           </p>
           <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px;">
             <button class="secondary-button" type="button" id="downloadBillAgainButton">Download Bill Again</button>
@@ -1620,20 +1732,20 @@
       <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="regionModalTitle">
         <div class="modal-head">
           <div>
-            <h2 id="regionModalTitle">Choose Your Region</h2>
-            <p class="detail-note">Are you an Indian subcontinent resident or an international resident? Pricing will update across the entire site.</p>
+            <h2 id="regionModalTitle">🌍 Choose Your Territory</h2>
+            <p class="detail-note">Which sunny window spot do you claim? Pricing updates across the entire cosmic cat cafe!</p>
           </div>
         </div>
 
         <div class="region-actions">
           <button class="region-option" type="button" id="subcontinentRegionButton">
-            <strong>Indian subcontinent resident</strong>
-            <span class="detail-note">Use original INR pricing and the original booking fee structure.</span>
+            <strong>🏠 Indian Subcontinent Resident</strong>
+            <span class="detail-note">Original INR treat prices for local cosmic kitties! Same great whisker wisdom.</span>
           </button>
 
           <button class="region-option" type="button" id="internationalRegionButton">
-            <strong>Not an Indian subcontinent resident</strong>
-            <span class="detail-note">Use the international USD pricing designed for global clients.</span>
+            <strong>🌎 International Cosmic Cat</strong>
+            <span class="detail-note">USD pricing for global kitties seeking mystical guidance from afar!</span>
           </button>
         </div>
       </div>
@@ -1964,7 +2076,8 @@
         let bestCardTotal = -1;
 
         cardsButtons.forEach((button) => {
-          const cardPrice = Number(button.dataset[state.region]);
+          const regionKey = state.region === "international" ? "usd" : "inr";
+          const cardPrice = Number(button.dataset[regionKey]);
           const possibleSubtotal = cardPrice + state.depth.price + getAddonsTotal();
           const possibleTotal = possibleSubtotal - calculateDiscount(possibleSubtotal);
           button.classList.toggle("is-under-budget", !!budget && possibleTotal <= budget);
@@ -1985,7 +2098,8 @@
         let bestDepthTotal = -1;
 
         depthButtons.forEach((button) => {
-          const depthPrice = Number(button.dataset[state.region]);
+          const regionKey = state.region === "international" ? "usd" : "inr";
+          const depthPrice = Number(button.dataset[regionKey]);
           const possibleSubtotal = state.cards.price + depthPrice + getAddonsTotal();
           const possibleTotal = possibleSubtotal - calculateDiscount(possibleSubtotal);
           button.classList.toggle("is-under-budget", !!budget && possibleTotal <= budget);
@@ -2006,7 +2120,8 @@
         let bestAddonTotal = -1;
 
         addonCards.forEach((card) => {
-          const addonPrice = Number(card.dataset[state.region]);
+          const regionKey = state.region === "international" ? "usd" : "inr";
+          const addonPrice = Number(card.dataset[regionKey]);
           const input = card.querySelector("input");
           const totalWithoutThisAddon = input.checked ? getSubtotal() - addonPrice : getSubtotal();
           const possibleSubtotal = totalWithoutThisAddon + addonPrice;
@@ -2034,9 +2149,9 @@
         const addonsText = state.addons.length
           ? ` with ${state.addons.map((addon) => addon.label).join(", ")}`
           : "";
-        const questionText = getQuestionDisplay() === DEFAULT_QUESTION ? "a general focus" : getQuestionDisplay();
+        const questionText = getQuestionDisplay() === DEFAULT_QUESTION ? "general cosmic curiosity" : getQuestionDisplay();
 
-        return `${state.cards.label} with ${state.depth.label.toLowerCase()} interpretation${addonsText}. Focused on ${questionText}.`;
+        return `A purr-fect ${state.cards.label} reading with ${state.depth.label.toLowerCase()} whisker wisdom${addonsText}. Focusing on: ${questionText} 🐱✨`;
       }
 
       function getCurrentSelectionSnapshot(status = "Draft") {
@@ -2283,7 +2398,7 @@
           state.appliedCoupon = null;
           clearCouponFeedback();
           couponFeedback.classList.add("is-error");
-          couponFeedback.textContent = "That code is not available.";
+          couponFeedback.textContent = "🙀 That secret treat code doesn't exist in our cosmic cat database!";
           renderSummary();
           return;
         }
@@ -2292,7 +2407,7 @@
           state.appliedCoupon = null;
           clearCouponFeedback();
           couponFeedback.classList.add("is-error");
-          couponFeedback.textContent = `${coupon.label} requires a subtotal of ${formatPrice(coupon.minimums[state.region])} or more.`;
+          couponFeedback.textContent = `🐱 ${coupon.label} needs a treat total of ${formatPrice(coupon.minimums[state.region])} or more to activate!`;
           renderSummary();
           return;
         }
@@ -2301,7 +2416,7 @@
         couponInput.value = coupon.label;
         clearCouponFeedback();
         couponFeedback.classList.add("is-success");
-        couponFeedback.textContent = `${coupon.label} applied. ${coupon.descriptions[state.region]}`;
+        couponFeedback.textContent = `✨ ${coupon.label} activated! ${coupon.descriptions[state.region]} 🐾 Meow-gical savings!`;
         renderSummary();
       }
 
@@ -2316,7 +2431,8 @@
 
         priceLabels.forEach((label) => {
           const prefix = label.dataset.pricePrefix || "";
-          const amount = Number(label.dataset[state.region]);
+          const regionKey = state.region === "international" ? "usd" : "inr";
+          const amount = Number(label.dataset[regionKey]);
           label.textContent = `${prefix}${formatPrice(amount)}`;
         });
 
@@ -2342,7 +2458,7 @@
           state.appliedCoupon = null;
           clearCouponFeedback();
           couponFeedback.classList.add("is-error");
-          couponFeedback.textContent = "The active coupon no longer applies to this region.";
+          couponFeedback.textContent = "😿 That treat code doesn't work in this territory! Try a different cosmic zone?";
         }
 
         renderRegionPricing();
@@ -2370,11 +2486,11 @@
         personalMessage.textContent = buildPersonalMessage();
 
         if (!budget) {
-          budgetState.textContent = "No budget set";
+          budgetState.textContent = "🐱 No treats budgeted yet";
         } else if (total <= budget) {
-          budgetState.textContent = `${formatDetailedPrice(total)} within budget`;
+          budgetState.textContent = `✨ ${formatDetailedPrice(total)} fits in your treat jar!`;
         } else {
-          budgetState.textContent = `${formatDetailedPrice(total - budget)} over budget`;
+          budgetState.textContent = `🙀 Need ${formatDetailedPrice(total - budget)} more treats!`;
         }
 
         renderSuggestions(budget);
@@ -2383,9 +2499,10 @@
 
         cardsButtons.forEach((button) => {
         button.addEventListener("click", () => {
+          const regionKey = state.region === "international" ? "usd" : "inr";
           state.cards = {
             label: button.dataset.value,
-            price: Number(button.dataset[state.region])
+            price: Number(button.dataset[regionKey])
           };
           setSelected(cardsButtons, state.cards.label);
           renderSummary();
@@ -2394,9 +2511,10 @@
 
         depthButtons.forEach((button) => {
         button.addEventListener("click", () => {
+          const regionKey = state.region === "international" ? "usd" : "inr";
           state.depth = {
             label: button.dataset.value,
-            price: Number(button.dataset[state.region])
+            price: Number(button.dataset[regionKey])
           };
           setSelected(depthButtons, state.depth.label);
           renderSummary();
@@ -2408,10 +2526,13 @@
         input.addEventListener("change", () => {
           state.addons = Array.from(addonCards)
             .filter((item) => item.querySelector("input").checked)
-            .map((item) => ({
-              label: item.dataset.addon,
-              price: Number(item.dataset[state.region])
-            }));
+            .map((item) => {
+              const regionKey = state.region === "international" ? "usd" : "inr";
+              return {
+                label: item.dataset.addon,
+                price: Number(item.dataset[regionKey])
+              };
+            });
 
           addonCards.forEach((item) => {
             item.classList.toggle("is-selected", item.querySelector("input").checked);
@@ -2421,7 +2542,7 @@
             state.appliedCoupon = null;
             clearCouponFeedback();
             couponFeedback.classList.add("is-error");
-            couponFeedback.textContent = "The active coupon no longer applies to this selection.";
+            couponFeedback.textContent = "😿 That treat code expired with these new choices! Try a different combo?";
           }
 
           renderSummary();
