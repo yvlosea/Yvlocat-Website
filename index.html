@@ -1208,6 +1208,133 @@
         display: block;
         margin-bottom: 4px;
       }
+
+      .wise-note {
+        margin: 12px 0 0 0;
+        padding: 10px 14px;
+        background: rgba(163, 76, 66, 0.1);
+        border: 1px solid rgba(163, 76, 66, 0.2);
+        border-radius: 12px;
+        font-size: 0.9rem;
+        color: var(--accent-deep);
+        font-weight: 600;
+      }
+
+      /* Mobile Compact Mode */
+      @media (max-width: 640px) {
+        body {
+          padding: 8px 12px;
+        }
+
+        .page-shell {
+          padding: 0 4px;
+        }
+
+        .site-nav {
+          padding: 10px 12px;
+        }
+
+        .brand-lockup img {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+        }
+
+        .brand-text strong {
+          font-size: 1rem;
+        }
+
+        .brand-text span {
+          display: none;
+        }
+
+        .site-links a {
+          font-size: 0.8rem;
+          padding: 6px 8px;
+        }
+
+        .hero-grid {
+          padding: 12px 8px;
+        }
+
+        .hero-card {
+          padding: 20px 16px;
+        }
+
+        .hero-card img {
+          width: 140px !important;
+          height: 140px !important;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        h2 {
+          font-size: 1.4rem;
+        }
+
+        .section-card {
+          padding: 20px 16px;
+        }
+
+        .section-head {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .option {
+          padding: 14px 12px;
+        }
+
+        .option h3 {
+          font-size: 1rem;
+        }
+
+        .option .body-copy {
+          font-size: 0.85rem;
+        }
+
+        .addon {
+          padding: 12px;
+        }
+
+        .summary-card {
+          padding: 16px;
+        }
+
+        .floating-paw {
+          display: none;
+        }
+
+        .builder-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .process-grid,
+        .info-grid,
+        .examples-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+
+        .coupon-row {
+          flex-direction: column;
+        }
+
+        .input-wrap {
+          padding: 8px 12px;
+        }
+
+        .budget-input {
+          font-size: 1.2rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1301,6 +1428,9 @@
                 <h2>Craft Your Reading</h2>
                 <p class="section-copy">
                   Customize your experience by choosing your spread, depth, and any add-ons. Use the budget field if you have a specific price in mind.
+                </p>
+                <p class="wise-note" id="wiseNote" style="display: none;">
+                  💳 International clients: Payment via Wise (formerly TransferWise)
                 </p>
               </div>
               <div class="badge" id="pricingModeBadge">USD pricing</div>
@@ -1909,6 +2039,30 @@
             international: "15% off readings of $25 or more.",
             subcontinent: "15% off readings of ₹500 or more."
           }
+        },
+        REDDITCAT: {
+          label: "REDDITCAT",
+          type: "percent",
+          values: {
+            international: 50,
+            subcontinent: 0
+          },
+          descriptions: {
+            international: "50% off - special Reddit offer!",
+            subcontinent: "Code not valid for this region."
+          }
+        },
+        DISCORDCAT: {
+          label: "DISCORDCAT",
+          type: "percent",
+          values: {
+            international: 45,
+            subcontinent: 0
+          },
+          descriptions: {
+            international: "45% off - Discord community special!",
+            subcontinent: "Code not valid for this region."
+          }
         }
       };
 
@@ -2508,6 +2662,11 @@
         budgetInput.placeholder = config.budgetPlaceholder;
         selectionBookingFee.textContent = `${formatDetailedPrice(config.bookingFee)} today`;
 
+        // Show/hide Wise note for international clients
+        const wiseNote = document.getElementById("wiseNote");
+        if (wiseNote) {
+          wiseNote.style.display = state.region === "international" ? "block" : "none";
+        }
 
         priceLabels.forEach((label) => {
           const prefix = label.dataset.pricePrefix || "";
