@@ -1367,6 +1367,414 @@
       .touch-active {
         animation: selectPop 0.2s ease;
       }
+
+      /* ========================================== */
+      /* ULTRA COMPACT & CUTE MOBILE MODE           */
+      /* ========================================== */
+
+      @media (max-width: 640px) {
+        /* Ultra compact base */
+        html { font-size: 14px; }
+        body { padding: 4px 8px; }
+        .page-shell { padding: 0 2px 100px; }
+
+        /* Compact nav */
+        .site-nav { 
+          padding: 8px 10px; 
+          margin-bottom: 8px;
+          border-radius: 20px;
+        }
+        .brand-lockup img { width: 28px; height: 28px; border-radius: 6px; }
+        .brand-text strong { font-size: 0.95rem; }
+        .brand-text span { display: none; }
+        .site-links a { 
+          font-size: 0.75rem; 
+          padding: 4px 8px; 
+          border-radius: 12px;
+        }
+
+        /* Compact hero */
+        .hero { padding: 8px 0; }
+        .hero-grid { padding: 8px 4px; gap: 12px; }
+        .hero-card { 
+          padding: 16px 12px; 
+          border-radius: 24px;
+        }
+        .hero-card img { 
+          width: 100px !important; 
+          height: 100px !important; 
+          border-radius: 20px !important;
+          margin-bottom: 12px !important;
+        }
+        h1 { font-size: 1.5rem; line-height: 1.2; }
+        h2 { font-size: 1.2rem; }
+        .eyebrow { font-size: 0.75rem; margin-bottom: 4px; }
+
+        /* Ultra compact sections */
+        .section-card { 
+          padding: 14px 12px; 
+          border-radius: 20px;
+          margin-bottom: 10px;
+        }
+        .section-head { 
+          flex-direction: row; 
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .section-head h2 { font-size: 1.1rem; margin: 0; }
+        .section-copy { font-size: 0.8rem; margin: 4px 0 0 0; }
+        .badge { 
+          font-size: 0.65rem; 
+          padding: 4px 10px; 
+          border-radius: 12px;
+        }
+
+        /* Compact options */
+        .option { 
+          padding: 10px 12px; 
+          border-radius: 16px;
+        }
+        .option-top { margin-bottom: 6px; }
+        .option h3 { font-size: 0.95rem; }
+        .mini-label { font-size: 0.65rem; }
+        .option .body-copy { 
+          font-size: 0.75rem; 
+          line-height: 1.4;
+        }
+        .option-price { font-size: 0.9rem; }
+        .recommended { 
+          font-size: 0.6rem; 
+          padding: 3px 8px; 
+          margin-top: 8px;
+        }
+
+        /* Compact addons */
+        .addon { 
+          padding: 10px; 
+          border-radius: 14px;
+        }
+        .addon h3 { font-size: 0.9rem; }
+        .addon-price { font-size: 0.85rem; }
+
+        /* Compact summary */
+        .summary-card { 
+          padding: 12px; 
+          border-radius: 18px;
+          position: sticky;
+          top: 8px;
+          z-index: 100;
+          backdrop-filter: blur(10px);
+        }
+        .selection-line { 
+          font-size: 0.8rem; 
+          padding: 6px 0;
+        }
+        .selection-line strong { font-size: 0.85rem; }
+
+        /* Compact budget panel */
+        .budget-panel { 
+          padding: 12px; 
+          border-radius: 16px;
+          margin-bottom: 12px;
+        }
+        .input-wrap { padding: 6px 10px; }
+        .budget-input { 
+          font-size: 1.1rem; 
+          min-height: 40px;
+          padding: 8px 8px 8px 28px;
+        }
+
+        /* Compact coupon */
+        .coupon-panel { 
+          padding: 12px; 
+          border-radius: 14px;
+        }
+        .coupon-row { gap: 8px; }
+        .coupon-input { 
+          min-height: 40px; 
+          padding: 8px 10px;
+          font-size: 0.9rem;
+        }
+
+        /* Compact buttons */
+        .primary-button, .secondary-button, .ghost-button {
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 0.9rem;
+          border-radius: 14px;
+        }
+
+        /* Compact info/process cards */
+        .info-card, .process-card {
+          padding: 12px;
+          border-radius: 16px;
+        }
+        .info-card h3, .process-card h3 {
+          font-size: 0.9rem;
+        }
+        .info-card p, .process-card p {
+          font-size: 0.75rem;
+        }
+        .point-number {
+          width: 28px;
+          height: 28px;
+          font-size: 0.75rem;
+        }
+
+        /* Compact examples */
+        .example-card {
+          padding: 12px;
+          border-radius: 14px;
+        }
+        .example-card h3 { font-size: 0.9rem; }
+        .example-total { font-size: 1rem; }
+        .list-copy li { font-size: 0.75rem; }
+
+        /* Compact reviews */
+        .review-item {
+          padding: 12px;
+          border-radius: 12px;
+        }
+        .review-item h4 { font-size: 0.95rem; }
+        .review-stars { font-size: 14px; }
+        .review-text { font-size: 0.8rem; }
+
+        /* Compact footer */
+        .footer-card {
+          padding: 20px 16px;
+          border-radius: 24px;
+        }
+        .footer-card h2 { font-size: 1.3rem; }
+
+        /* Floating elements hidden on mobile */
+        .floating-paw { display: none; }
+        .watermark-bg { opacity: 0.03; }
+
+        /* Grid layouts to single column */
+        .builder-grid,
+        .options-grid.spreads,
+        .options-grid.depths,
+        .addons-grid,
+        .info-grid,
+        .process-grid,
+        .examples-grid {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        /* Stats grid compact */
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        .stat-card {
+          padding: 12px;
+          border-radius: 14px;
+        }
+        .stat-value { font-size: 1.4rem; }
+
+        /* Mobile bottom nav always visible */
+        .mobile-bottom-nav {
+          display: block;
+        }
+
+        /* Hide desktop sticky CTA */
+        .mobile-sticky-cta {
+          display: none;
+        }
+
+        /* Cute floating hearts animation */
+        @keyframes floatHeart {
+          0%, 100% { 
+            transform: translateY(0) scale(1) rotate(0deg); 
+            opacity: 0;
+          }
+          10% { opacity: 0.8; }
+          50% { 
+            transform: translateY(-50vh) scale(1.2) rotate(10deg); 
+            opacity: 0.4;
+          }
+          90% { opacity: 0.2; }
+        }
+
+        .cute-float {
+          position: fixed;
+          font-size: 1.2rem;
+          pointer-events: none;
+          z-index: 0;
+          animation: floatHeart 8s ease-in-out infinite;
+        }
+
+        /* Wiggle animation for selected items */
+        @keyframes cuteWiggle {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-2deg); }
+          75% { transform: rotate(2deg); }
+        }
+
+        .option.is-selected {
+          animation: cuteWiggle 0.4s ease;
+          box-shadow: 0 0 20px rgba(163, 76, 66, 0.3);
+        }
+
+        /* Pulse glow for CTA */
+        @keyframes ctaPulse {
+          0%, 100% { 
+            box-shadow: 0 4px 15px rgba(163, 76, 66, 0.3);
+            transform: scale(1);
+          }
+          50% { 
+            box-shadow: 0 6px 25px rgba(163, 76, 66, 0.5);
+            transform: scale(1.02);
+          }
+        }
+
+        .mob-nav-cta {
+          animation: ctaPulse 2s ease-in-out infinite;
+        }
+
+        /* Bounce on tap */
+        @keyframes bounceTap {
+          0% { transform: scale(1); }
+          50% { transform: scale(0.92); }
+          100% { transform: scale(1); }
+        }
+
+        .bounce-tap {
+          animation: bounceTap 0.25s ease;
+        }
+
+        /* Shimmer effect for loading */
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+
+        .shimmer {
+          background: linear-gradient(90deg, 
+            rgba(255,255,255,0) 0%, 
+            rgba(255,255,255,0.4) 50%, 
+            rgba(255,255,255,0) 100%);
+          background-size: 200% 100%;
+          animation: shimmer 2s infinite;
+        }
+
+        /* Sparkle burst on selection */
+        @keyframes sparkleBurst {
+          0% { 
+            transform: scale(0) rotate(0deg); 
+            opacity: 1; 
+          }
+          100% { 
+            transform: scale(2) rotate(180deg); 
+            opacity: 0; 
+          }
+        }
+
+        .sparkle-burst {
+          position: absolute;
+          font-size: 1.5rem;
+          pointer-events: none;
+          animation: sparkleBurst 0.6s ease-out forwards;
+        }
+
+        /* Compact modal */
+        .modal-panel {
+          border-radius: 24px 24px 0 0;
+          max-height: 90vh;
+        }
+        .bill-card {
+          padding: 16px;
+          border-radius: 16px;
+        }
+        .bill-line { font-size: 0.85rem; }
+        .bill-line.is-total { font-size: 1rem; }
+
+        /* Region selector compact */
+        .region-option {
+          padding: 14px;
+          border-radius: 16px;
+        }
+        .region-option strong {
+          font-size: 0.95rem;
+        }
+        .region-option .detail-note {
+          font-size: 0.75rem;
+        }
+
+        /* Wise note compact */
+        .wise-note {
+          font-size: 0.75rem;
+          padding: 8px 10px;
+          margin-top: 8px;
+        }
+
+        /* Horizontal scroll sections */
+        .horizontal-scroll {
+          display: flex;
+          gap: 10px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          padding: 8px 4px 16px;
+          margin: 0 -4px;
+          scrollbar-width: none;
+        }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+        .horizontal-scroll > * {
+          flex: 0 0 auto;
+          scroll-snap-align: start;
+          min-width: 140px;
+        }
+
+        /* Quick select dots */
+        .quick-dots {
+          display: flex;
+          gap: 6px;
+          margin-top: 8px;
+        }
+        .quick-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(163, 76, 66, 0.2);
+          transition: all 0.3s ease;
+        }
+        .quick-dot.active {
+          background: var(--accent);
+          transform: scale(1.2);
+        }
+
+        /* Tap hint overlay */
+        .tap-hint {
+          position: fixed;
+          bottom: 80px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(43, 27, 29, 0.9);
+          color: white;
+          padding: 10px 20px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          z-index: 800;
+          animation: tapHintPulse 2s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        @keyframes tapHintPulse {
+          0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+          50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -3167,20 +3575,180 @@
         function initSelectionPop() {
           const all = document.querySelectorAll('.option, .addon');
           all.forEach(el => {
-            el.addEventListener('click', () => {
+            el.addEventListener('click', (e) => {
+              // Remove and re-add animation
               el.classList.remove('select-pop');
               void el.offsetWidth;
               el.classList.add('select-pop');
+              el.classList.add('is-selected');
+              setTimeout(() => el.classList.remove('is-selected'), 400);
+
+              // Price pulse animation
               const price = document.getElementById('totalPrice');
               if (price) {
                 price.classList.remove('price-updating');
                 void price.offsetWidth;
                 price.classList.add('price-updating');
               }
+
+              // Create sparkle burst at click position
+              createSparkleBurst(e);
+
+              // Haptic feedback
               if (navigator.vibrate) navigator.vibrate(10);
             });
           });
         }
+
+        function createSparkleBurst(e) {
+          const sparkles = ['✨', '⭐', '💫', '🌟', '♡'];
+          const x = e.clientX || e.touches?.[0]?.clientX || window.innerWidth / 2;
+          const y = e.clientY || e.touches?.[0]?.clientY || window.innerHeight / 2;
+
+          for (let i = 0; i < 5; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle-burst';
+            sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+            sparkle.style.left = x + (Math.random() * 40 - 20) + 'px';
+            sparkle.style.top = y + (Math.random() * 40 - 20) + 'px';
+            sparkle.style.animationDelay = (i * 0.1) + 's';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 600);
+          }
+        }
+
+        function initCuteFloat() {
+          const floats = ['💜', '✨', '🌙', '⭐', '🐾', '🔮', '🌸', '♡', '😺'];
+          const container = document.body;
+
+          setInterval(() => {
+            if (document.hidden) return;
+            const el = document.createElement('div');
+            el.className = 'cute-float';
+            el.textContent = floats[Math.floor(Math.random() * floats.length)];
+            el.style.left = Math.random() * 100 + '%';
+            el.style.bottom = '-30px';
+            el.style.animationDuration = (6 + Math.random() * 6) + 's';
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 12000);
+          }, 3000);
+        }
+
+        function initQuickActions() {
+          // Add quick preset buttons for common combinations
+          const summaryCard = document.querySelector('.summary-card');
+          if (!summaryCard) return;
+
+          const quickPresets = document.createElement('div');
+          quickPresets.className = 'quick-presets';
+          quickPresets.style.cssText = 'display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;';
+          quickPresets.innerHTML = `
+            <button class="quick-preset" data-cards="3 Cards" data-depth="Basic" style="padding: 6px 12px; font-size: 0.7rem; border-radius: 12px; background: rgba(163, 76, 66, 0.1); border: 1px solid rgba(163, 76, 66, 0.2); color: var(--accent); font-weight: 600;">⚡ Quick ($6)</button>
+            <button class="quick-preset" data-cards="5 Cards" data-depth="Detailed" style="padding: 6px 12px; font-size: 0.7rem; border-radius: 12px; background: rgba(163, 76, 66, 0.1); border: 1px solid rgba(163, 76, 66, 0.2); color: var(--accent); font-weight: 600;">🔮 Popular ($17)</button>
+            <button class="quick-preset" data-cards="7 Cards" data-depth="Very Deep" style="padding: 6px 12px; font-size: 0.7rem; border-radius: 12px; background: rgba(163, 76, 66, 0.1); border: 1px solid rgba(163, 76, 66, 0.2); color: var(--accent); font-weight: 600;">✨ Deep ($30)</button>
+          `;
+          summaryCard.appendChild(quickPresets);
+
+          quickPresets.querySelectorAll('.quick-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const cards = btn.dataset.cards;
+              const depth = btn.dataset.depth;
+
+              // Select cards
+              cardsButtons.forEach(b => {
+                if (b.dataset.value === cards) {
+                  b.click();
+                  b.classList.add('is-selected');
+                }
+              });
+
+              // Select depth
+              depthButtons.forEach(b => {
+                if (b.dataset.value === depth) {
+                  b.click();
+                  b.classList.add('is-selected');
+                }
+              });
+
+              // Haptic feedback
+              if (navigator.vibrate) navigator.vibrate(20);
+
+              // Show cute feedback
+              btn.style.transform = 'scale(0.95)';
+              setTimeout(() => btn.style.transform = 'scale(1)', 150);
+            });
+          });
+        }
+
+        function initSwipeGestures() {
+          let touchStartY = 0;
+          let touchEndY = 0;
+
+          document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+          }, { passive: true });
+
+          document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+          }, { passive: true });
+
+          function handleSwipe() {
+            const swipeThreshold = 100;
+            const diff = touchStartY - touchEndY;
+
+            // Quick swipe up from bottom shows bottom nav highlight
+            if (diff > swipeThreshold && touchStartY > window.innerHeight - 100) {
+              const bottomNav = document.getElementById('mobileBottomNav');
+              if (bottomNav) {
+                bottomNav.style.transform = 'translateY(-10px)';
+                setTimeout(() => bottomNav.style.transform = 'translateY(0)', 200);
+              }
+            }
+          }
+        }
+
+        function initTapHints() {
+          // Show tap hints for first-time users
+          if (localStorage.getItem('yvlocat-tap-hint-shown')) return;
+
+          const hints = [
+            { text: '👆 Tap cards to select', delay: 2000 },
+            { text: '💜 Swipe to explore more', delay: 8000 },
+            { text: '✨ Tap book when ready', delay: 15000 }
+          ];
+
+          hints.forEach(hint => {
+            setTimeout(() => {
+              const el = document.createElement('div');
+              el.className = 'tap-hint';
+              el.textContent = hint.text;
+              document.body.appendChild(el);
+              setTimeout(() => el.remove(), 4000);
+            }, hint.delay);
+          });
+
+          localStorage.setItem('yvlocat-tap-hint-shown', 'true');
+        }
+
+        function initBouncyButtons() {
+          const buttons = document.querySelectorAll('.primary-button, .mob-nav-cta');
+          buttons.forEach(btn => {
+            btn.addEventListener('touchstart', () => {
+              btn.style.transform = 'scale(0.95)';
+            }, { passive: true });
+            btn.addEventListener('touchend', () => {
+              btn.style.transform = 'scale(1)';
+            }, { passive: true });
+          });
+        }
+
+        // Initialize enhanced features
+        initCuteFloat();
+        initQuickActions();
+        initSwipeGestures();
+        initTapHints();
+        initBouncyButtons();
       });
     </script>
   </body>
