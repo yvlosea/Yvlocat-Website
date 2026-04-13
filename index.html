@@ -1044,9 +1044,25 @@
       input, textarea { font-size: 16px; }
 
       @media (max-width: 759px) {
-        .modal-shell { align-items: flex-end; padding: 0; }
-        .modal-panel { will-change: transform; border-radius: 32px 32px 0 0; max-height: 88vh; width: 100%; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-shell { align-items: flex-end; padding: 0; background: rgba(0,0,0,0.5); }
+        .modal-panel { 
+          will-change: transform; 
+          border-radius: 40px 40px 0 0; 
+          max-height: 92vh; 
+          width: 100%; 
+          padding-top: 12px;
+          transform: translateY(100%); 
+          transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); 
+        }
         .modal-shell.is-open .modal-panel { transform: translateY(0); }
+        .modal-panel::before {
+          content: "";
+          display: block;
+          width: 40px; height: 5px;
+          background: rgba(0,0,0,0.1);
+          border-radius: 3px;
+          margin: 0 auto 16px;
+        }
       }
 
       /* Mystic Focus States */
@@ -1373,99 +1389,149 @@
       /* ========================================== */
 
       @media (max-width: 640px) {
-        /* Ultra compact base */
-        html { font-size: 14px; }
-        body { padding: 4px 8px; }
-        .page-shell { padding: 0 2px 100px; }
-
-        /* Compact nav */
-        .site-nav { 
-          padding: 8px 10px; 
-          margin-bottom: 8px;
-          border-radius: 20px;
+        /* Natural & Native Mobile Foundation */
+        html, body { 
+          overflow-x: hidden !important; 
+          width: 100% !important; 
+          position: relative;
+          -webkit-overflow-scrolling: touch;
         }
-        .brand-lockup img { width: 28px; height: 28px; border-radius: 6px; }
-        .brand-text strong { font-size: 0.95rem; }
-        .brand-text span { display: none; }
-        .site-links a { 
-          font-size: 0.75rem; 
-          padding: 4px 8px; 
-          border-radius: 12px;
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+        body { padding: 0; background: var(--bg); margin: 0; }
+        .page-shell { 
+          padding: 0 20px 180px; 
+          width: 100%; 
+          display: flex; flex-direction: column;
+          box-sizing: border-box;
+          overflow: visible;
         }
 
-        /* Compact hero */
-        .hero { padding: 8px 0; }
-        .hero-grid { padding: 8px 4px; gap: 12px; }
+        /* Hero: Centered & Impactful Fitting */
+        .hero { 
+          padding: 0; 
+          margin: 0 0 32px;
+          text-align: center;
+        }
+        .hero-grid { 
+          display: flex; flex-direction: column; 
+          align-items: center; justify-content: center;
+          padding: 20px 0; gap: 24px; 
+        }
+        .hero-actions { 
+          display: flex; flex-direction: column; 
+          width: 100%; gap: 12px; 
+        }
         .hero-card { 
-          padding: 16px 12px; 
-          border-radius: 24px;
+          padding: 40px 24px; 
+          border-radius: 48px;
+          width: 100%;
+          display: flex; flex-direction: column; align-items: center;
         }
         .hero-card img { 
-          width: 100px !important; 
-          height: 100px !important; 
-          border-radius: 20px !important;
-          margin-bottom: 12px !important;
+          width: 150px !important; 
+          height: 150px !important; 
+          margin: 0 auto 20px !important;
         }
-        h1 { font-size: 1.5rem; line-height: 1.2; }
-        h2 { font-size: 1.2rem; }
-        .eyebrow { font-size: 0.75rem; margin-bottom: 4px; }
+        h1 { font-size: 3rem; margin: 0 0 12px; line-height: 1; }
+        .hero-copy { font-size: 1.05rem; max-width: 90%; margin: 0 auto 28px; }
 
-        /* Ultra compact sections */
-        .section-card { 
-          padding: 14px 12px; 
-          border-radius: 20px;
-          margin-bottom: 10px;
-        }
+        /* Segmented 'Bars' for Sections */
         .section-head { 
-          flex-direction: row; 
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 12px;
+          display: flex; flex-direction: column; align-items: center;
+          text-align: center; gap: 8px; margin-bottom: 32px;
+          padding: 12px; background: var(--gold-soft);
+          border-radius: 20px;
         }
-        .section-head h2 { font-size: 1.1rem; margin: 0; }
-        .section-copy { font-size: 0.8rem; margin: 4px 0 0 0; }
-        .badge { 
-          font-size: 0.65rem; 
-          padding: 4px 10px; 
-          border-radius: 12px;
+        .section-head h2 { 
+          font-size: 1.4rem; padding: 0; margin: 0;
+        }
+        .section-head h2::after { display: none; }
+        .section-copy { font-size: 0.95rem; margin: 0; }
+        
+        .section-card { 
+          padding: 32px 24px; 
+          border-radius: 44px;
+          margin-bottom: 28px;
+        }
+        /* App-like Segmented Controls (Bars) */
+        .section-head { 
+          display: flex; flex-direction: column; align-items: flex-start;
+          gap: 12px; margin-bottom: 28px;
+        }
+        .section-head h2 { 
+          font-size: 1.6rem; letter-spacing: -0.02em; 
+          position: relative; padding-bottom: 8px;
+        }
+        .section-head h2::after {
+          content: ""; position: absolute; bottom: 0; left: 0;
+          width: 40px; height: 4px; background: var(--accent);
+          border-radius: 2px;
         }
 
-        /* Compact options */
+        /* Native Option Fitting */
         .option { 
-          padding: 10px 12px; 
-          border-radius: 16px;
+          padding: 24px 20px; 
+          border-radius: 32px;
+          background: var(--surface-strong);
+          border: 1px solid var(--line);
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .option-top { margin-bottom: 6px; }
-        .option h3 { font-size: 0.95rem; }
-        .mini-label { font-size: 0.65rem; }
-        .option .body-copy { 
-          font-size: 0.75rem; 
-          line-height: 1.4;
-        }
-        .option-price { font-size: 0.9rem; }
+        .option:active { transform: scale(0.96); }
+        .option h3 { font-size: 1.1rem; }
+        .option-price { font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+        
+        /* Spacing for mobile 'Bars' */
+        .options-grid { gap: 16px; margin-bottom: 12px; }
         .recommended { 
           font-size: 0.6rem; 
           padding: 3px 8px; 
           margin-top: 8px;
         }
-
-        /* Compact addons */
+        /* Native Addon Cards */
         .addon { 
-          padding: 10px; 
-          border-radius: 14px;
+          padding: 18px 16px; 
+          border-radius: 20px;
+          display: flex; justify-content: space-between; align-items: center;
+          background: var(--surface-strong);
+          border: 1px solid var(--line);
         }
-        .addon h3 { font-size: 0.9rem; }
-        .addon-price { font-size: 0.85rem; }
+        .addon-info { flex: 1; }
+        .addon h3 { font-size: 1rem; margin-bottom: 2px; }
+        .addon-price { font-size: 1rem; font-weight: 700; color: var(--accent); }
 
-        /* Compact summary */
+        /* Dynamic Summary Bar Fitting */
         .summary-card { 
-          padding: 12px; 
-          border-radius: 18px;
-          position: sticky;
-          top: 8px;
-          z-index: 100;
-          backdrop-filter: blur(10px);
+          padding: 24px 20px; 
+          border-radius: 36px;
+          margin: 32px 0;
+          background: var(--surface-strong);
+          border: 1px solid var(--gold);
+          box-shadow: 0 12px 48px rgba(73, 43, 45, 0.15);
         }
+        
+        /* Native Input Fitting */
+        .input-wrap { 
+          padding: 12px 16px; 
+          border-radius: 20px;
+          background: #fff;
+          border: 1px solid var(--line-strong);
+        }
+        .budget-input { font-size: 1.25rem; min-height: 48px; }
+        .coupon-input { min-height: 48px; border-radius: 16px; }
+        
+        /* List Row Fitting */
+        .point-row { 
+          padding: 12px 0; 
+          border-bottom: 1px solid var(--line); 
+          align-items: center;
+        }
+        .point-row:last-child { border-bottom: none; }
+        .point-number { 
+          width: 32px; height: 32px; 
+          font-size: 0.8rem; margin-right: 12px;
+        }
+        .meta-copy { font-size: 0.85rem; line-height: 1.5; }
+
         .selection-line { 
           font-size: 0.8rem; 
           padding: 6px 0;
@@ -1575,14 +1641,9 @@
         .stat-value { font-size: 1.4rem; }
 
         /* Mobile bottom nav always visible */
-        .mobile-bottom-nav {
-          display: block;
-        }
-
-        /* Hide desktop sticky CTA */
-        .mobile-sticky-cta {
-          display: none;
-        }
+        /* Hide desktop components */
+        .mobile-bottom-nav { display: block; }
+        .mobile-sticky-cta { display: none; }
 
         /* Cute floating hearts animation */
         @keyframes floatHeart {
@@ -1691,79 +1752,57 @@
         .bill-line { font-size: 0.85rem; }
         .bill-line.is-total { font-size: 1rem; }
 
-        /* Region selector compact */
-        .region-option {
-          padding: 14px;
-          border-radius: 16px;
+        /* World-Class Bottom Nav Fitting */
+        .mobile-bottom-nav-inner {
+          padding: 8px 16px;
+          border-radius: 48px;
+          background: rgba(28, 20, 20, 0.98);
+          backdrop-filter: blur(40px) saturate(2);
+          border: 1.5px solid rgba(255, 255, 255, 0.15);
+          margin: 0 12px 16px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
         }
-        .region-option strong {
-          font-size: 0.95rem;
+        .mob-nav-item {
+          color: rgba(255, 248, 242, 0.4);
+          font-weight: 700;
+          padding: 12px 0;
+          font-size: 0.7rem;
         }
-        .region-option .detail-note {
-          font-size: 0.75rem;
+        .mob-nav-item.is-active {
+          color: #fff;
+          text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
+        .mob-nav-icon {
+          font-size: 1.7rem;
+          margin-bottom: 4px;
+        }
+        .mob-nav-cta {
+          transform: translateY(-16px);
+          border-radius: 50% !important;
+          width: 68px; height: 68px;
+          flex: none;
+          max-width: 68px;
+          padding: 0 !important;
+          background: linear-gradient(135deg, var(--accent), var(--accent-deep)) !important;
+          box-shadow: 0 12px 32px rgba(163, 76, 66, 0.6) !important;
+          border: 3px solid rgba(255,255,255,0.2) !important;
+        }
+        .mob-nav-cta .mob-nav-icon { font-size: 2.2rem; }
 
-        /* Wise note compact */
-        .wise-note {
-          font-size: 0.75rem;
-          padding: 8px 10px;
-          margin-top: 8px;
-        }
-
-        /* Horizontal scroll sections */
-        .horizontal-scroll {
-          display: flex;
-          gap: 10px;
+        /* Carousel Edge Peeking */
+        .mobile-carousel {
           overflow-x: auto;
           scroll-snap-type: x mandatory;
-          padding: 8px 4px 16px;
-          margin: 0 -4px;
+          display: flex !important;
+          gap: 16px;
+          margin: 0 -20px; 
+          padding: 10px 20px 30px;
           scrollbar-width: none;
         }
-        .horizontal-scroll::-webkit-scrollbar { display: none; }
-        .horizontal-scroll > * {
-          flex: 0 0 auto;
-          scroll-snap-align: start;
-          min-width: 140px;
-        }
-
-        /* Quick select dots */
-        .quick-dots {
-          display: flex;
-          gap: 6px;
-          margin-top: 8px;
-        }
-        .quick-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(163, 76, 66, 0.2);
-          transition: all 0.3s ease;
-        }
-        .quick-dot.active {
-          background: var(--accent);
-          transform: scale(1.2);
-        }
-
-        /* Tap hint overlay */
-        .tap-hint {
-          position: fixed;
-          bottom: 80px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: rgba(43, 27, 29, 0.9);
-          color: white;
-          padding: 10px 20px;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          z-index: 800;
-          animation: tapHintPulse 2s ease-in-out infinite;
-          pointer-events: none;
-        }
-
-        @keyframes tapHintPulse {
-          0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-          50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        .mobile-carousel > * {
+          flex: 0 0 85%;
+          scroll-snap-align: center;
+          transition: transform 0.3s ease;
         }
       }
 
