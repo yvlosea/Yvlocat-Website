@@ -1049,20 +1049,15 @@
         .modal-shell.is-open .modal-panel { transform: translateY(0); }
       }
 
-      @keyframes float {
-        0%, 100% { transform: translateY(0) rotate(0deg); }
-        50% { transform: translateY(-8px) rotate(2deg); }
+      /* Mystic Focus States */
+      input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(163, 76, 66, 0.1), 0 0 15px rgba(163, 76, 66, 0.05);
       }
 
-      @keyframes sparkle {
-        0%, 100% { opacity: 0; transform: scale(0); }
-        50% { opacity: 1; transform: scale(1); }
-      }
-
-      @keyframes paw-wiggle {
-        0%, 100% { transform: rotate(-3deg); }
-        50% { transform: rotate(3deg); }
-      }
+      /* Body Lock when Modal Open */
+      body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
 
       @keyframes mystic-glow {
         0%, 100% { box-shadow: 0 0 20px rgba(214, 171, 109, 0.3); }
@@ -1079,10 +1074,10 @@
       .floating-paw {
         position: fixed;
         font-size: 1.5rem;
-        opacity: 0.15;
+        opacity: 0.1;
         pointer-events: none;
         z-index: 0;
-        animation: float 4s ease-in-out infinite;
+        animation: float 5s ease-in-out infinite;
       }
 
       .sparkle {
@@ -1128,7 +1123,7 @@
         top: -10px;
         right: 20px;
         font-size: 1.2rem;
-        opacity: 0.6;
+        opacity: 0.4;
         animation: sparkle 3s ease-in-out infinite;
       }
 
@@ -1148,7 +1143,7 @@
         left: 50%;
         transform: translateX(-50%);
         font-size: 1rem;
-        opacity: 0.5;
+        opacity: 0.3;
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -1166,6 +1161,7 @@
         display: grid;
         gap: 16px;
         margin-top: 8px;
+        transition: transform 0.3s ease;
       }
 
       .review-item {
@@ -1173,6 +1169,7 @@
         border-radius: var(--radius-md);
         background: rgba(255, 255, 255, 0.7);
         border: 1px solid var(--line);
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
       }
 
       .review-item h4 {
@@ -1235,535 +1232,140 @@
       /* MOBILE DYNAMIC INTERACTIVE EXPERIENCE      */
       /* ========================================== */
 
-      /* Scroll Reveal Animations */
-      @keyframes revealUp {
-        from { opacity: 0; transform: translateY(40px) scale(0.97); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+      /* Improved Scroll Reveal */
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), 
+                    transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        will-change: opacity, transform;
       }
-      @keyframes revealLeft {
-        from { opacity: 0; transform: translateX(-30px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-      @keyframes revealRight {
-        from { opacity: 0; transform: translateX(30px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-      @keyframes popIn {
-        0% { opacity: 0; transform: scale(0.6); }
-        70% { transform: scale(1.05); }
-        100% { opacity: 1; transform: scale(1); }
-      }
-      @keyframes shimmer {
-        0% { background-position: -200% center; }
-        100% { background-position: 200% center; }
-      }
-      @keyframes gentleBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-6px); }
-      }
-      @keyframes heartPulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-      }
-      @keyframes particleFloat {
-        0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
-        100% { transform: translateY(-100vh) translateX(var(--drift)) rotate(var(--spin)); opacity: 0; }
-      }
-      @keyframes wiggle {
-        0%,100% { transform: rotate(0deg); }
-        25% { transform: rotate(-5deg); }
-        75% { transform: rotate(5deg); }
-      }
-      @keyframes slideDown {
-        from { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
-        to { max-height: 2000px; opacity: 1; }
+      .scroll-reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
       }
 
-      /* Floating Particles Container */
+      /* Tactile Animations */
+      @keyframes selectPop {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.95); opacity: 0.9; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .select-pop { animation: selectPop 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
+
+      @keyframes pricePulse {
+        0% { transform: scale(1); color: var(--accent); }
+        50% { transform: scale(1.1); color: var(--ink); }
+        100% { transform: scale(1); }
+      }
+      .price-updating { animation: pricePulse 0.4s ease-out; }
+
+      @keyframes particleFloat {
+        0% { transform: translateY(0) translateX(0) scale(1) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.3; }
+        100% { transform: translateY(-100vh) translateX(var(--drift)) scale(1.2) rotate(var(--spin)); opacity: 0; }
+      }
+
+      /* Floating Particles */
       .mobile-particles {
-        position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+        position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
         display: none;
       }
       .mobile-particle {
-        position: absolute;
-        bottom: -20px;
-        font-size: 1rem;
-        opacity: 0;
+        position: absolute; bottom: -24px; font-size: 1.2rem; opacity: 0;
         animation: particleFloat linear infinite;
+        filter: blur(0.5px);
       }
 
-      /* Floating Bottom Navigation */
+      /* Enhanced Bottom Navigation */
       .mobile-bottom-nav {
         display: none;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        z-index: 50;
-        padding: 0 12px 8px;
+        z-index: 900; /* Below modals */
+        padding: 0 12px calc(max(12px, env(safe-area-inset-bottom)));
+        pointer-events: none;
       }
       .mobile-bottom-nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 8px 6px;
-        border-radius: 28px;
-        background: rgba(37, 24, 25, 0.92);
-        backdrop-filter: blur(20px) saturate(1.8);
-        border: 1px solid rgba(214, 171, 109, 0.2);
-        box-shadow: 0 -4px 30px rgba(73, 43, 45, 0.25), 0 0 40px rgba(214, 171, 109, 0.1);
+        pointer-events: auto;
+        display: flex; align-items: center; justify-content: space-around;
+        padding: 6px;
+        border-radius: 32px;
+        background: rgba(43, 27, 29, 0.88);
+        backdrop-filter: blur(28px) saturate(2);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
       .mob-nav-item {
-        display: flex; flex-direction: column; align-items: center; gap: 3px;
-        padding: 8px 10px;
-        border-radius: 18px;
-        background: transparent;
-        border: none;
-        color: rgba(255, 248, 242, 0.55);
-        font-family: 'Manrope', sans-serif;
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
+        flex: 1;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        padding: 10px 4px; border-radius: 20px;
+        border: none; background: transparent;
+        color: rgba(255, 248, 242, 0.45);
+        font-family: inherit; font-size: 0.65rem; font-weight: 700;
+        cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         -webkit-tap-highlight-color: transparent;
-      }
-      .mob-nav-item .mob-nav-icon {
-        font-size: 1.25rem;
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       }
       .mob-nav-item.is-active {
         color: #fff8f2;
-        background: rgba(163, 76, 66, 0.4);
+        background: rgba(255, 255, 255, 0.1);
       }
-      .mob-nav-item.is-active .mob-nav-icon {
-        transform: scale(1.15);
-        animation: gentleBounce 1.5s ease-in-out infinite;
-      }
-      .mob-nav-item:active .mob-nav-icon {
-        transform: scale(0.85);
-      }
-      /* CTA button special style in bottom nav */
       .mob-nav-cta {
-        background: linear-gradient(135deg, var(--accent-deep), var(--accent), #c06f59);
-        color: #fff8f2 !important;
-        padding: 10px 16px;
-        box-shadow: 0 4px 16px rgba(106, 46, 53, 0.4);
-      }
-      .mob-nav-cta .mob-nav-icon {
-        animation: heartPulse 2s ease-in-out infinite !important;
+        background: linear-gradient(135deg, var(--accent), var(--accent-deep)) !important;
+        color: #fff9f4 !important;
+        margin: 0 4px;
+        border-radius: 24px !important;
       }
 
-      /* Collapsible Section Accordion (Mobile) */
+      /* Improved Accordion Header */
       .section-accordion-toggle {
         display: none;
-      }
-      .section-accordion-body {
-        /* Open by default on desktop */
+        width: 100%; border: none; background: none; padding: 0;
+        align-items: center; justify-content: space-between; text-align: left;
+        color: inherit; font: inherit; cursor: pointer;
       }
       .accordion-chevron {
-        display: none;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
 
-      /* Horizontal Scroll Carousel (Mobile) */
-      .mobile-carousel {
-        /* Only activates on mobile via media query */
+      /* Grid Based Accordion Body */
+      .section-accordion-body {
+        display: grid; grid-template-rows: 0fr; opacity: 0;
+        transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
       }
+      .section-accordion-body.is-open {
+        grid-template-rows: 1fr; opacity: 1;
+      }
+      .section-accordion-body > div { overflow: hidden; }
 
-      /* Step Progress Indicators */
-      .mobile-step-progress {
-        display: none;
-      }
-
-      /* Scroll Reveal States */
-      .scroll-reveal {
-        opacity: 1;
-        transform: none;
-      }
-
-      /* Tap Ripple Effect */
-      .ripple-effect {
-        position: relative;
-        overflow: hidden;
-      }
-      .ripple-effect::after {
-        content: '';
-        position: absolute;
-        width: 100px; height: 100px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(214, 171, 109, 0.4), transparent 70%);
-        transform: scale(0);
-        pointer-events: none;
-        opacity: 0;
-      }
-      .ripple-effect.is-rippling::after {
-        animation: rippleAnim 0.6s ease-out;
-      }
-      @keyframes rippleAnim {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(4); opacity: 0; }
-      }
-
-      /* Selection confirm animation */
-      @keyframes selectPop {
-        0% { transform: scale(1); }
-        40% { transform: scale(0.95); }
-        70% { transform: scale(1.04); }
-        100% { transform: scale(1); }
-      }
-      .select-pop {
-        animation: selectPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
-
-      /* Price counter animation */
-      .price-updating {
-        animation: wiggle 0.4s ease;
-      }
-
-      /* Review cards horizontal scroll on mobile */
-
-      /* ========================================== */
-      /* MOBILE-ONLY STYLES (max-width: 640px)      */
-      /* ========================================== */
+      /* Mobile Carousel Polish */
       @media (max-width: 640px) {
-        body {
-          padding: 0;
-        }
-
-        .page-shell {
-          padding: 0 8px;
-          padding-bottom: 100px;
-        }
-
-        .site-nav {
-          padding: 10px 12px;
-        }
-
-        .brand-lockup img {
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
-        }
-
-        .brand-text strong {
-          font-size: 1rem;
-        }
-
-        .brand-text span {
-          display: none;
-        }
-
-        .site-links a {
-          font-size: 0.8rem;
-          padding: 6px 8px;
-        }
-
-        /* Compact Hero */
-        .hero {
-          border-radius: 24px;
-        }
-        .hero-grid {
-          padding: 16px 12px;
-        }
-        .hero-card {
-          padding: 20px 16px;
-        }
-        .hero-card img {
-          width: 120px !important;
-          height: 120px !important;
-        }
-        h1 {
-          font-size: 2rem;
-        }
-        h2 {
-          font-size: 1.4rem;
-        }
-        .hero-copy {
-          font-size: 0.92rem;
-          line-height: 1.6;
-          margin-top: 10px;
-        }
-        .hero-actions {
-          margin-top: 16px;
-        }
-        .hero-points {
-          margin-top: 14px !important;
-          padding: 14px;
-        }
-        .point-row {
-          gap: 10px;
-        }
-        .hero-card h2 {
-          font-size: 1.5rem;
-        }
-
-        /* Show particles */
-        .mobile-particles {
-          display: block;
-        }
-
-        /* Show bottom nav */
-        .mobile-bottom-nav {
-          display: block;
-        }
-
-        /* Hide floating paws on mobile */
-        .floating-paw {
-          display: none;
-        }
-
-        /* Step progress */
-        .mobile-step-progress {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          padding: 12px 0 6px;
-        }
-        .step-dot {
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          background: rgba(163, 76, 66, 0.2);
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .step-dot.is-active {
-          width: 24px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, var(--accent), var(--gold));
-        }
-        .step-dot.is-completed {
-          background: var(--accent);
-        }
-
-        /* Collapsible Sections */
-        .section-accordion-toggle {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          background: none;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          color: inherit;
-          font: inherit;
-          text-align: left;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .accordion-chevron {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 32px; height: 32px;
-          border-radius: 50%;
-          background: rgba(214, 171, 109, 0.15);
-          font-size: 0.9rem;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          flex-shrink: 0;
-        }
-        .section-accordion-body {
-          overflow: hidden;
-          transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, padding 0.3s ease;
-        }
-        .section-accordion-body.is-collapsed {
-          max-height: 0 !important;
-          opacity: 0;
-          padding-top: 0 !important;
-          padding-bottom: 0 !important;
-        }
-        .section-accordion-toggle .accordion-chevron.is-open {
-          transform: rotate(180deg);
-        }
-
-        /* Horizontal Carousel for Options */
         .mobile-carousel {
-          display: flex !important;
-          gap: 12px;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          padding: 4px 2px 16px;
+          display: flex !important; gap: 12px; overflow-x: auto;
+          scroll-snap-type: x mandatory; padding: 10px 6px 20px;
           scrollbar-width: none;
-          grid-template-columns: unset !important;
+          mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
         }
-        .mobile-carousel::-webkit-scrollbar {
-          display: none;
-        }
-        .mobile-carousel > * {
-          flex: 0 0 78%;
-          scroll-snap-align: center;
-          min-width: 0;
-        }
-        .mobile-carousel.narrow-cards > * {
-          flex: 0 0 65%;
+        .mobile-carousel::-webkit-scrollbar { display: none; }
+        .mobile-carousel > * { flex: 0 0 80%; scroll-snap-align: center; }
+        
+        .carousel-dots { display: flex; justify-content: center; gap: 6px; margin-top: -10px; padding-bottom: 16px; min-height: 22px; }
+        .carousel-dot { width: 6px; height: 6px; border-radius: 3px; background: rgba(163, 76, 66, 0.2); transition: 0.3s; }
+        .carousel-dot.is-active { width: 18px; background: var(--accent); }
+
+        .swipe-hint { display: flex; justify-content: center; gap: 8px; font-size: 0.75rem; color: var(--ink-soft); padding: 8px 0; font-weight: 600; }
+        .swipe-hint-hand { animation: swipeHand 2s ease-in-out infinite; }
+        @keyframes swipeHand { 
+          0%, 100% { transform: translateX(0); opacity: 0.4; } 
+          50% { transform: translateX(-15px); opacity: 1; } 
         }
 
-        /* Carousel Dots */
-        .carousel-dots {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          padding: 4px 0 8px;
-        }
-        .carousel-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: rgba(163, 76, 66, 0.2);
-          transition: all 0.3s ease;
-        }
-        .carousel-dot.is-active {
-          width: 18px;
-          border-radius: 10px;
-          background: var(--accent);
-        }
+        .modal-shell { z-index: 2000; } /* Above everything */
+      }
 
-        /* Scroll Reveal for mobile */
-        .scroll-reveal {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .scroll-reveal.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .scroll-reveal.from-left {
-          transform: translateX(-30px);
-        }
-        .scroll-reveal.from-left.is-visible {
-          transform: translateX(0);
-        }
-        .scroll-reveal.from-right {
-          transform: translateX(30px);
-        }
-        .scroll-reveal.from-right.is-visible {
-          transform: translateX(0);
-        }
-        .scroll-reveal.pop-in {
-          transform: scale(0.8);
-        }
-        .scroll-reveal.pop-in.is-visible {
-          transform: scale(1);
-        }
-
-        /* Section cards */
-        .section-card {
-          padding: 16px 14px;
-          border-radius: 22px;
-        }
-
-        .section-head {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 10px;
-          margin-bottom: 14px;
-        }
-
-        .option {
-          padding: 14px 12px;
-        }
-
-        .option h3 {
-          font-size: 1rem;
-        }
-
-        .option .body-copy {
-          font-size: 0.85rem;
-        }
-
-        .addon {
-          padding: 12px;
-        }
-
-        .summary-card {
-          padding: 16px;
-        }
-
-        .builder-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .process-grid,
-        .info-grid,
-        .examples-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-        }
-
-        .coupon-row {
-          flex-direction: column;
-        }
-
-        .input-wrap {
-          padding: 8px 12px;
-        }
-
-        .budget-input {
-          font-size: 1.2rem;
-        }
-
-        /* Review horizontal scroll */
-        .review-list {
-          display: flex !important;
-          gap: 12px;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          padding-bottom: 12px;
-          scrollbar-width: none;
-        }
-        .review-list::-webkit-scrollbar {
-          display: none;
-        }
-        .review-item {
-          flex: 0 0 85%;
-          scroll-snap-align: center;
-        }
-
-        /* Cute floating price tag */
-        .summary-price {
-          position: relative;
-        }
-        .summary-price::after {
-          content: '✨';
-          position: absolute;
-          right: -24px;
-          top: -4px;
-          font-size: 1rem;
-          animation: sparkle 2.5s ease-in-out infinite;
-        }
-
-        /* Footer compact */
-        .footer-card {
-          border-radius: 22px;
-          padding: 20px 16px;
-          text-align: center;
-        }
-
-        /* Swipe hint animation */
-        @keyframes swipeHint {
-          0% { opacity: 0; transform: translateX(0); }
-          30% { opacity: 1; }
-          100% { opacity: 0; transform: translateX(-40px); }
-        }
-        .swipe-hint {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          justify-content: center;
-          padding: 6px 0;
-          color: var(--ink-soft);
-          font-size: 0.78rem;
-          font-weight: 600;
-        }
-        .swipe-hint-hand {
-          display: inline-block;
-          animation: swipeHint 2s ease-in-out infinite;
-        }
+      .touch-active {
+        animation: selectPop 0.2s ease;
       }
     </style>
   </head>
@@ -2407,15 +2009,15 @@
           </div>
         </div>
 
-        <div class="region-actions">
+        <div class="region-actions" style="margin-top: 20px;">
           <button class="region-option" type="button" id="subcontinentRegionButton">
-            <strong>Indian subcontinent resident</strong>
-            <span class="detail-note">Use original INR pricing and the original booking fee structure.</span>
+            <strong>🇮🇳 Indian Subcontinent</strong>
+            <span class="detail-note">Domestic INR pricing and local payment methods.</span>
           </button>
 
           <button class="region-option" type="button" id="internationalRegionButton">
-            <strong>Not an Indian subcontinent resident</strong>
-            <span class="detail-note">Use the international USD pricing designed for global clients.</span>
+            <strong>🌎 International Resident</strong>
+            <span class="detail-note">USD value-based pricing for friends outside of India.</span>
           </button>
         </div>
       </div>
@@ -2666,6 +2268,12 @@
       function setModalState(modal, isOpen) {
         modal.classList.toggle("is-open", isOpen);
         modal.setAttribute("aria-hidden", String(!isOpen));
+        if (isOpen) {
+          document.body.classList.add('modal-open');
+        } else {
+          const stillOpen = document.querySelectorAll('.modal-shell.is-open').length;
+          if (stillOpen === 0) document.body.classList.remove('modal-open');
+        }
       }
 
       function setSelected(buttons, activeValue) {
@@ -3404,275 +3012,172 @@
           initBottomNav();
           initSelectionPop();
           initSwipeHints();
+          initVisualFeedback();
         }
 
-        // --- Floating Particles ---
+        function initVisualFeedback() {
+          const interactables = document.querySelectorAll('button, a, .option, .addon, .mob-nav-item');
+          interactables.forEach(el => {
+            el.addEventListener('touchstart', () => {
+              el.classList.add('touch-active');
+              setTimeout(() => el.classList.remove('touch-active'), 300);
+            }, { passive: true });
+          });
+        }
+
         function initParticles() {
           const container = document.getElementById('mobileParticles');
           if (!container) return;
           const emojis = ['✨', '🌙', '⭐', '💫', '🐾', '💜', '🔮', '🌸', '♡'];
-          const count = 12;
-
+          const count = 10;
           for (let i = 0; i < count; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'mobile-particle';
-            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
-            particle.style.setProperty('--spin', (Math.random() * 360) + 'deg');
-            particle.style.animationDuration = (8 + Math.random() * 12) + 's';
-            particle.style.animationDelay = (Math.random() * 15) + 's';
-            particle.style.fontSize = (0.7 + Math.random() * 0.8) + 'rem';
-            container.appendChild(particle);
+            const p = document.createElement('div');
+            p.className = 'mobile-particle';
+            p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            p.style.left = Math.random() * 100 + '%';
+            p.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+            p.style.setProperty('--spin', (Math.random() * 360) + 'deg');
+            p.style.animationDuration = (6 + Math.random() * 8) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            p.style.fontSize = (0.8 + Math.random() * 1) + 'rem';
+            container.appendChild(p);
           }
         }
 
-        // --- Scroll Reveal (IntersectionObserver) ---
         function initScrollReveal() {
-          const sections = document.querySelectorAll('.section-card, .hero, .summary-card, .footer-card, .hero-points, .hero-card');
-          const directions = ['', 'from-left', 'from-right', 'pop-in'];
-
-          sections.forEach((section, index) => {
-            section.classList.add('scroll-reveal');
-            // Alternate directions for visual variety
-            const dir = directions[index % directions.length];
-            if (dir) section.classList.add(dir);
-          });
-
+          const els = document.querySelectorAll('.section-card, .hero, .summary-card, .footer-card');
           const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                // Stagger child elements
-                const children = entry.target.querySelectorAll('.option, .addon, .info-card, .process-card, .example-card, .point-row, .review-item');
+                const children = entry.target.querySelectorAll('.option, .addon, .info-card, .process-card, .point-row, .review-item');
                 children.forEach((child, i) => {
-                  child.style.transitionDelay = (i * 0.08) + 's';
-                  child.classList.add('scroll-reveal', 'is-visible');
+                  setTimeout(() => child.classList.add('is-visible'), i * 80);
                 });
               }
             });
-          }, {
-            threshold: 0.12,
-            rootMargin: '0px 0px -40px 0px'
-          });
-
-          sections.forEach(s => observer.observe(s));
+          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+          els.forEach(el => observer.observe(el));
         }
 
-        // --- Collapsible Accordion Sections ---
         function initAccordions() {
-          // Target specific sections that can be collapsed to reduce scrolling
-          const collapsibleSectionIds = ['experience', 'questions', 'examples'];
-
-          collapsibleSectionIds.forEach(sectionId => {
-            const sectionContainer = document.getElementById(sectionId);
-            if (!sectionContainer) return;
-
-            const articles = sectionContainer.querySelectorAll('.section-card');
+          const ids = ['experience', 'questions', 'examples'];
+          ids.forEach(id => {
+            const container = document.getElementById(id);
+            if (!container) return;
+            const articles = container.querySelectorAll('.section-card');
             articles.forEach(article => {
-              const sectionHead = article.querySelector('.section-head');
-              if (!sectionHead) return;
-
-              // Create toggle button wrapper
-              const toggleBtn = document.createElement('button');
-              toggleBtn.className = 'section-accordion-toggle';
-              toggleBtn.type = 'button';
-              toggleBtn.setAttribute('aria-expanded', 'false');
-
-              // Create chevron
-              const chevron = document.createElement('span');
-              chevron.className = 'accordion-chevron';
-              chevron.innerHTML = '▼';
-
-              // Move section-head contents into toggle
-              while (sectionHead.firstChild) {
-                toggleBtn.appendChild(sectionHead.firstChild);
-              }
-              toggleBtn.appendChild(chevron);
-              sectionHead.appendChild(toggleBtn);
-
-              // Wrap the body content
+              const head = article.querySelector('.section-head');
+              if (!head) return;
+              const toggle = document.createElement('button');
+              toggle.className = 'section-accordion-toggle';
+              toggle.style.display = 'flex';
+              toggle.innerHTML = head.innerHTML + '<span class="accordion-chevron">▼</span>';
+              head.innerHTML = '';
+              head.appendChild(toggle);
               const body = document.createElement('div');
-              body.className = 'section-accordion-body is-collapsed';
-
-              // Move everything after section-head into the body wrapper
-              const siblings = [];
-              let next = sectionHead.nextSibling;
+              body.className = 'section-accordion-body';
+              const inner = document.createElement('div');
+              let next = head.nextSibling;
               while (next) {
-                siblings.push(next);
+                const tmp = next;
                 next = next.nextSibling;
+                inner.appendChild(tmp);
               }
-              siblings.forEach(s => body.appendChild(s));
+              body.appendChild(inner);
               article.appendChild(body);
-
-              // Toggle handler
-              toggleBtn.addEventListener('click', () => {
-                const isCollapsed = body.classList.contains('is-collapsed');
-                if (isCollapsed) {
-                  body.style.maxHeight = body.scrollHeight + 'px';
-                  body.classList.remove('is-collapsed');
-                  chevron.classList.add('is-open');
-                  toggleBtn.setAttribute('aria-expanded', 'true');
-                } else {
-                  body.style.maxHeight = '0px';
-                  body.classList.add('is-collapsed');
-                  chevron.classList.remove('is-open');
-                  toggleBtn.setAttribute('aria-expanded', 'false');
-                }
+              toggle.addEventListener('click', () => {
+                const open = body.classList.toggle('is-open');
+                toggle.querySelector('.accordion-chevron').style.transform = open ? 'rotate(180deg)' : 'rotate(0)';
+                if (open) setTimeout(() => article.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
               });
             });
           });
         }
 
-        // --- Horizontal Swipe Carousels ---
         function initCarousels() {
-          const carouselConfigs = [
-            { selector: '#cardsGroup', narrow: false },
-            { selector: '#depthGroup', narrow: true },
-            { selector: '#addonsGroup', narrow: true }
+          const config = [
+            { id: '#cardsGroup' }, { id: '#depthGroup' }, { id: '#addonsGroup' },
+            { id: '.info-grid' }, { id: '.process-grid' }, { id: '.examples-grid' }
           ];
-
-          carouselConfigs.forEach(config => {
-            const grid = document.querySelector(config.selector);
+          config.forEach(c => {
+            const grid = document.querySelector(c.id);
             if (!grid) return;
-
             grid.classList.add('mobile-carousel');
-            if (config.narrow) grid.classList.add('narrow-cards');
-
-            // Create dots container
-            const dotsContainer = document.createElement('div');
-            dotsContainer.className = 'carousel-dots';
             const items = grid.children;
-
+            const dots = document.createElement('div');
+            dots.className = 'carousel-dots';
             for (let i = 0; i < items.length; i++) {
               const dot = document.createElement('span');
               dot.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
-              dotsContainer.appendChild(dot);
+              dots.appendChild(dot);
             }
-            grid.parentElement.insertBefore(dotsContainer, grid.nextSibling);
-
-            // Update dots on scroll
-            let scrollTimer;
+            grid.after(dots);
             grid.addEventListener('scroll', () => {
-              clearTimeout(scrollTimer);
-              scrollTimer = setTimeout(() => {
-                const scrollLeft = grid.scrollLeft;
-                const itemWidth = items[0].offsetWidth + 12; // gap
-                const activeIndex = Math.round(scrollLeft / itemWidth);
-                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                  dot.classList.toggle('is-active', i === activeIndex);
-                });
-              }, 50);
+              const active = Math.round(grid.scrollLeft / items[0].offsetWidth);
+              dots.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('is-active', i === active));
             }, { passive: true });
-          });
-
-          // Also make info-grid, process-grid, examples-grid into carousels
-          const infoCarousels = document.querySelectorAll('.info-grid, .process-grid, .examples-grid');
-          infoCarousels.forEach(grid => {
-            grid.classList.add('mobile-carousel');
-            grid.classList.add('narrow-cards');
           });
         }
 
-        // --- Swipe Hints ---
         function initSwipeHints() {
           const carousels = document.querySelectorAll('.mobile-carousel');
-          carousels.forEach(carousel => {
-            // Only add if it has more than one child
-            if (carousel.children.length <= 1) return;
-
+          carousels.forEach(c => {
+            if (c.children.length < 2) return;
             const hint = document.createElement('div');
             hint.className = 'swipe-hint';
             hint.innerHTML = '<span class="swipe-hint-hand">👈</span> Swipe to explore';
-            carousel.parentElement.insertBefore(hint, carousel);
-
-            // Remove hint after first scroll
-            carousel.addEventListener('scroll', () => {
-              if (hint.parentElement) hint.remove();
-            }, { once: true, passive: true });
-
-            // Auto-remove after 4 seconds
-            setTimeout(() => {
-              if (hint.parentElement) {
-                hint.style.transition = 'opacity 0.4s ease';
-                hint.style.opacity = '0';
-                setTimeout(() => hint.remove(), 400);
-              }
-            }, 4000);
+            c.before(hint);
+            c.addEventListener('scroll', () => hint.remove(), { once: true });
+            setTimeout(() => hint.remove(), 5000);
           });
         }
 
-        // --- Bottom Navigation ---
         function initBottomNav() {
           const navItems = document.querySelectorAll('.mob-nav-item');
-          const sections = ['hero-top', 'pricing', 'book', 'experience', 'reviews'];
-
-          navItems.forEach(item => {
-            item.addEventListener('click', () => {
-              const target = item.dataset.target;
-
-              // Special case: "book" should trigger the booking flow
-              if (target === 'book') {
-                const bookEl = document.getElementById('book');
-                if (bookEl) {
-                  bookEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                return;
-              }
-
-              const el = document.getElementById(target);
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-
-              // Update active state
-              navItems.forEach(n => n.classList.remove('is-active'));
-              item.classList.add('is-active');
-            });
-          });
-
-          // Auto-update active state on scroll
-          const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
-
           const navObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
                 const id = entry.target.id;
-                navItems.forEach(item => {
-                  item.classList.toggle('is-active', item.dataset.target === id);
-                });
+                navItems.forEach(item => item.classList.toggle('is-active', item.dataset.target === id));
               }
             });
-          }, {
-            threshold: 0.3,
-            rootMargin: '-20% 0px -50% 0px'
+          }, { threshold: 0.2, rootMargin: '-10% 0px -40% 0px' });
+          ['hero-top', 'pricing', 'experience', 'reviews'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) navObserver.observe(el);
           });
-
-          sectionEls.forEach(el => navObserver.observe(el));
+          navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetId = item.dataset.target;
+              if (targetId === 'book') {
+                document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+              }
+              const target = document.getElementById(targetId);
+              if (target) {
+                const pos = target.getBoundingClientRect().top + window.pageYOffset - 10;
+                window.scrollTo({ top: pos, behavior: 'smooth' });
+              }
+            });
+          });
         }
 
-        // --- Selection Pop Animation ---
         function initSelectionPop() {
-          const allOptions = document.querySelectorAll('.option, .addon');
-          allOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
-              opt.classList.remove('select-pop');
-              // Force reflow
-              void opt.offsetWidth;
-              opt.classList.add('select-pop');
-
-              // Animate price update
-              const priceEl = document.getElementById('totalPrice');
-              if (priceEl) {
-                priceEl.classList.remove('price-updating');
-                void priceEl.offsetWidth;
-                priceEl.classList.add('price-updating');
+          const all = document.querySelectorAll('.option, .addon');
+          all.forEach(el => {
+            el.addEventListener('click', () => {
+              el.classList.remove('select-pop');
+              void el.offsetWidth;
+              el.classList.add('select-pop');
+              const price = document.getElementById('totalPrice');
+              if (price) {
+                price.classList.remove('price-updating');
+                void price.offsetWidth;
+                price.classList.add('price-updating');
               }
-
-              // Brief vibration if available
-              if (navigator.vibrate) {
-                navigator.vibrate(10);
-              }
+              if (navigator.vibrate) navigator.vibrate(10);
             });
           });
         }
