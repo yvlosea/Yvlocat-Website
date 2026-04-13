@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YVLOCAT Admin Dashboard</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+      :root {
+        --bg: #f4efe7;
+        --surface: rgba(255, 251, 246, 0.95);
+        --ink: #2b1b1d;
+        --ink-soft: #675154;
+        --accent: #a34c42;
+        --accent-deep: #6a2e35;
+        --gold: #d6ab6d;
+        --success: #2f7452;
+        --warning: #8d4e1f;
+        --radius-xl: 34px;
+        --radius-md: 18px;
+        --transition: 180ms ease;
+      }
+
+      body {
+        margin: 0;
+        padding: 44px 24px;
+        min-height: 100vh;
+        font-family: "Manrope", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(214, 171, 109, 0.3), transparent 24%),
+          radial-gradient(circle at 80% 10%, rgba(163, 76, 66, 0.14), transparent 22%),
+          linear-gradient(180deg, #f6f2eb 0%, var(--bg) 38%, #f0e7dc 100%);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(92, 54, 48, 0.14);
+      }
+
+      h1 {
+        margin: 0;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 2.2rem;
+        color: var(--ink);
+      }
+
+      .subtitle {
+        color: var(--ink-soft);
+        margin-top: 4px;
+        font-size: 0.95rem;
+      }
+
+      .login-panel {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 32px;
+        background: var(--surface);
+        border-radius: var(--radius-xl);
+        box-shadow: 0 14px 34px rgba(73, 43, 45, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+
+      .login-panel h2 {
+        margin: 0 0 24px 0;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 1.8rem;
+      }
+
+      label {
+        display: block;
+        margin-top: 16px;
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      input, select, button {
+        width: 100%;
+        margin-top: 8px;
+        padding: 14px 16px;
+        border: 1px solid rgba(92, 54, 48, 0.14);
+        border-radius: var(--radius-md);
+        font-family: inherit;
+        font-size: 16px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--ink);
+      }
+
+      input:focus, select:focus {
+        outline: none;
+        border-color: rgba(163, 76, 66, 0.45);
+        box-shadow: 0 0 0 4px rgba(163, 76, 66, 0.12);
+      }
+
+      button {
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+        color: #fff8f2;
+        border: none;
+        font-weight: 700;
+        margin-top: 24px;
+        transition: transform var(--transition), box-shadow var(--transition);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(106, 46, 53, 0.2);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+
+      .stat-card {
+        padding: 24px;
+        background: var(--surface);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 4px 14px rgba(73, 43, 45, 0.05);
+      }
+
+      .stat-card h3 {
+        margin: 0 0 8px 0;
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--accent);
+      }
+
+      .filters {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .filters select, .filters input {
+        width: auto;
+        min-width: 150px;
+        margin-top: 0;
+      }
+
+      .bookings-grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .booking-card {
+        padding: 24px;
+        background: var(--surface);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 4px 14px rgba(73, 43, 45, 0.05);
+        position: relative;
+      }
+
+      .booking-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(92, 54, 48, 0.1);
+      }
+
+      .booking-id {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--accent-deep);
+      }
+
+      .booking-date {
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .status-pending { background: rgba(214, 171, 109, 0.2); color: #8d6a3f; }
+      .status-paid { background: rgba(47, 116, 82, 0.15); color: var(--success); }
+      .status-delivered { background: rgba(163, 76, 66, 0.15); color: var(--accent); }
+      .status-reading_done { background: rgba(103, 81, 84, 0.15); color: var(--ink-soft); }
+
+      .booking-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 12px;
+      }
+
+      .detail-row {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .detail-label {
+        font-size: 0.8rem;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+
+      .detail-value {
+        font-weight: 600;
+      }
+
+      .booking-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(92, 54, 48, 0.1);
+      }
+
+      .booking-actions button {
+        width: auto;
+        margin-top: 0;
+        padding: 10px 20px;
+        font-size: 0.85rem;
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #2f7452, #4a9d6e) !important;
+      }
+
+      .btn-secondary {
+        background: rgba(103, 81, 84, 0.15) !important;
+        color: var(--ink) !important;
+        border: 1px solid rgba(92, 54, 48, 0.2) !important;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--ink-soft);
+      }
+
+      .error-message {
+        color: var(--accent);
+        margin-top: 12px;
+        font-size: 0.9rem;
+      }
+
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        text-decoration: none;
+        color: var(--ink-soft);
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .nav-back:hover {
+        color: var(--accent);
+      }
+
+      .hidden { display: none !important; }
+
+      @media (max-width: 640px) {
+        body { padding: 16px; }
+        .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+        .booking-header { flex-direction: column; gap: 8px; }
+        .filters { flex-direction: column; }
+        .filters select, .filters input { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="nav-back">&larr; Back to YVLOCAT</a>
+
+      <!-- Login Panel -->
+      <div id="loginPanel" class="login-panel">
+        <h2>Admin Login</h2>
+        <label>
+          Admin Password
+          <input type="password" id="adminPassword" placeholder="Enter password" />
+        </label>
+        <div id="loginError" class="error-message hidden"></div>
+        <button type="button" id="loginBtn">Login</button>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="dashboard" class="hidden">
+        <div class="header">
+          <div>
+            <h1>Admin Dashboard</h1>
+            <div class="subtitle">View and manage all booking requests</div>
+          </div>
+          <button type="button" id="refreshBtn" class="btn-secondary" style="width: auto;">Refresh</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Bookings</h3>
+            <div class="stat-value" id="totalCount">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Pending</h3>
+            <div class="stat-value" id="pendingCount">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Paid</h3>
+            <div class="stat-value" id="paidCount">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Delivered</h3>
+            <div class="stat-value" id="deliveredCount">0</div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select id="statusFilter">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+            <option value="reading_done">Reading Done</option>
+            <option value="delivered">Delivered</option>
+          </select>
+          <select id="currencyFilter">
+            <option value="">All Currencies</option>
+            <option value="USD">USD</option>
+            <option value="INR">INR</option>
+          </select>
+          <input type="text" id="searchInput" placeholder="Search by name or email..." />
+        </div>
+
+        <div id="bookingsList" class="bookings-grid">
+          <div class="empty-state">Loading bookings...</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+      const SUPABASE_URL = "https://paaorahyaoivqqtvujxw.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_6BEvMXOqzK6A7QKmdvwMQw_Lvuzcsto";
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const ADMIN_PASSWORD = "yvlocat-admin-2024";
+
+      let allBookings = [];
+      let isLoggedIn = false;
+
+      // Elements
+      const loginPanel = document.getElementById("loginPanel");
+      const dashboard = document.getElementById("dashboard");
+      const adminPassword = document.getElementById("adminPassword");
+      const loginBtn = document.getElementById("loginBtn");
+      const loginError = document.getElementById("loginError");
+      const refreshBtn = document.getElementById("refreshBtn");
+      const bookingsList = document.getElementById("bookingsList");
+      const statusFilter = document.getElementById("statusFilter");
+      const currencyFilter = document.getElementById("currencyFilter");
+      const searchInput = document.getElementById("searchInput");
+
+      // Stats elements
+      const totalCount = document.getElementById("totalCount");
+      const pendingCount = document.getElementById("pendingCount");
+      const paidCount = document.getElementById("paidCount");
+      const deliveredCount = document.getElementById("deliveredCount");
+
+      // Login
+      loginBtn.addEventListener("click", () => {
+        if (adminPassword.value === ADMIN_PASSWORD) {
+          isLoggedIn = true;
+          loginPanel.classList.add("hidden");
+          dashboard.classList.remove("hidden");
+          loadBookings();
+        } else {
+          loginError.textContent = "Incorrect password";
+          loginError.classList.remove("hidden");
+        }
+      });
+
+      adminPassword.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") loginBtn.click();
+      });
+
+      // Load bookings
+      async function loadBookings() {
+        try {
+          const { data, error } = await supabase
+            .from("bookings")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+          if (error) throw error;
+
+          allBookings = data || [];
+          updateStats();
+          renderBookings();
+        } catch (e) {
+          bookingsList.innerHTML = `<div class="empty-state">Error loading bookings. Please try again.</div>`;
+        }
+      }
+
+      // Update stats
+      function updateStats() {
+        totalCount.textContent = allBookings.length;
+        pendingCount.textContent = allBookings.filter(b => b.status === "pending").length;
+        paidCount.textContent = allBookings.filter(b => b.status === "paid").length;
+        deliveredCount.textContent = allBookings.filter(b => b.status === "delivered").length;
+      }
+
+      // Render bookings
+      function renderBookings() {
+        const status = statusFilter.value;
+        const currency = currencyFilter.value;
+        const search = searchInput.value.toLowerCase();
+
+        let filtered = allBookings.filter(b => {
+          if (status && b.status !== status) return false;
+          if (currency && b.currency !== currency) return false;
+          if (search) {
+            const searchText = `${b.name} ${b.email} ${b.question}`.toLowerCase();
+            if (!searchText.includes(search)) return false;
+          }
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          bookingsList.innerHTML = `<div class="empty-state">No bookings found matching your filters.</div>`;
+          return;
+        }
+
+        let html = "";
+        filtered.forEach(b => {
+          const date = new Date(b.created_at).toLocaleString();
+          const addons = b.addons && b.addons.length ? b.addons.join(", ") : "None";
+          
+          html += `
+            <div class="booking-card">
+              <div class="booking-header">
+                <div>
+                  <div class="booking-id">${b.id.slice(0, 8).toUpperCase()}</div>
+                  <div class="booking-date">${date}</div>
+                </div>
+                <span class="status-badge status-${b.status}">${b.status.replace("_", " ")}</span>
+              </div>
+              <div class="booking-details">
+                <div class="detail-row">
+                  <span class="detail-label">Name</span>
+                  <span class="detail-value">${b.name}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Email</span>
+                  <span class="detail-value">${b.email}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Country</span>
+                  <span class="detail-value">${b.country}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Spread</span>
+                  <span class="detail-value">${b.spread}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Depth</span>
+                  <span class="detail-value">${b.depth}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Total</span>
+                  <span class="detail-value">${b.currency} ${b.total_price}</span>
+                </div>
+              </div>
+              <div style="margin-top: 12px;">
+                <span class="detail-label">Question</span>
+                <p style="margin: 4px 0 0 0; font-size: 0.95rem;">${b.question}</p>
+              </div>
+              ${b.addons && b.addons.length ? `
+              <div style="margin-top: 12px;">
+                <span class="detail-label">Add-ons</span>
+                <p style="margin: 4px 0 0 0; font-size: 0.95rem;">${addons}</p>
+              </div>
+              ` : ""}
+              <div class="booking-actions">
+                ${b.status === "pending" ? `<button class="btn-success" onclick="updateStatus('${b.id}', 'paid')">Mark as Paid</button>` : ""}
+                ${b.status === "paid" ? `<button class="btn-success" onclick="updateStatus('${b.id}', 'reading_done')">Reading Done</button>` : ""}
+                ${b.status === "reading_done" ? `<button class="btn-success" onclick="updateStatus('${b.id}', 'delivered')">Mark Delivered</button>` : ""}
+                <button class="btn-secondary" onclick="copyEmail('${b.email}')">Copy Email</button>
+              </div>
+            </div>
+          `;
+        });
+        bookingsList.innerHTML = html;
+      }
+
+      // Update status
+      window.updateStatus = async (id, newStatus) => {
+        try {
+          const { error } = await supabase
+            .from("bookings")
+            .update({ status: newStatus })
+            .eq("id", id);
+
+          if (error) throw error;
+          loadBookings();
+        } catch (e) {
+          alert("Failed to update status");
+        }
+      };
+
+      // Copy email
+      window.copyEmail = (email) => {
+        navigator.clipboard.writeText(email);
+        alert("Email copied to clipboard!");
+      };
+
+      // Filter events
+      statusFilter.addEventListener("change", renderBookings);
+      currencyFilter.addEventListener("change", renderBookings);
+      searchInput.addEventListener("input", renderBookings);
+      refreshBtn.addEventListener("click", loadBookings);
+    </script>
+  </body>
+</html>
