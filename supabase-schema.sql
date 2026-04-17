@@ -35,11 +35,16 @@ create table if not exists public.reviews (
   name text not null,
   rating integer not null check (rating >= 1 and rating <= 5),
   review text not null,
+  platform text check (platform in ('discord', 'whatsapp', 'reddit', 'video', 'inperson')),
   status text not null default 'published' check (status in ('published', 'hidden', 'deleted')),
   admin_comment text,
   admin_comment_at timestamptz,
   is_featured boolean not null default false
 );
+
+-- Add platform column if table already exists (for migration)
+alter table public.reviews drop column if exists platform;
+alter table public.reviews add column platform text check (platform in ('discord', 'whatsapp', 'reddit', 'video', 'inperson'));
 
 alter table public.reviews enable row level security;
 

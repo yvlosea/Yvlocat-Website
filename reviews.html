@@ -278,18 +278,19 @@
   <body>
     <div class="card">
       <a href="index.html" class="nav-back">&larr; Back to YVLOCAT</a>
-      
-      <h1>Client Reviews</h1>
+
+      <h1 id="pageTitle" style="cursor: pointer;">Client Reviews</h1>
       <p class="muted">Share your reading experience with others. Rate your session out of 5 cats!</p>
 
-      <!-- Admin Login -->
-      <div id="adminLogin" class="admin-login">
+      <!-- Hidden Admin Access - Triple click title to reveal -->
+      <div id="adminLogin" class="admin-login" style="display: none;">
         <label style="margin-top: 0;">
           Admin Password
           <input type="password" id="adminPassword" placeholder="Enter admin password" />
         </label>
         <button type="button" id="loginBtn" style="margin-top: 12px; width: auto; min-height: 44px;">Login as Admin</button>
         <div id="adminStatus" class="muted" style="margin-top: 8px;"></div>
+        <button type="button" id="hideAdminBtn" style="margin-top: 8px; width: auto; min-height: 36px; font-size: 0.8rem; background: rgba(103, 81, 84, 0.2);">Hide Admin Panel</button>
       </div>
 
       <div id="successMessage" class="success hidden">Thank you! Your review has been received.</div>
@@ -320,6 +321,18 @@
         <label>
           Your Experience
           <textarea id="reviewText" name="review" placeholder="How was your tarot reading with Yvlocat?" required></textarea>
+        </label>
+
+        <label>
+          Where did the reading take place?
+          <select id="platform" name="platform" style="width: 100%; margin-top: 8px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-md); font-family: inherit; font-size: 16px; background: rgba(255, 255, 255, 0.86); color: var(--ink);">
+            <option value="">Select platform...</option>
+            <option value="discord">💬 Discord</option>
+            <option value="whatsapp">💚 WhatsApp</option>
+            <option value="reddit">🤖 Reddit</option>
+            <option value="video">📹 Video Call</option>
+            <option value="inperson">☕ In Person</option>
+          </select>
         </label>
 
         <button type="submit" style="margin-top: 24px;">Submit Review</button>
@@ -372,6 +385,35 @@
         if (e.key === "Enter") loginBtn.click();
       });
 
+      // Triple-click title to reveal admin panel
+      let clickCount = 0;
+      let clickTimer = null;
+      const pageTitle = document.getElementById("pageTitle");
+      const adminLoginDiv = document.getElementById("adminLogin");
+      const hideAdminBtn = document.getElementById("hideAdminBtn");
+
+      pageTitle.addEventListener("click", () => {
+        clickCount++;
+        if (clickCount === 3) {
+          adminLoginDiv.style.display = "block";
+          adminPassword.focus();
+          clickCount = 0;
+        }
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => {
+          clickCount = 0;
+        }, 500);
+      });
+
+      // Hide admin panel button
+      hideAdminBtn.addEventListener("click", () => {
+        adminLoginDiv.style.display = "none";
+        isAdmin = false;
+        adminStatus.textContent = "";
+        adminLoginDiv.style.background = "rgba(214, 171, 109, 0.1)";
+        loadReviews();
+      });
+
       async function deleteReview(id) {
         if (!isAdmin) return;
         if (!confirm("Delete this review?")) return;
@@ -419,7 +461,7 @@
           // For admin, fetch all non-deleted reviews
           const query = supabase
             .from("reviews")
-            .select("id, name, rating, review, status, admin_comment, admin_comment_at, created_at")
+            .select("id, name, rating, review, platform, status, admin_comment, admin_comment_at, created_at")
             .neq("status", "deleted")
             .order("created_at", { ascending: false })
             .limit(50);
@@ -440,17 +482,28 @@
             return;
           }
           
+          const platformIcons = {
+            discord: { icon: '💬', label: 'Discord', bg: '#5865F2', color: 'white' },
+            whatsapp: { icon: '💚', label: 'WhatsApp', bg: '#25D366', color: 'white' },
+            reddit: { icon: '🤖', label: 'Reddit', bg: '#FF4500', color: 'white' },
+            video: { icon: '📹', label: 'Video Call', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' },
+            inperson: { icon: '☕', label: 'In Person', bg: 'var(--gold)', color: 'var(--ink)' }
+          };
+
           let html = "";
           data.forEach((r) => {
             const dateStr = new Date(r.created_at).toLocaleDateString();
             const adminBadge = (isAdmin && r.status !== "published") ? `<span class="admin-badge">${r.status}</span>` : "";
+            const platform = r.platform && platformIcons[r.platform] ? platformIcons[r.platform] : null;
+            const platformTag = platform ?
+              `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; background: ${platform.bg}; color: ${platform.color}; margin-left: 8px;">${platform.icon} ${platform.label}</span>` : '';
             const adminComment = r.admin_comment ? `
               <div class="admin-comment">
                 <strong>YVLOCAT Response</strong>
                 <p style="margin: 4px 0 0 0;">${r.admin_comment}</p>
               </div>
             ` : "";
-            
+
             const adminControls = isAdmin ? `
               <div class="admin-controls">
                 <button type="button" class="btn-secondary" onclick="toggleCommentForm('${r.id}')">💬 Reply</button>
@@ -461,10 +514,10 @@
                 <button type="button" onclick="submitComment('${r.id}')">Post Reply</button>
               </div>
             ` : "";
-            
+
             html += `
               <div class="review-item" data-id="${r.id}">
-                <h3>${r.name}${adminBadge} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">${dateStr}</span></h3>
+                <h3>${r.name}${platformTag}${adminBadge} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">${dateStr}</span></h3>
                 <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
                 <div class="review-text">"${r.review}"</div>
                 ${adminComment}
@@ -497,23 +550,40 @@
 
         const name = document.getElementById("name").value.trim();
         const reviewText = document.getElementById("reviewText").value.trim();
+        const platform = document.getElementById("platform").value;
         const ratingNode = document.querySelector('input[name="rating"]:checked');
         const rating = ratingNode ? parseInt(ratingNode.value) : 5;
 
         try {
-          const { data, error } = await supabase.from("reviews").insert({
+          const reviewData = {
             name,
             rating,
             review: reviewText,
             status: "published"
-          }).select();
+          };
+          // Only add platform if it's selected
+          if (platform) {
+            reviewData.platform = platform;
+          }
+
+          const { data, error } = await supabase.from("reviews").insert(reviewData).select();
 
           if (error) throw error;
+
+          const platformIcons = {
+            discord: { icon: '💬', label: 'Discord' },
+            whatsapp: { icon: '💚', label: 'WhatsApp' },
+            reddit: { icon: '🤖', label: 'Reddit' },
+            video: { icon: '📹', label: 'Video Call' },
+            inperson: { icon: '☕', label: 'In Person' }
+          };
+          const platformInfo = platform && platformIcons[platform];
+          const platformTag = platformInfo ? `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; background: var(--gold); color: var(--ink); margin-left: 8px;">${platformInfo.icon} ${platformInfo.label}</span>` : '';
 
           const reviewItem = document.createElement("div");
           reviewItem.className = "review-item";
           reviewItem.innerHTML = `
-            <h3>${name} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">Just now</span></h3>
+            <h3>${name}${platformTag} <span style="font-size: 0.75rem; color: var(--ink-soft); font-weight: 400;">Just now</span></h3>
             <div class="review-stars">${"🐱".repeat(rating)}</div>
             <div class="review-text">"${reviewText}"</div>
           `;
@@ -521,11 +591,12 @@
 
           successMessage.classList.remove("hidden");
           reviewForm.reset();
-          
+
           // Reload after a delay to get proper ID
           setTimeout(loadReviews, 1000);
         } catch (error) {
-          errorMessage.textContent = "Failed to submit review. Please try again.";
+          console.error("Review submission error:", error);
+          errorMessage.textContent = "Failed to submit review: " + (error.message || "Unknown error");
           errorMessage.classList.remove("hidden");
         }
       });
