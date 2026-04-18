@@ -61,26 +61,35 @@
         content: "";
         position: fixed;
         border-radius: 999px;
-        filter: blur(18px);
-        opacity: 0.45;
         pointer-events: none;
         z-index: 0;
       }
 
       body::before {
-        width: 18rem;
-        height: 18rem;
-        top: -4rem;
-        right: -4rem;
-        background: rgba(214, 171, 109, 0.34);
+        width: 21rem;
+        height: 21rem;
+        top: -2rem;
+        right: -3rem;
+        background:
+          radial-gradient(circle, rgba(214, 171, 109, 0.18), rgba(214, 171, 109, 0.02) 62%, transparent 72%),
+          url("./yvlocat.png") center/contain no-repeat;
+        opacity: 0.18;
+        filter: saturate(0.9) sepia(0.18) blur(0.2px);
+        animation: kittyFloatOne 14s ease-in-out infinite;
       }
 
       body::after {
-        width: 20rem;
-        height: 20rem;
-        left: -8rem;
-        bottom: 2rem;
-        background: rgba(163, 76, 66, 0.14);
+        width: 18rem;
+        height: 18rem;
+        left: -4rem;
+        bottom: 1rem;
+        background:
+          radial-gradient(circle, rgba(163, 76, 66, 0.12), rgba(163, 76, 66, 0.02) 58%, transparent 72%),
+          url("./yvlocat.png") center/contain no-repeat;
+        opacity: 0.12;
+        filter: saturate(0.8) sepia(0.2) blur(0.2px);
+        transform: scaleX(-1) rotate(-6deg);
+        animation: kittyFloatTwo 18s ease-in-out infinite;
       }
 
       a {
@@ -98,6 +107,21 @@
         width: min(1180px, calc(100% - 28px));
         margin: 0 auto;
         padding: 24px 0 44px;
+      }
+
+      .page-shell::before {
+        content: "";
+        position: fixed;
+        top: 24%;
+        right: 5%;
+        width: 8rem;
+        height: 8rem;
+        background: url("./yvlocat.png") center/contain no-repeat;
+        opacity: 0.06;
+        pointer-events: none;
+        z-index: 0;
+        transform: rotate(10deg);
+        animation: kittyGlow 12s ease-in-out infinite;
       }
 
       .site-nav {
@@ -190,10 +214,28 @@
         box-shadow: var(--shadow);
       }
 
+      .hero::after {
+        content: "";
+        position: absolute;
+        right: -1.2rem;
+        bottom: -1.6rem;
+        width: 13rem;
+        height: 13rem;
+        background:
+          radial-gradient(circle, rgba(214, 171, 109, 0.14), transparent 66%),
+          url("./yvlocat.png") center/contain no-repeat;
+        opacity: 0.11;
+        transform: rotate(-8deg);
+        pointer-events: none;
+        animation: kittyGlow 10s ease-in-out infinite;
+      }
+
       .hero-grid {
         display: grid;
         gap: 26px;
         padding: 28px;
+        position: relative;
+        z-index: 1;
       }
 
       .eyebrow {
@@ -335,6 +377,17 @@
         font-size: 5.5rem;
         line-height: 1;
         color: rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        inset: auto 1rem 1rem auto;
+        width: 5rem;
+        height: 5rem;
+        background: url("./yvlocat.png") center/contain no-repeat;
+        opacity: 0.08;
+        pointer-events: none;
       }
 
       .hero-card p,
@@ -630,6 +683,9 @@
         top: 18px;
         padding: 22px;
         align-self: start;
+        background:
+          linear-gradient(180deg, rgba(255, 251, 246, 0.92), rgba(247, 239, 230, 0.88)),
+          url("./yvlocat.png") right -1.8rem bottom -1.6rem / 8rem no-repeat;
       }
 
       .summary-price {
@@ -910,6 +966,13 @@
         .summary-card {
           position: static;
         }
+
+        .page-shell::before {
+          width: 6rem;
+          height: 6rem;
+          top: 18%;
+          right: 2%;
+        }
       }
 
       @media (max-width: 759px) {
@@ -936,6 +999,22 @@
           border-radius: 28px;
         }
 
+        body::before {
+          width: 14rem;
+          height: 14rem;
+          top: -1rem;
+          right: -4rem;
+          opacity: 0.12;
+        }
+
+        body::after {
+          width: 11rem;
+          height: 11rem;
+          left: -3rem;
+          bottom: 5rem;
+          opacity: 0.08;
+        }
+
         .selection-line,
         .bill-line,
         .bill-header,
@@ -956,6 +1035,35 @@
           animation: none !important;
           transition: none !important;
           scroll-behavior: auto !important;
+        }
+      }
+
+      @keyframes kittyFloatOne {
+        0%, 100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(10px) rotate(4deg);
+        }
+      }
+
+      @keyframes kittyFloatTwo {
+        0%, 100% {
+          transform: scaleX(-1) rotate(-6deg) translateY(0);
+        }
+        50% {
+          transform: scaleX(-1) rotate(-10deg) translateY(-8px);
+        }
+      }
+
+      @keyframes kittyGlow {
+        0%, 100% {
+          opacity: 0.07;
+          transform: rotate(10deg) scale(1);
+        }
+        50% {
+          opacity: 0.12;
+          transform: rotate(7deg) scale(1.04);
         }
       }
 
@@ -1245,9 +1353,11 @@
 
         /* Reviews - Cute & Professional */
         .review-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
+          min-height: 260px;
+        }
+
+        .review-track {
+          position: relative;
         }
 
         .review-item {
@@ -1256,6 +1366,19 @@
           background: rgba(255, 255, 255, 0.8);
           border: 1px solid rgba(92, 54, 48, 0.06);
           box-shadow: 0 2px 12px rgba(73, 43, 45, 0.04);
+          opacity: 0;
+          transform: translateY(12px);
+          transition: opacity 220ms ease, transform 220ms ease;
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+
+        .review-item.is-active {
+          opacity: 1;
+          transform: translateY(0);
+          position: relative;
+          pointer-events: auto;
         }
 
         .review-item h4 {
@@ -1274,6 +1397,51 @@
         .review-text {
           font-size: 0.9rem;
           line-height: 1.5;
+        }
+
+        .review-meta {
+          margin-top: 10px;
+          font-size: 0.78rem;
+          color: var(--ink-soft);
+        }
+
+        .review-controls {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 14px;
+        }
+
+        .review-dots {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .review-dot {
+          width: 10px;
+          height: 10px;
+          padding: 0;
+          border: 0;
+          border-radius: 50%;
+          background: rgba(92, 54, 48, 0.18);
+          cursor: pointer;
+        }
+
+        .review-dot.is-active {
+          background: var(--accent);
+        }
+
+        .review-nav {
+          width: auto;
+          min-width: 44px;
+          padding: 10px 14px;
+          border-radius: 999px;
+          border: 1px solid rgba(92, 54, 48, 0.12);
+          background: rgba(255, 255, 255, 0.88);
+          color: var(--ink);
+          font-weight: 700;
         }
 
         /* Platform Tags - NEW */
@@ -1345,25 +1513,6 @@
           padding: 24px 20px;
           border-radius: 28px;
           margin-bottom: 20px;
-        }
-
-        /* Cute Floating Elements */
-        .cute-paw {
-          position: fixed;
-          font-size: 1.5rem;
-          opacity: 0.15;
-          pointer-events: none;
-          z-index: 0;
-          animation: floatPaw 15s ease-in-out infinite;
-        }
-
-        @keyframes floatPaw {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-30px) rotate(5deg);
-          }
         }
 
         /* Selection Animation */
@@ -2669,6 +2818,131 @@
         latestBooking = storedBooking;
       }
 
+      let reviewRotationTimer = null;
+
+      function formatReviewTimestamp(value) {
+        const date = new Date(value);
+
+        return new Intl.DateTimeFormat("en-IN", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }).format(date);
+      }
+
+      function renderRotatingReviews(data) {
+        const reviewList = document.getElementById("homeReviewList");
+        if (!reviewList) {
+          return;
+        }
+
+        if (!data.length) {
+          reviewList.innerHTML = `<div class="muted">No published reviews yet.</div>`;
+          return;
+        }
+
+        const platformIcons = {
+          discord: { icon: "💬", label: "Discord", class: "discord" },
+          whatsapp: { icon: "💚", label: "WhatsApp", class: "whatsapp" },
+          reddit: { icon: "🤖", label: "Reddit", class: "reddit" },
+          video: { icon: "📹", label: "Video Call", class: "video" },
+          inperson: { icon: "☕", label: "In Person", class: "inperson" }
+        };
+
+        const cards = data
+          .map((r, index) => {
+            const platform = r.platform && platformIcons[r.platform] ? platformIcons[r.platform] : null;
+            const platformTag = platform
+              ? `<span class="platform-tag ${platform.class}">${platform.icon} ${platform.label}</span>`
+              : "";
+            const adminComment = r.admin_comment
+              ? `
+                  <div style="margin-top: 10px; padding: 10px 14px; background: rgba(214, 171, 109, 0.12); border-radius: 12px; font-size: 0.85rem;">
+                    <strong style="color: var(--accent-deep);">YVLOCAT Response:</strong> ${r.admin_comment}
+                  </div>
+                `
+              : "";
+
+            return `
+              <article class="review-item${index === 0 ? " is-active" : ""}">
+                <h4>${r.name} ${platformTag}</h4>
+                <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
+                <p class="review-text">"${r.review}"</p>
+                <div class="review-meta">Shared on ${formatReviewTimestamp(r.created_at)}</div>
+                ${adminComment}
+              </article>
+            `;
+          })
+          .join("");
+
+        const dots = data
+          .map(
+            (_, index) =>
+              `<button class="review-dot${index === 0 ? " is-active" : ""}" type="button" aria-label="Show review ${index + 1}" data-review-index="${index}"></button>`
+          )
+          .join("");
+
+        reviewList.innerHTML = `
+          <div class="review-track">${cards}</div>
+          <div class="review-controls">
+            <div class="review-dots">${dots}</div>
+            <button class="review-nav" id="nextReviewButton" type="button" aria-label="Next review">Next</button>
+          </div>
+        `;
+
+        const items = Array.from(reviewList.querySelectorAll(".review-item"));
+        const dotButtons = Array.from(reviewList.querySelectorAll(".review-dot"));
+        const nextButton = document.getElementById("nextReviewButton");
+        let activeIndex = 0;
+
+        const showReview = (index) => {
+          activeIndex = (index + items.length) % items.length;
+          items.forEach((item, itemIndex) => {
+            item.classList.toggle("is-active", itemIndex === activeIndex);
+          });
+          dotButtons.forEach((dot, dotIndex) => {
+            dot.classList.toggle("is-active", dotIndex === activeIndex);
+          });
+        };
+
+        const restartRotation = () => {
+          if (reviewRotationTimer) {
+            clearInterval(reviewRotationTimer);
+          }
+
+          if (items.length < 2) {
+            return;
+          }
+
+          reviewRotationTimer = window.setInterval(() => {
+            showReview(activeIndex + 1);
+          }, 4500);
+        };
+
+        dotButtons.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            showReview(Number(dot.dataset.reviewIndex));
+            restartRotation();
+          });
+        });
+
+        if (nextButton) {
+          nextButton.addEventListener("click", () => {
+            showReview(activeIndex + 1);
+            restartRotation();
+          });
+        }
+
+        reviewList.addEventListener("mouseenter", () => {
+          if (reviewRotationTimer) {
+            clearInterval(reviewRotationTimer);
+          }
+        });
+
+        reviewList.addEventListener("mouseleave", restartRotation);
+        showReview(0);
+        restartRotation();
+      }
+
       // =========================================
       // REVIEWS LOADING WITH PLATFORM TAGS
       // =========================================
@@ -2690,45 +2964,15 @@
           if (!reviewList) return;
 
           if (error || !data || data.length === 0) {
-            reviewList.innerHTML = `<div class="muted">Be the first to share your experience.</div>`;
+            reviewList.innerHTML = `<div class="muted">No published reviews yet.</div>`;
             return;
           }
 
-          const platformIcons = {
-            discord: { icon: '💬', label: 'Discord', class: 'discord' },
-            whatsapp: { icon: '💚', label: 'WhatsApp', class: 'whatsapp' },
-            reddit: { icon: '🤖', label: 'Reddit', class: 'reddit' },
-            video: { icon: '📹', label: 'Video Call', class: 'video' },
-            inperson: { icon: '☕', label: 'In Person', class: 'inperson' }
-          };
-
-          let html = "";
-          data.forEach((r) => {
-            const dateStr = new Date(r.created_at).toLocaleDateString();
-            const platform = r.platform && platformIcons[r.platform] ? platformIcons[r.platform] : null;
-            const platformTag = platform ?
-              `<span class="platform-tag ${platform.class}">${platform.icon} ${platform.label}</span>` : '';
-            const adminComment = r.admin_comment ? `
-              <div style="margin-top: 10px; padding: 10px 14px; background: rgba(214, 171, 109, 0.12); border-radius: 12px; font-size: 0.85rem;">
-                <strong style="color: var(--accent-deep);">YVLOCAT Response:</strong> ${r.admin_comment}
-              </div>
-            ` : "";
-
-            html += `
-              <div class="review-item">
-                <h4>${r.name} ${platformTag}</h4>
-                <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
-                <p class="review-text">"${r.review}"</p>
-                <div style="font-size: 0.75rem; color: var(--ink-soft); margin-top: 8px;">${dateStr}</div>
-                ${adminComment}
-              </div>
-            `;
-          });
-          reviewList.innerHTML = html;
+          renderRotatingReviews(data);
         } catch (e) {
           const reviewList = document.getElementById("homeReviewList");
           if (reviewList) {
-            reviewList.innerHTML = `<div class="muted">Reviews loading...</div>`;
+            reviewList.innerHTML = `<div class="muted">Unable to load reviews right now.</div>`;
           }
         }
       }
@@ -2739,43 +2983,30 @@
       const isMobile = () => window.innerWidth <= 640;
 
       function initMobileInteractions() {
-        // Add touch feedback to all interactive elements
-        const interactables = document.querySelectorAll('.option, .addon, .primary-button, .secondary-button');
-        interactables.forEach(el => {
-          el.addEventListener('touchstart', () => {
-            el.style.transform = 'scale(0.98)';
+        const interactables = document.querySelectorAll(".option, .addon, .primary-button, .secondary-button, .ghost-button, .review-nav, .review-dot");
+        interactables.forEach((el) => {
+          el.addEventListener("touchstart", () => {
+            el.style.transform = "scale(0.985)";
           }, { passive: true });
-          el.addEventListener('touchend', () => {
-            el.style.transform = '';
+          el.addEventListener("touchend", () => {
+            el.style.transform = "";
+          }, { passive: true });
+          el.addEventListener("touchcancel", () => {
+            el.style.transform = "";
           }, { passive: true });
         });
 
-        // Price pulse animation on selection
-        const options = document.querySelectorAll('.option');
-        options.forEach(opt => {
-          opt.addEventListener('click', () => {
-            const price = document.getElementById('totalPrice');
+        const options = document.querySelectorAll(".option, .addon");
+        options.forEach((opt) => {
+          opt.addEventListener("click", () => {
+            const price = document.getElementById("totalPrice");
             if (price) {
-              price.classList.remove('price-updating');
+              price.classList.remove("price-updating");
               void price.offsetWidth;
-              price.classList.add('price-updating');
+              price.classList.add("price-updating");
             }
           });
         });
-
-        // Add cute floating paws on mobile
-        const paws = ['🐾', '💜', '✨'];
-        setInterval(() => {
-          if (document.hidden || !isMobile()) return;
-          const paw = document.createElement('div');
-          paw.className = 'cute-paw';
-          paw.textContent = paws[Math.floor(Math.random() * paws.length)];
-          paw.style.left = Math.random() * 100 + '%';
-          paw.style.bottom = '0';
-          paw.style.animationDuration = (10 + Math.random() * 10) + 's';
-          document.body.appendChild(paw);
-          setTimeout(() => paw.remove(), 20000);
-        }, 5000);
       }
 
       // Initialize
