@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YvloCat — Layout Audit & Fix Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #faf9f7;
+    --surface: #ffffff;
+    --border: #e8e3dd;
+    --text: #1a1714;
+    --muted: #6b6560;
+    --accent: #7c5cbf;
+    --accent-light: #f0ebfa;
+    --bad: #c0392b;
+    --bad-light: #fdf0ef;
+    --good: #27ae60;
+    --good-light: #edfaf2;
+    --warn: #d68910;
+    --warn-light: #fef9e7;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ─── HEADER ─── */
+  .doc-header {
+    background: var(--text);
+    color: white;
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.15;
+  }
+  .doc-header .label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .doc-header p {
+    color: rgba(255,255,255,0.65);
+    font-size: 16px;
+    max-width: 560px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ─── SECTION HEADINGS ─── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  p { color: var(--muted); margin-bottom: 0; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  /* ─── PROBLEM / FIX BLOCKS ─── */
+  .issue-block {
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+  }
+  .issue-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .issue-header .num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .issue-body {
+    padding: 0 20px 20px;
+    display: grid;
+    gap: 12px;
+  }
+  .issue-body.two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 600px) {
+    .issue-body.two-col { grid-template-columns: 1fr; }
+  }
+
+  .problem-block {
+    background: var(--bad-light);
+    border-left: 3px solid var(--bad);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .problem-block .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bad);
+    margin-bottom: 6px;
+  }
+  .problem-block p { color: #5a1a14; font-size: 14px; }
+
+  .fix-block {
+    background: var(--good-light);
+    border-left: 3px solid var(--good);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .fix-block .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--good);
+    margin-bottom: 6px;
+  }
+  .fix-block p { color: #145a2e; font-size: 14px; }
+
+  .note-block {
+    background: var(--warn-light);
+    border-left: 3px solid var(--warn);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .note-block .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 6px;
+  }
+  .note-block p { color: #5a3a0a; font-size: 14px; }
+
+  /* severity badge */
+  .sev {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+  .sev-high { background: #fde8e6; color: var(--bad); }
+  .sev-med { background: var(--warn-light); color: var(--warn); }
+  .sev-low { background: var(--good-light); color: var(--good); }
+
+  /* issue header colors */
+  .issue-bad .issue-header { background: #fdf0ef; }
+  .issue-bad .issue-header .num { background: var(--bad); color: white; }
+  .issue-med .issue-header { background: var(--warn-light); }
+  .issue-med .issue-header .num { background: var(--warn); color: white; }
+
+  /* ─── CODE ─── */
+  code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    background: #f0edf9;
+    color: #4a2d8f;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  pre {
+    background: #1a1714;
+    color: #e8e3dd;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 13px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    overflow-x: auto;
+    margin: 12px 0;
+    line-height: 1.7;
+  }
+  pre .comment { color: #6b6560; }
+  pre .prop { color: #a8d8a8; }
+  pre .val { color: #f0d080; }
+  pre .sel { color: #80c8f0; }
+
+  /* ─── VISUAL DIAGRAM ─── */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .diagram-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .wireframe {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .phone-frame {
+    width: 160px;
+    flex-shrink: 0;
+  }
+  .desktop-frame {
+    flex: 1;
+    min-width: 260px;
+  }
+  .frame-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .phone-shell {
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 8px;
+    background: #fafafa;
+  }
+  .desktop-shell {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    background: #fafafa;
+  }
+  .wf-block {
+    border-radius: 4px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: white;
+    padding: 6px 4px;
+  }
+  .wf-nav { background: #333; height: 20px; border-radius: 3px; }
+  .wf-hero { background: #9b7ed4; height: 48px; }
+  .wf-feat { background: #c4a8e8; height: 36px; }
+  .wf-mascot-bad { background: #e88; height: 64px; }
+  .wf-mascot-good { background: #8b8; height: 28px; }
+  .wf-twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 4px; }
+  .wf-col { background: #e0d8f0; height: 60px; border-radius: 4px; }
+  .wf-oneCol { background: #e0d8f0; height: 40px; }
+  .wf-bottom { background: #444; height: 18px; border-radius: 3px; }
+  .wf-gap { height: 4px; }
+  .bad-label { color: var(--bad); font-size: 9px; text-align: center; margin-top: 2px; }
+  .good-label { color: var(--good); font-size: 9px; text-align: center; margin-top: 2px; }
+
+  /* ─── SPEC TABLE ─── */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 16px 0;
+  }
+  .spec-table th {
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .spec-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+  }
+  .spec-table td:first-child { color: var(--text); font-weight: 500; }
+  .spec-table tr:last-child td { border-bottom: none; }
+
+  /* ─── SECTION DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  .section-intro {
+    margin-bottom: 32px;
+  }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .icon { flex-shrink: 0; margin-top: 2px; }
+  .checklist li strong { color: var(--text); }
+
+  /* ─── PRINCIPLE CARDS ─── */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .principle-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .principle-card .icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .principle-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .principle-card p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ─── FOOTER ─── */
+  .doc-footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="label">Layout Audit · YvloCat Website</div>
+  <h1>What's Wrong &<br>How to Fix It</h1>
+  <p>A complete visual layout diagnosis — mobile and desktop — focused on structure, sizing, spacing, and framing. No aesthetics. Pure layout.</p>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- CORE PRINCIPLES -->
+  <div class="section-intro">
+    <div class="section-label">Foundation</div>
+    <h2>What a Professional Layout Does</h2>
+    <p>Before diagnosing problems, here's what both versions of the site need to achieve.</p>
+  </div>
+
+  <div class="principles">
+    <div class="principle-card">
+      <span class="icon">📐</span>
+      <h4>Every element earns its space</h4>
+      <p>No container should exist unless it contains meaningful content. Empty padding is a symptom, not a style choice.</p>
+    </div>
+    <div class="principle-card">
+      <span class="icon">📱</span>
+      <h4>Mobile is the primary canvas</h4>
+      <p>Design for the smallest screen first. Desktop is an expansion of mobile, not a shrunk-down desktop layout.</p>
+    </div>
+    <div class="principle-card">
+      <span class="icon">↔️</span>
+      <h4>Columns must earn their place</h4>
+      <p>Two columns on mobile almost always fail. Use them only when both columns have equally complex, equal-weight content.</p>
+    </div>
+    <div class="principle-card">
+      <span class="icon">🧱</span>
+      <h4>Consistent grid & max-width</h4>
+      <p>Content should never touch screen edges (min 16px gutter). On desktop, text should never span the full width of a wide viewport.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ISSUES -->
+  <div class="section-intro">
+    <div class="section-label">Problem Areas</div>
+    <h2>Issue-by-Issue Breakdown</h2>
+    <p>Ordered by severity. Each issue explains what's wrong on both screens and what to do instead.</p>
+  </div>
+
+  <!-- ISSUE 1 -->
+  <div class="issue-block issue-bad">
+    <div class="issue-header">
+      <div class="num">1</div>
+      Two-column layout inside the booking section on mobile
+      <span class="sev sev-high">High</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>The "Craft Your Reading" form and "Your Quote" price card sit side by side at roughly 50/50 width on mobile. Each column is ~160px wide. Text wraps badly, inputs are barely tappable, the price summary is unreadable. This is the single biggest usability failure on the site.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>Stack them vertically, full width, on mobile. "Craft Your Reading" goes on top. "Your Quote" goes below it. On desktop (≥768px) only, use a two-column layout with the form taking 55% and the quote taking 45%.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="comment">/* WRONG — always two columns */</span>
+<span class="sel">.booking-grid</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr 1fr</span>;
+}
+
+<span class="comment">/* RIGHT — stack on mobile, side-by-side on desktop */</span>
+<span class="sel">.booking-grid</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr</span>;    <span class="comment">/* mobile default */</span>
+  <span class="prop">gap</span>: <span class="val">24px</span>;
+}
+
+<span class="sel">@media (min-width: 768px)</span> {
+  <span class="sel">.booking-grid</span> {
+    <span class="prop">grid-template-columns</span>: <span class="val">55fr 45fr</span>;
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- ISSUE 2 -->
+  <div class="issue-block issue-bad">
+    <div class="issue-header">
+      <div class="num">2</div>
+      Mascot container — oversized empty card around a small image
+      <span class="sev sev-high">High</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>The witch cat mascot sits inside a large rounded rectangle with ~80px of vertical padding above and below it. On mobile this consumes roughly 30% of screen height for a single small image. On desktop the card gets even wider but the cat stays small, making the dead space worse. The container signals "something important is here" but delivers nothing.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>Remove the standalone card. Integrate the mascot inline — either as a decorative element between the hero headline and CTA buttons, or floated beside the value props list. Give it a natural size (80–120px). Let the page breathe around it naturally, not through inflated padding.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <div class="diagram">
+        <div class="diagram-title">Before vs After — Mascot Section (Mobile wireframe)</div>
+        <div class="wireframe">
+          <div class="phone-frame">
+            <div class="frame-label">Before ❌</div>
+            <div class="phone-shell">
+              <div class="wf-nav"></div>
+              <div class="wf-gap"></div>
+              <div class="wf-feat">Hero Text</div>
+              <div class="wf-gap"></div>
+              <div class="wf-feat" style="background:#c4a8e8">Value Props</div>
+              <div class="wf-gap"></div>
+              <div class="wf-mascot-bad" style="display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;background:#e99;">GIANT EMPTY CARD<br>🐱 small cat</div>
+              <div class="wf-gap"></div>
+              <div class="wf-bottom"></div>
+            </div>
+            <div class="bad-label">30% of screen = dead space</div>
+          </div>
+          <div class="phone-frame">
+            <div class="frame-label">After ✅</div>
+            <div class="phone-shell">
+              <div class="wf-nav"></div>
+              <div class="wf-gap"></div>
+              <div class="wf-feat" style="background:#9b7ed4;display:flex;align-items:center;gap:4px">🐱 Hero + Mascot</div>
+              <div class="wf-gap"></div>
+              <div class="wf-feat" style="background:#c4a8e8">Value Props</div>
+              <div class="wf-gap"></div>
+              <div class="wf-oneCol" style="background:#d4ecd4">Booking Form</div>
+              <div class="wf-gap"></div>
+              <div class="wf-oneCol" style="background:#d4ecd4">Quote Card</div>
+              <div class="wf-gap"></div>
+              <div class="wf-bottom"></div>
+            </div>
+            <div class="good-label">Mascot integrated, space used well</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISSUE 3 -->
+  <div class="issue-block issue-bad">
+    <div class="issue-header">
+      <div class="num">3</div>
+      Value props card — excessive vertical padding, text too centered
+      <span class="sev sev-high">High</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>The three numbered items (01 Gentle Clarity, 02 Tailored Depth, 03 Personal Care) are stacked in a single tall card. Each row has generous padding that makes it feel like three separate cards squeezed together. On desktop the card stretches to full container width but the text stays short and centered, leaving wide dead zones on both sides.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>On mobile: reduce vertical padding between items to 16px. Use a clear divider line between rows but tight spacing. On desktop: switch to a 3-column horizontal layout — each value prop in its own column, icon above, number and title below. This uses the wide viewport productively.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="comment">/* Value props: stacked on mobile, 3-col on desktop */</span>
+<span class="sel">.value-props</span> {
+  <span class="prop">display</span>: <span class="val">grid</span>;
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr</span>;
+  <span class="prop">gap</span>: <span class="val">0</span>;
+}
+<span class="sel">.value-prop-item</span> {
+  <span class="prop">padding</span>: <span class="val">16px 20px</span>;    <span class="comment">/* was probably 28px+ */</span>
+  <span class="prop">border-bottom</span>: <span class="val">1px solid var(--border)</span>;
+}
+
+<span class="sel">@media (min-width: 768px)</span> {
+  <span class="sel">.value-props</span> {
+    <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+    <span class="prop">gap</span>: <span class="val">1px</span>;                 <span class="comment">/* grid gap as divider */</span>
+    <span class="prop">background</span>: <span class="val">var(--border)</span>;  <span class="comment">/* gap shows border color */</span>
+    <span class="prop">border-radius</span>: <span class="val">12px</span>;
+    <span class="prop">overflow</span>: <span class="val">hidden</span>;
+  }
+  <span class="sel">.value-prop-item</span> {
+    <span class="prop">background</span>: <span class="val">white</span>;
+    <span class="prop">padding</span>: <span class="val">28px 24px</span>;
+    <span class="prop">border-bottom</span>: <span class="val">none</span>;
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- ISSUE 4 -->
+  <div class="issue-block issue-med">
+    <div class="issue-header">
+      <div class="num">4</div>
+      Navigation bar — protruding Book button breaks the bar's frame
+      <span class="sev sev-med">Medium</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>The purple circle "Book" button rises above the nav bar's top edge. The nav bar has a defined height and rounded corners, but the button pokes outside that boundary. This looks unintentional on mobile and especially broken on desktop where the bar floats at the bottom with visible geometry. The eye sees the broken frame before it sees the button's purpose.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>Option A: Increase the nav bar height (e.g. 72px) so the taller button sits within it with clearance above. Option B: Remove the raised treatment entirely and style the Book tab as a filled pill button within the bar. Option C: If you keep the elevated button, it needs a matching notch/cutout in the bar so the bar clearly accommodates it — not fights it.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="comment">/* Option A — raise the bar to contain the button */</span>
+<span class="sel">.bottom-nav</span> {
+  <span class="prop">height</span>: <span class="val">72px</span>;              <span class="comment">/* was likely 56px */</span>
+  <span class="prop">padding-bottom</span>: <span class="val">env(safe-area-inset-bottom)</span>;
+  <span class="prop">align-items</span>: <span class="val">center</span>;
+}
+<span class="sel">.bottom-nav .book-btn</span> {
+  <span class="prop">width</span>: <span class="val">52px</span>;
+  <span class="prop">height</span>: <span class="val">52px</span>;
+  <span class="prop">margin-top</span>: <span class="val">0</span>;            <span class="comment">/* remove negative margin lift */</span>
+}</pre>
+      <div class="note-block" style="margin-top: 8px">
+        <div class="tag">⚠️ Also note</div>
+        <p>On desktop, a bottom floating nav bar is unusual. Consider a conventional top navigation bar for desktop viewports (≥1024px). Reserve the bottom nav for mobile only.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISSUE 5 -->
+  <div class="issue-block issue-med">
+    <div class="issue-header">
+      <div class="num">5</div>
+      No max-width constraint on desktop — content stretches too wide
+      <span class="sev sev-med">Medium</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>On wide desktop screens, sections appear to span the full viewport width. Text lines become too long to read comfortably (ideal reading line length is 60–75 characters). Cards stretch to fill wide containers, making them feel thin and spreadsheet-like rather than purposeful and contained.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>Wrap all page content in a centered container with a max-width of 1080px. Within that, constrain prose text further to ~680px. This is the single most impactful desktop fix — it immediately makes the page feel professional and intentional.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="sel">.page-container</span> {
+  <span class="prop">width</span>: <span class="val">100%</span>;
+  <span class="prop">max-width</span>: <span class="val">1080px</span>;
+  <span class="prop">margin</span>: <span class="val">0 auto</span>;
+  <span class="prop">padding</span>: <span class="val">0 24px</span>;         <span class="comment">/* gutters on mobile */</span>
+}
+<span class="sel">@media (min-width: 768px)</span> {
+  <span class="sel">.page-container</span> {
+    <span class="prop">padding</span>: <span class="val">0 48px</span>;       <span class="comment">/* wider gutters on desktop */</span>
+  }
+}
+<span class="sel">.prose-text</span> {
+  <span class="prop">max-width</span>: <span class="val">680px</span>;        <span class="comment">/* constrain reading text */</span>
+  <span class="prop">margin</span>: <span class="val">0 auto</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- ISSUE 6 -->
+  <div class="issue-block issue-med">
+    <div class="issue-header">
+      <div class="num">6</div>
+      Hero section — headline and CTA not visually anchored
+      <span class="sev sev-med">Medium</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>The hero has a headline, a subtitle, two CTA buttons, and a "Change Region Pricing" link — but they appear to float without clear vertical rhythm. The two CTA buttons are equal weight when one (Get My Reading) should dominate. The region link sits below with unclear hierarchy. On desktop, the hero stays narrow when it could use the width to create a stronger impression.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>Create a clear 3-level hierarchy: (1) headline large + bold, (2) subtitle smaller + muted, (3) primary CTA prominent + full-width on mobile, secondary CTA ghost/outline. "Change Region Pricing" should be a small text link, not a button shape. On desktop, consider a split layout — text left, decorative element right.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="comment">/* Button hierarchy */</span>
+<span class="sel">.btn-primary</span> {
+  <span class="prop">width</span>: <span class="val">100%</span>;               <span class="comment">/* full width on mobile */</span>
+  <span class="prop">padding</span>: <span class="val">14px 24px</span>;
+  <span class="prop">font-size</span>: <span class="val">16px</span>;
+  <span class="prop">font-weight</span>: <span class="val">600</span>;
+}
+<span class="sel">.btn-secondary</span> {
+  <span class="prop">width</span>: <span class="val">100%</span>;
+  <span class="prop">padding</span>: <span class="val">12px 24px</span>;       <span class="comment">/* slightly smaller */</span>
+  <span class="prop">font-size</span>: <span class="val">15px</span>;
+  <span class="prop">border</span>: <span class="val">1.5px solid currentColor</span>;
+  <span class="prop">background</span>: <span class="val">transparent</span>;
+}
+<span class="sel">.link-minor</span> {
+  <span class="prop">font-size</span>: <span class="val">13px</span>;
+  <span class="prop">text-decoration</span>: <span class="val">underline</span>;
+  <span class="prop">background</span>: <span class="val">none</span>;         <span class="comment">/* NOT a button */</span>
+  <span class="prop">border</span>: <span class="val">none</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- ISSUE 7 -->
+  <div class="issue-block issue-med">
+    <div class="issue-header">
+      <div class="num">7</div>
+      Touch target sizes — inputs and buttons too small on mobile
+      <span class="sev sev-med">Medium</span>
+    </div>
+    <div class="issue-body two-col">
+      <div class="problem-block">
+        <div class="tag">❌ Problem</div>
+        <p>When the booking section is squeezed into two columns on mobile, the budget input and interactive elements shrink below Apple/Google's minimum recommended touch target of 44×44px. This makes them hard to tap accurately and feels unfinished.</p>
+      </div>
+      <div class="fix-block">
+        <div class="tag">✅ Fix</div>
+        <p>All interactive elements (inputs, buttons, nav items) must be at least 44px tall on mobile. Inputs should be 48px tall minimum. This is a baseline accessibility and usability requirement, not a design preference.</p>
+      </div>
+    </div>
+    <div class="issue-body">
+      <pre><span class="sel">input, select, textarea, button</span> {
+  <span class="prop">min-height</span>: <span class="val">44px</span>;
+}
+<span class="sel">input[type="number"], input[type="text"]</span> {
+  <span class="prop">height</span>: <span class="val">48px</span>;
+  <span class="prop">padding</span>: <span class="val">0 16px</span>;
+  <span class="prop">font-size</span>: <span class="val">16px</span>;  <span class="comment">/* prevents iOS zoom-in on focus */</span>
+  <span class="prop">width</span>: <span class="val">100%</span>;
+}</pre>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- RESPONSIVE SPEC TABLE -->
+  <div class="section-intro">
+    <div class="section-label">Specification</div>
+    <h2>What Each Version Should Have</h2>
+    <p>A clear spec for mobile and desktop so both feel intentionally designed, not accidental.</p>
+  </div>
+
+  <table class="spec-table">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Mobile (< 768px)</th>
+        <th>Desktop (≥ 768px)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Navigation</td>
+        <td>Bottom fixed bar, 72px tall, 5 items, Book button flush within bar. Safe area padding for modern phones.</td>
+        <td>Top horizontal nav bar with logo left, links right. No bottom bar. Standard sticky position.</td>
+      </tr>
+      <tr>
+        <td>Page gutter</td>
+        <td>16–20px on each side. Content never touches screen edge.</td>
+        <td>48px gutters. Container max-width 1080px, centered.</td>
+      </tr>
+      <tr>
+        <td>Hero section</td>
+        <td>Full-width stack. Headline, subtitle, primary CTA (full width), secondary CTA (full width). Mascot integrated inline, ~80px.</td>
+        <td>Two columns: text left (55%), decorative/mascot right (45%). Headline 40–56px. CTA buttons auto-width.</td>
+      </tr>
+      <tr>
+        <td>Value props (01/02/03)</td>
+        <td>Single-column stack. Each row 16px padding. Thin divider between rows. Left-aligned text.</td>
+        <td>Three equal columns inside a card. Each column has number, title, description. 28px padding per cell.</td>
+      </tr>
+      <tr>
+        <td>Mascot image</td>
+        <td>Integrated in hero, 80px. No standalone card.</td>
+        <td>Larger, 120–160px, positioned decoratively. Never floating alone in an oversized card.</td>
+      </tr>
+      <tr>
+        <td>Booking section</td>
+        <td>Full-width stack. Form first, then Quote card below it. Each at 100% width. Comfortable padding.</td>
+        <td>Two columns: Form 55%, Quote 45%. Sticky Quote card on scroll recommended.</td>
+      </tr>
+      <tr>
+        <td>Inputs</td>
+        <td>48px tall, 16px font-size, 100% width, 16px side padding.</td>
+        <td>Same height. Width constrained to column, not stretched to full desktop width.</td>
+      </tr>
+      <tr>
+        <td>Buttons (CTA)</td>
+        <td>Full-width primary button. 48px tall. 16px font size.</td>
+        <td>Auto-width (fits content + padding). Primary ~220px wide max. Secondary ghost style.</td>
+      </tr>
+      <tr>
+        <td>Section spacing</td>
+        <td>48px between sections.</td>
+        <td>80–96px between sections. More breathing room used intentionally.</td>
+      </tr>
+      <tr>
+        <td>Font sizes</td>
+        <td>Headline: 28–34px. Body: 15px. Label: 11px. No smaller than 13px anywhere.</td>
+        <td>Headline: 40–56px. Body: 16px. More hierarchy variation allowed.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <!-- CHECKLIST -->
+  <div class="section-intro">
+    <div class="section-label">Final Check</div>
+    <h2>Professional Layout Checklist</h2>
+    <p>Run through these before publishing. If any item fails, it'll be visible to users.</p>
+  </div>
+
+  <div class="card">
+    <ul class="checklist">
+      <li>
+        <span class="icon">□</span>
+        <span><strong>No two-column layouts on mobile</strong> unless both columns have equal, complex content that genuinely benefits from comparison.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>All interactive elements ≥ 44px tall</strong> on mobile. Inputs are 48px. Font-size inside inputs is 16px (prevents iOS auto-zoom).</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Max-width set on all content containers</strong> so text doesn't span more than ~80 chars on wide screens.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Navigation is appropriate per breakpoint</strong> — bottom bar on mobile only, top nav on desktop.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>No element floats outside its parent container</strong> — the Book button must be fully contained within the nav bar.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>No standalone containers whose only purpose is padding around a small element.</strong> The mascot card is the test case here.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Page content never touches screen edges</strong> — minimum 16px gutter on mobile, 48px on desktop.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Primary CTA is visually dominant over secondary CTA</strong> — clear hierarchy between the two buttons.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Test at 320px width</strong> (iPhone SE size) — the smallest common screen. If it breaks here, it's not truly mobile-first.</span>
+      </li>
+      <li>
+        <span class="icon">□</span>
+        <span><strong>Test at 1440px width</strong> — the most common desktop resolution. Ensure max-width kicks in and content doesn't stretch uncomfortably.</span>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-intro">
+    <div class="section-label">Priority Order</div>
+    <h2>What to Fix First</h2>
+    <p>If you're doing this in stages, tackle them in this order for the biggest impact per hour of work.</p>
+  </div>
+
+  <div class="card">
+    <ul class="checklist">
+      <li><span class="icon" style="color:var(--bad); font-weight:700">1.</span><span><strong>Stack the booking section vertically on mobile.</strong> This is the biggest usability failure and the most visible problem.</span></li>
+      <li><span class="icon" style="color:var(--bad); font-weight:700">2.</span><span><strong>Add max-width to content containers on desktop.</strong> One CSS rule that makes the whole site feel professional immediately.</span></li>
+      <li><span class="icon" style="color:var(--bad); font-weight:700">3.</span><span><strong>Remove the mascot standalone card.</strong> Integrate it into the hero. Eliminates the dead-space problem entirely.</span></li>
+      <li><span class="icon" style="color:var(--warn); font-weight:700">4.</span><span><strong>Fix the nav button so it doesn't protrude outside the bar.</strong> Raise bar height or remove the lift effect.</span></li>
+      <li><span class="icon" style="color:var(--warn); font-weight:700">5.</span><span><strong>Switch to a 3-column value props layout on desktop.</strong> Converts dead horizontal space into purposeful structure.</span></li>
+      <li><span class="icon" style="color:var(--good); font-weight:700">6.</span><span><strong>Set input heights and font sizes to mobile-safe values.</strong> Small but important for usability and preventing iOS zoom.</span></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="doc-footer">
+  YvloCat Layout Audit · Layout, framing, sizing, and structure only · No color or aesthetic changes
+</div>
+
+</body>
+</html>

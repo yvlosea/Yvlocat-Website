@@ -30,11 +30,11 @@
         --warning: #ffaa85;
         --shadow: 0 24px 70px rgba(143, 90, 192, 0.12);
         --shadow-soft: 0 14px 34px rgba(143, 90, 192, 0.08);
-        --radius-xl: 40px;
-        --radius-lg: 30px;
-        --radius-md: 22px;
-        --radius-sm: 16px;
-        --transition: 180ms ease;
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       * {
@@ -105,15 +105,14 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        max-width: 1180px;
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 24px 16px 44px;
+        padding: 40px 24px;
       }
  
       @media (max-width: 768px) {
         .page-shell {
-          max-width: 680px;
-          padding: 16px 16px 100px;
+          padding: 20px 16px 120px;
         }
       }
 
@@ -216,42 +215,71 @@
 
       .hero-grid {
         display: grid;
-        gap: 26px;
-        padding: 28px;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        padding: 60px;
+        align-items: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          padding: 32px 24px;
+          gap: 40px;
+          text-align: center;
+        }
       }
 
       .eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 14px;
+        padding: 8px 16px;
         border-radius: 999px;
-        background: rgba(214, 171, 109, 0.18);
-        font-size: 0.88rem;
+        background: var(--gold-soft);
+        font-size: 0.8rem;
         font-weight: 800;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
+        color: var(--accent-deep);
+        margin-bottom: 24px;
       }
 
       h1 {
-        margin-top: 18px;
-        font-size: clamp(3rem, 8vw, 6.3rem);
-        line-height: 0.92;
+        margin: 0;
+        font-size: clamp(3.2rem, 8vw, 5rem);
+        line-height: 1.05;
       }
 
       .hero-copy {
-        max-width: 630px;
-        margin: 16px 0 0;
-        font-size: 1.03rem;
-        line-height: 1.8;
+        max-width: 540px;
+        margin: 20px 0 32px;
+        font-size: 1.1rem;
+        line-height: 1.7;
         color: var(--ink-soft);
+      }
+
+      @media (max-width: 900px) {
+        .hero-copy {
+          margin-left: auto;
+          margin-right: auto;
+        }
       }
 
       .hero-actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 24px;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .hero-actions {
+          justify-content: center;
+        }
+      }
+
+      .hero-actions > * {
+        min-width: 200px;
       }
 
       .primary-button,
@@ -314,14 +342,18 @@
 
       .hero-points {
         display: grid;
-        gap: 14px;
-        padding: 18px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 48px;
+        padding: 0;
       }
 
-      .point-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
+      @media (max-width: 768px) {
+        .hero-points {
+          grid-template-columns: 1fr;
+          gap: 16px;
+          margin-top: 32px;
+        }
       }
 
       .point-number {
@@ -336,19 +368,40 @@
         font-weight: 800;
       }
 
+      .point-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .point-row {
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+
       .point-row strong {
         display: block;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: 4px;
       }
 
       .hero-card {
-        position: relative;
-        overflow: hidden;
-        padding: 22px;
-        background:
-          radial-gradient(circle at 75% 18%, rgba(214, 171, 109, 0.18), transparent 22%),
-          linear-gradient(160deg, var(--bg-soft), var(--bg));
-        color: #fff7ef;
+        padding: 40px;
+        background: var(--surface-strong);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--line-strong);
+        box-shadow: var(--shadow);
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero-card {
+          padding: 32px 24px;
+          border-radius: var(--radius-lg);
+        }
       }
 
       .hero-card::before {
@@ -362,9 +415,10 @@
       }
 
       .hero-card p,
-      .hero-card .body-copy,
-      .hero-card .meta-copy {
-        color: rgba(255, 247, 239, 0.76);
+      .hero-card .body-copy {
+        color: var(--ink-soft);
+        font-size: 1rem;
+        line-height: 1.6;
       }
 
       .hero-card h2 {
@@ -464,7 +518,7 @@
       .budget-input,
       .coupon-input {
         min-height: 56px;
-        padding: 14px 16px 14px 38px;
+        padding: 14px 16px 14px 44px;
       }
 
       .coupon-input {
@@ -933,15 +987,14 @@
       }
 
       @media (min-width: 900px) {
-        .hero-grid,
-        .content-grid,
-        .booking-layout {
-          grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
+        .content-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 40px;
           align-items: start;
         }
 
         .builder-grid {
-          grid-template-columns: minmax(0, 1fr);
+          grid-template-columns: 1fr;
         }
       }
 
@@ -1332,32 +1385,34 @@
       .mobile-bottom-nav-inner {
         pointer-events: auto;
         display: flex; align-items: center; justify-content: space-around;
-        padding: 6px;
-        border-radius: 32px;
-        background: rgba(43, 27, 29, 0.88);
-        backdrop-filter: blur(28px) saturate(2);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        padding: 8px;
+        border-radius: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(28px);
+        border: 1px solid rgba(143, 90, 192, 0.2);
+        box-shadow: 0 12px 48px rgba(143, 90, 192, 0.2);
       }
       .mob-nav-item {
         flex: 1;
         display: flex; flex-direction: column; align-items: center; gap: 4px;
-        padding: 10px 4px; border-radius: 20px;
+        padding: 12px 4px; border-radius: 20px;
         border: none; background: transparent;
-        color: rgba(255, 248, 242, 0.45);
+        color: var(--ink-soft);
         font-family: inherit; font-size: 0.65rem; font-weight: 700;
         cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         -webkit-tap-highlight-color: transparent;
+        min-height: 48px;
       }
       .mob-nav-item.is-active {
-        color: #fff8f2;
-        background: rgba(255, 255, 255, 0.1);
+        color: var(--ink);
+        background: rgba(143, 90, 192, 0.1);
       }
       .mob-nav-cta {
         background: linear-gradient(135deg, var(--accent), var(--accent-deep)) !important;
         color: #fff9f4 !important;
         margin: 0 4px;
         border-radius: 24px !important;
+        box-shadow: 0 8px 16px rgba(143, 90, 192, 0.2);
       }
 
       /* Improved Accordion Header */
@@ -1939,8 +1994,8 @@
 
       <section class="hero" id="hero-top">
         <div class="hero-grid">
-          <div>
-            <div class="eyebrow">Tarot & Intuitive Guidance</div>
+          <div class="hero-content">
+            <div class="eyebrow">✦ Tarot & Intuitive Guidance</div>
             <h1>YVLO<span style="color:var(--accent);">CAT</span></h1>
             <p class="hero-copy">
               A calm, cozy space to explore your questions through tarot. Choose your spread, set your depth, and see your price instantly. Honest guidance with warmth and clarity.
@@ -1949,40 +2004,54 @@
               <a class="primary-button" href="#pricing">Get My Reading</a>
               <a class="secondary-button" href="#experience">See How It Works</a>
             </div>
-            <button class="ghost-button region-switch" id="changeRegionButton" type="button">Change Region Pricing</button>
-            <div class="hero-points" style="margin-top: 22px;">
-              <div class="point-row">
-                <span class="point-number">01</span>
-                <div>
-                  <strong>Gentle Clarity</strong>
-                  <div class="meta-copy">Quick readings from $6 for focused insight when you need it.</div>
-                </div>
-              </div>
-              <div class="point-row">
-                <span class="point-number">02</span>
-                <div>
-                  <strong>Tailored Depth</strong>
-                  <div class="meta-copy">Add depth and detail to match the complexity of your question.</div>
-                </div>
-              </div>
-              <div class="point-row">
-                <span class="point-number">03</span>
-                <div>
-                  <strong>Personal Care</strong>
-                  <div class="meta-copy">Every reading is crafted with attention, honesty, and genuine intent to help.</div>
-                </div>
-              </div>
+            <div style="margin-top: 24px;">
+              <button class="ghost-button region-switch" id="changeRegionButton" type="button" style="border:none; background:none; text-decoration:underline; min-height:auto; padding:0; font-size:0.9rem; color:var(--ink-soft);">Change Region Pricing</button>
             </div>
           </div>
 
-          <aside class="hero-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <img src="yvlocat.png" alt="Yvlocat logo" style="width: 220px; height: 220px; border-radius: 40px; box-shadow: 0 0 40px rgba(214,171,109,0.25); margin-bottom: 24px;">
-            <p class="mini-label">Your Reading Space</p>
-            <h2>Clarity & Warmth</h2>
-            <p class="body-copy">
-              I believe in transparent pricing, thoughtful guidance, and a calm space to explore your questions. No hidden fees—just honest insight.
-            </p>
-          </aside>
+          <div class="hero-visual" style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+            <div class="mascot-container" style="position: relative; z-index: 1;">
+              <img src="yvlocat.png" alt="Yvlocat mascot" style="width: min(80%, 320px); height: auto; border-radius: 40px; box-shadow: var(--shadow);">
+              <div class="sparkle" style="top: -20px; right: -20px;"></div>
+              <div class="sparkle" style="bottom: 20%; left: -30px; animation-delay: 1s;"></div>
+            </div>
+            <div class="hero-stats" style="margin-top: 32px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="stat-card" style="margin: 0;">
+                <strong style="font-size: 1.5rem;">500+</strong>
+                <p class="meta-copy" style="font-size: 0.8rem; margin: 0;">Readings Shared</p>
+              </div>
+              <div class="stat-card" style="margin: 0;">
+                <strong style="font-size: 1.5rem;">4.9/5</strong>
+                <p class="meta-copy" style="font-size: 0.8rem; margin: 0;">Inner Peace</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-points-container" style="padding: 0 60px 60px;">
+          <div class="hero-points">
+            <div class="point-row">
+              <span class="point-number">01</span>
+              <div>
+                <strong>Gentle Clarity</strong>
+                <div class="meta-copy">Quick readings from $6 for focused insight when you need it.</div>
+              </div>
+            </div>
+            <div class="point-row">
+              <span class="point-number">02</span>
+              <div>
+                <strong>Tailored Depth</strong>
+                <div class="meta-copy">Add depth and detail to match the complexity of your question.</div>
+              </div>
+            </div>
+            <div class="point-row">
+              <span class="point-number">03</span>
+              <div>
+                <strong>Personal Care</strong>
+                <div class="meta-copy">Every reading is crafted with attention, honesty, and genuine intent to help.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
