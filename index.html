@@ -271,8 +271,8 @@
       }
 
       .primary-button {
-        background: linear-gradient(135deg, var(--accent-deep), var(--accent), #c06f59);
-        color: #fff8f2;
+        background: linear-gradient(135deg, var(--accent-deep), var(--accent), var(--accent));
+        color: var(--ink);
         box-shadow: 0 18px 34px rgba(143, 90, 192, 0.24);
       }
 
@@ -347,8 +347,8 @@
         padding: 22px;
         background:
           radial-gradient(circle at 75% 18%, rgba(180, 124, 227, 0.18), transparent 22%),
-          linear-gradient(160deg, rgba(37, 24, 25, 0.98), rgba(75, 35, 42, 0.94));
-        color: #fff7ef;
+          linear-gradient(160deg, linear-gradient(135deg, var(--bg-soft), var(--bg)), var(--surface-strong));
+        color: var(--ink);
       }
 
       .hero-card::before {
@@ -364,7 +364,7 @@
       .hero-card p,
       .hero-card .body-copy,
       .hero-card .meta-copy {
-        color: rgba(255, 247, 239, 0.76);
+        color: var(--ink-soft);
       }
 
       .hero-card h2 {
@@ -772,13 +772,13 @@
         margin-top: 22px;
         padding: 22px;
         border-radius: var(--radius-xl);
-        background: linear-gradient(140deg, rgba(34, 24, 25, 0.98), rgba(67, 34, 38, 0.95));
-        color: #fff8f2;
+        background: linear-gradient(140deg, var(--accent-deep), var(--accent));
+        color: var(--ink);
         box-shadow: var(--shadow);
       }
 
       .footer-card p {
-        color: rgba(255, 248, 242, 0.78);
+        color: rgba(255, 255, 255, 0.8);
       }
 
       .modal-shell {
@@ -1034,8 +1034,8 @@
       }
 
       @keyframes splashPulse {
-        0% { box-shadow: 0 0 15px rgba(214,171,109,0.3); transform: scale(0.96); }
-        100% { box-shadow: 0 0 40px rgba(214,171,109,0.8); transform: scale(1.04); }
+        0% { box-shadow: 0 0 15px rgba(180, 124, 227,0.3); transform: scale(0.96); }
+        100% { box-shadow: 0 0 40px rgba(180, 124, 227,0.8); transform: scale(1.04); }
       }
       .watermark-bg {
         position: fixed; inset: 0;
@@ -1350,7 +1350,7 @@
         -webkit-tap-highlight-color: transparent;
       }
       .mob-nav-item.is-active {
-        color: #fff8f2;
+        color: var(--ink);
         background: rgba(255, 255, 255, 0.1);
       }
       .mob-nav-cta {
@@ -1833,6 +1833,7 @@
         }
       }
     </style>
+      <link rel="icon" type="image/png" href="yvlocat.png">
   </head>
   <body>
     <!-- Floating Particles for mobile -->
@@ -1937,7 +1938,7 @@
           </div>
 
           <aside class="hero-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <img src="yvlocat.png" alt="Yvlocat logo" style="width: 220px; height: 220px; border-radius: 40px; box-shadow: 0 0 40px rgba(214,171,109,0.25); margin-bottom: 24px;">
+            <img src="yvlocat.png" alt="Yvlocat logo" style="width: 220px; height: 220px; border-radius: 40px; box-shadow: 0 0 40px rgba(180, 124, 227,0.25); margin-bottom: 24px;">
             <p class="mini-label">Your Reading Space</p>
             <h2>Clarity & Warmth</h2>
             <p class="body-copy">
@@ -3008,7 +3009,8 @@
                   margin: 0 auto;
                 }
               </style>
-            </head>
+                <link rel="icon" type="image/png" href="yvlocat.png">
+  </head>
             <body>
               ${billCard.outerHTML}
           
