@@ -315,9 +315,33 @@
         <div class="header">
           <div>
             <h1>Admin Dashboard</h1>
-            <div class="subtitle">View and manage all booking requests</div>
+            <div class="subtitle">View and manage all booking requests & coupons</div>
           </div>
           <button type="button" id="refreshBtn" class="btn-secondary" style="width: auto;">Refresh</button>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.5); padding: 24px; border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.7); margin-bottom: 32px;">
+          <h2 style="margin-top:0; font-size:1.4rem;">Temporary Coupons</h2>
+          <p class="subtitle" style="margin-bottom:16px;">Generate new promo codes directly to the database.</p>
+          
+          <div id="couponSuccess" class="status-badge status-paid hidden" style="margin-bottom: 12px; display:block;">Coupon created successfully!</div>
+          <div id="couponError" class="error-message hidden" style="margin-bottom: 12px;"></div>
+
+          <form id="couponForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; align-items: end;">
+            <label style="margin-top:0;">Code
+              <input type="text" id="couponCode" placeholder="Must be uppercase" required />
+            </label>
+            <label style="margin-top:0;">Type
+              <select id="couponType" required>
+                <option value="percent">Percent (%)</option>
+                <option value="fixed">Fixed ($)</option>
+              </select>
+            </label>
+            <label style="margin-top:0;">Value
+              <input type="number" id="couponValue" required min="1" step="0.5" />
+            </label>
+            <button type="submit" style="margin-top:0; height:50px;">Add Coupon</button>
+          </form>
         </div>
 
         <div class="stats-grid">
@@ -543,6 +567,39 @@
       currencyFilter.addEventListener("change", renderBookings);
       searchInput.addEventListener("input", renderBookings);
       refreshBtn.addEventListener("click", loadBookings);
+
+      // Coupon Form Logic
+      const couponForm = document.getElementById('couponForm');
+      const couponSuccess = document.getElementById('couponSuccess');
+      const couponError = document.getElementById('couponError');
+
+      couponForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        couponSuccess.classList.add('hidden');
+        couponError.classList.add('hidden');
+        
+        const code = document.getElementById('couponCode').value.toUpperCase().trim();
+        const type = document.getElementById('couponType').value;
+        const value = document.getElementById('couponValue').value;
+
+        try {
+          const { error } = await supabase.from('coupons').insert({
+            code: code,
+            type: type,
+            value: parseFloat(value),
+            active: true
+          });
+
+          if (error) throw error;
+          
+          couponSuccess.classList.remove('hidden');
+          couponForm.reset();
+          setTimeout(() => couponSuccess.classList.add('hidden'), 3000);
+        } catch (err) {
+          couponError.textContent = `Error: ${err.message || 'Ensure table "coupons" exists.'}`;
+          couponError.classList.remove('hidden');
+        }
+      });
     </script>
   </body>
 </html>

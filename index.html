@@ -97,8 +97,9 @@
       }
 
       button,
-      input {
+      input, textarea {
         font: inherit;
+        font-size: 16px !important;
       }
 
       .page-shell {
@@ -1547,10 +1548,17 @@
     </style>
   </head>
   <body>
+    <div class="splash-screen" id="splashScreen">
+      <img src="yvlocat.png" class="splash-logo" alt="Yvlocat logo" />
+    </div>
+    <div class="watermark-bg"></div>
+    <div class="mobile-sticky-cta">
+      <a class="primary-button" href="#book" style="width:100%;" onclick="document.querySelector('#bookButton').scrollIntoView({behavior: 'smooth'});">Get My Reading &rarr;</a>
+    </div>
     <main class="page-shell">
       <nav class="site-nav" aria-label="Primary">
         <div class="brand-lockup">
-          <div class="brand-mark" aria-hidden="true">✦</div>
+          <div class="brand-mark" aria-hidden="true" id="secretAdminTrigger" style="cursor: pointer;">✦</div>
           <div class="brand-text">
             <strong>YVLOCAT</strong>
             <span>Tarot readings with clarity, warmth, and structure</span>
@@ -1849,7 +1857,10 @@
               <h2>Your Reading</h2>
               <p class="section-copy">A polished quote summary that makes checkout feel intentional.</p>
             </div>
-            <div class="badge" id="budgetState">No budget set</div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+              <div class="badge" id="budgetState">No budget set</div>
+              <div class="badge" style="background: rgba(163, 76, 66, 0.11); color: var(--accent-deep);">⏳ Only 3 spots left this week</div>
+            </div>
           </div>
 
           <div class="summary-price" id="totalPrice">$17</div>
@@ -1872,10 +1883,10 @@
             <strong>Coupon code</strong>
             <p class="detail-note">Use a promo when you want to reward returning clients, run launches, or test conversions.</p>
             <div class="coupon-row">
-              <input id="couponInput" class="coupon-input" type="text" placeholder="WELCOME10" aria-label="Coupon code" />
+              <input id="couponInput" class="coupon-input" type="text" placeholder="Coupon" aria-label="Coupon code" />
               <button class="secondary-button" type="button" id="applyCouponButton">Apply</button>
             </div>
-            <div class="coupon-feedback" id="couponFeedback" aria-live="polite">Available demo codes: WELCOME10, SOUL5, FULLMOON15.</div>
+            <div class="coupon-feedback" id="couponFeedback" aria-live="polite"></div>
           </div>
 
           <button id="bookButton" class="primary-button" type="button" style="width: 100%; margin-top: 18px;">Reserve This Reading</button>
@@ -1883,6 +1894,52 @@
             The booking preview shows the full reading price, the coupon discount if used, and the $1 booking fee collected upfront.
           </p>
         </aside>
+      </section>
+
+      <section class="content-grid" id="social-proof">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Happy Clients</h2>
+              <p class="section-copy">Join over <strong>1,200</strong> seekers who found clarity through YVLOCAT readings.</p>
+            </div>
+            <div class="badge">Testimonials</div>
+          </div>
+          <div class="process-grid carousel-container" id="homepageReviews">
+             <div class="muted" style="text-align: center; padding: 24px; width: 100%;">Loading magical reviews...</div>
+          </div>
+          <a href="reviews.html" style="display:block; text-align:center; margin-top:20px; color:var(--accent); font-weight:700;">Leave a Review &rarr;</a>
+        </article>
+      </section>
+
+      <section class="content-grid" id="questions">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>Questions you can ask</h2>
+              <p class="section-copy">Not sure what to ask? Here are some gentle, focused questions that work beautifully with tarot.</p>
+            </div>
+            <div class="badge">Inspiration</div>
+          </div>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>Love & Relationships</h3>
+              <ul class="list-copy">
+                <li>What energy surrounds my love life right now?</li>
+                <li>How can I better communicate with my partner?</li>
+                <li>What do I need to heal before attracting my person?</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <h3>Career & Path</h3>
+              <ul class="list-copy">
+                <li>What strengths should I lean into right now?</li>
+                <li>Is this the right time to make a career shift?</li>
+                <li>What hidden opportunities are currently around me?</li>
+              </ul>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section class="content-grid" id="experience">
@@ -2097,7 +2154,7 @@
       const BOOKING_FEE = 1;
       const STORAGE_KEY = "yvlocat-booking";
       const DEFAULT_QUESTION = "No question added";
-      const COUPONS = {
+      let COUPONS = {
         WELCOME10: {
           label: "WELCOME10",
           type: "percent",
@@ -3013,6 +3070,104 @@
       document.addEventListener('DOMContentLoaded', () => {
         loadHomeReviews();
         if (isMobile()) initMobileInteractions();
+      });
+    </script>
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+      const SUPABASE_URL = "https://paaorahyaoivqqtvujxw.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_6BEvMXOqzK6A7QKmdvwMQw_Lvuzcsto";
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      async function loadHomepageCarousel() {
+        const carousel = document.getElementById("homepageReviews");
+        if (!carousel) return;
+        
+        try {
+          const { data, error } = await supabase
+            .from("reviews")
+            .select("name, rating, review, created_at")
+            .eq("status", "published")
+            .order("created_at", { ascending: false })
+            .limit(10);
+            
+          if (error) throw error;
+          
+          if (!data || data.length === 0) {
+            carousel.innerHTML = `<div class="muted" style="text-align: center; padding: 24px; width:100%;">No reviews yet. <a href="reviews.html" style="color:var(--accent);">Be the first!</a></div>`;
+            return;
+          }
+
+          let html = "";
+          data.forEach((r, idx) => {
+            const dateObj = new Date(r.created_at);
+            const dateStr = dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+            const timeStr = dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+            
+            html += `
+              <div class="process-card carousel-slide ${idx === 0 ? 'active' : ''}">
+                 <div class="review-stars">${"🐱".repeat(r.rating || 5)}</div>
+                 <p class="body-copy">"${r.review}"</p>
+                 <div class="mini-label">— ${r.name} &bull; ${dateStr} at ${timeStr}</div>
+              </div>
+            `;
+          });
+          
+          carousel.innerHTML = html;
+          
+          const slides = carousel.querySelectorAll('.carousel-slide');
+          if (slides.length > 1) {
+            let currentIdx = 0;
+            setInterval(() => {
+              slides[currentIdx].classList.remove('active');
+              currentIdx = (currentIdx + 1) % slides.length;
+              slides[currentIdx].classList.add('active');
+            }, 6000); // rotate every 6 seconds
+          }
+          
+        } catch (e) {
+          carousel.innerHTML = ``;
+        }
+      }
+      
+      async function loadDynamicCoupons() {
+        try {
+          const { data, error } = await supabase.from('coupons').select('*').eq('active', true);
+          if (data && !error) {
+            data.forEach(dbCoupon => {
+              // Only load if not expired
+              if (dbCoupon.expires_at && new Date(dbCoupon.expires_at) < new Date()) {
+                return;
+              }
+              COUPONS[dbCoupon.code] = {
+                label: dbCoupon.code,
+                type: dbCoupon.type,
+                value: dbCoupon.value,
+                minimum: dbCoupon.minimum,
+                description: `Live discount via admin system.`
+              };
+            });
+          }
+        } catch(e) {
+          // Silent fallback to local coupons
+        }
+      }
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        loadHomepageCarousel();
+        loadDynamicCoupons();
+        
+        // Secret Admin Links
+        const trigger = document.getElementById("secretAdminTrigger");
+        if (trigger) {
+          let clk = 0;
+          let timr;
+          trigger.addEventListener("click", () => {
+            clk++;
+            if (clk === 3) window.location.href = "admin.html";
+            clearTimeout(timr);
+            timr = setTimeout(() => { clk = 0; }, 800);
+          });
+        }
       });
     </script>
   </body>
